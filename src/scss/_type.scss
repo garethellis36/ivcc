@@ -1,0 +1,55 @@
+a, a:hover {
+  text-decoration: none;
+}
+
+.masthead {
+  a {
+    text-decoration: none;
+  }
+}
+
+.masthead-logo {
+  font-size: 1.5rem;
+  color: $yellow;
+}
+
+.masthead-nav {
+  font-size: 1rem;
+  a:not(:last-child) {
+    margin-right: 1.25em;
+  }
+
+  a {
+    color: #fff;
+    display: inline-block;
+
+    &.active {
+      color: $yellow;
+    }
+  }
+
+  a:hover {
+    color: $red;
+  }
+}
+
+.jumbotron {
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.stroked {
+  -webkit-text-stroke: 1px #000;
+  color: #fff;
+}
+
+legend {
+  @extend h2;
+  font-weight: bold;
+}
+
+table.small-headings {
+  th {
+    font-size: 0.6rem;
+  }
+}

@@ -1,0 +1,15 @@
+/vendor/*
+/tmp/*
+/logs/*
+/config/config.yml
+.idea
+.gitattributes
+.editorconfig
+node_modules/
+bower_components/
+.DS_Store
+webroot/css/*
+webroot/js/*
+_assets/dbseed.sql
+webroot/img/players/*
+!webroot/img/players/anon.png

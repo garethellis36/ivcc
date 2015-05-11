@@ -1,0 +1,21 @@
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, select {
+  margin-bottom: 10px;
+}
+
+input.number {
+  width: 50px;
+}
+
+.full-width {
+  width: $container-width;
+}
+
+.huge {
+  @extend .full-width;
+  height: 400px;
+}
