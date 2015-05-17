@@ -19,3 +19,7 @@ input.number {
   @extend .full-width;
   height: 400px;
 }
+
+.form-error {
+  border: 1px solid $red !important;
+}

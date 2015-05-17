@@ -12,6 +12,7 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\ORM\Table;
 use Cake\ORM\Query;
 use App\Lib\CricketUtility;
+use Cake\Validation\Validator;
 
 class MatchesPlayersTable extends Table {
 
@@ -21,6 +22,124 @@ class MatchesPlayersTable extends Table {
         $this->belongsTo("Players");
         $this->belongsTo("ModesOfDismissal");
 
+    }
+
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
+    public function validationDefault(Validator $validator)
+    {
+        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create');
+
+        $validator
+            ->add('player_id', 'valid', ['rule' => 'notBlank'])
+            ->notEmpty("player_id");
+
+        $validator
+            ->add('did_not_bat', 'valid', ['rule' => 'boolean']);
+
+
+        //these rules apply to both batting order no and bowling order no
+        $isNumericAndNotDecimal = "/^[0-9]*$/";
+
+        $validNumber = [
+            'rule' => ['custom', $isNumericAndNotDecimal],
+            'message' => 'Number only, no decimals'
+        ];
+
+        $validOrderNo = [
+            'validNumber' => $validNumber,
+            'validRange' => [
+                'rule' => ['range', 1, 11],
+                'message' => 'Must be between 1 and 11'
+            ]
+        ];
+
+        $validator
+            ->notEmpty('batting_order_no')
+            ->add('batting_order_no', $validOrderNo);
+
+        $validator
+            ->allowEmpty('batting_runs', function ($context) {
+                return $this->hasBatted($context);
+            })
+            ->add('batting_order_no', 'validNumber', $validNumber);
+
+        $validator
+            ->allowEmpty('modes_of_dismissal_id', function ($context) {
+                return $this->hasBatted($context);
+            })
+            ->add('modes_of_dismissal_id', 'validNumber', $validNumber);
+
+
+        $validator
+            ->allowEmpty('bowling_order_no', function ($context) {
+                return $this->anyBowlingFieldsCompleted($context);
+            })
+            ->add('bowling_order_no', $validOrderNo);
+
+        $validator
+            ->allowEmpty('bowling_overs', function ($context) {
+                return $this->anyBowlingFieldsCompleted($context);
+            })
+            ->add('bowling_overs', 'validDecimal', [
+                'rule' => 'numeric'
+            ]);
+
+        $validator
+            ->allowEmpty('bowling_maidens', function ($context) {
+                return $this->anyBowlingFieldsCompleted($context);
+            })
+            ->add('bowling_maidens', 'validNumber', $validNumber);
+
+        $validator
+            ->allowEmpty('bowling_runs', function ($context) {
+                return $this->anyBowlingFieldsCompleted($context);
+            })
+            ->add('bowling_runs', 'validNumber', $validNumber);
+
+        $validator
+            ->allowEmpty('bowling_wickets', function ($context) {
+                return $this->anyBowlingFieldsCompleted($context);
+            })
+            ->add('bowling_wickets', 'validNumber', $validNumber);
+
+
+        return $validator;
+
+    }
+
+    private function hasBatted($context)
+    {
+        if (empty($context['data']['did_not_bat'])) {
+            return false;
+        }
+        return ($context['data']['did_not_bat'] == 1);
+    }
+
+    private function anyBowlingFieldsCompleted($context)
+    {
+        if (empty($context['data'])) {
+            return false;
+        }
+
+        $fields = ["overs", "maidens", "wickets", "runs", "order_no"];
+        foreach ($fields as $field) {
+            if ($context['data']['bowling_' . $field] != '') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function zeroOrNotEmpty($value)
+    {
+        return ($value == 0 || !empty($value));
     }
 
     public function getTeamStats($year)

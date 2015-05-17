@@ -33,18 +33,26 @@ class MatchesPlayer extends Entity
         'bowling_order_no' => true,
     ];
 
-    protected function _setBattingRuns($runs)
+    protected function _setBattingRuns($runs = null)
     {
         if ($this->_properties["did_not_bat"] == 1) {
             return null;
         }
 
-        if (empty($runs)) {
-            return 0;
-        }
+        return $runs;
     }
 
-    protected function _setModesOfDismissalId($mid)
+    protected function _setDidNotBat($dnb)
+    {
+        if ($dnb == 1) {
+            $this->_properties["batting_runs"] = $this->_setBattingRuns();
+            $this->_properties["modes_of_dismissal_id"] = $this->_setModesOfDismissalId();
+        }
+
+        return $dnb;
+    }
+
+    protected function _setModesOfDismissalId($mid = null)
     {
         if ($this->_properties["did_not_bat"] == 1) {
             return null;
@@ -84,16 +92,5 @@ class MatchesPlayer extends Entity
         }
         return $var;
     }
-
-
-    /*
-     * Validation rules (TODO)
-     * player_id - no duplicates
-     * dnb - if selected, null all other batting values
-     * dnb - if not selected, runs, batting order no and mode of dismissal must be set
-     * batting_order_no - no duplicates, min 1, max 11
-     * bowling values - if left blank, null, if any set, all must be set
-     * bowling_order_no - must be set if any bowling values set, no duplicates, min 1, max 11
-     */
 
 }

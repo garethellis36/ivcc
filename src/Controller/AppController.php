@@ -46,7 +46,7 @@ class AppController extends Controller
                 'Form' => [
                     'fields' => ['username' => 'email', 'password' => 'password'],
                     'scope' => ['Users.enabled' => 1]
-                ]
+                ],
             ],
             'authorize' => 'Controller'
         ]);

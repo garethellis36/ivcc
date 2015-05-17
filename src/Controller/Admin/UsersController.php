@@ -100,4 +100,10 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    public function login()
+    {
+        $this->redirect("/users/login");
+    }
+
+
 }

@@ -47,18 +47,54 @@ class MatchesController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
 
+            //unset certain fields if no result is set
+            if (empty($this->request->data["result"])) {
+
+                $this->request->data["result_more"] = null;
+
+                $this->request->data["ivcc_total"] = null;
+                $this->request->data["ivcc_extras"] = null;
+                $this->request->data["ivcc_wickets"] = null;
+                $this->request->data["ivcc_overs"] = null;
+
+                $this->request->data["opposition_total"] = null;
+                $this->request->data["opposition_wickets"] = null;
+                $this->request->data["opposition_overs"] = null;
+            }
+
             //remove unselected player slots from data array
+            $playerIds = [];
             foreach ($this->request->data["matches_players"] as $i => $player) {
                 if (empty($player["player_id"])) {
                     unset($this->request->data["matches_players"][$i]);
 
                     //delete existing MatchesPlayers record if necessary
-                    if (isset($player["id"])) {
-                        $matchesPlayers = TableRegistry::get("MatchesPlayers");
-                        $matchesPlayerRecord = $matchesPlayers->get($player["id"]);
-                        $matchesPlayers->delete($matchesPlayerRecord);
+                    if (!empty($player["id"])) {
+                        $this->quickMatchPlayerDelete($player["id"]);
                     }
+
+                    continue;
                 }
+
+                //remove duplicate players
+                if (in_array($player["player_id"], $playerIds)) {
+
+                    //remove from request data array so nothing gets saved
+                    unset($this->request->data["matches_players"][$i]);
+
+                    //delete existing record from database if necessary
+                    $this->quickMatchPlayerDelete($player["id"]);
+
+                    continue;
+                }
+                $playerIds[] = $player["player_id"];
+
+                //unset runs scored/mode of dismissal if player did not bat
+                if ($player["did_not_bat"] == 1) {
+                    $this->request->data["matches_players"][$i]["batting_runs"] = null;
+                    $this->request->data["matches_players"][$i]["modes_of_dismissal_id"] = null;
+                }
+
             }
 
             $match = $this->Matches->patchEntity($match, $this->request->data, [
@@ -108,6 +144,13 @@ class MatchesController extends AppController
 
         $this->set(compact('match', 'formats', 'results', 'players', 'modesOfDismissals', 'playerRowFields'));
         $this->set('_serialize', ['match']);
+    }
+
+    private function quickMatchPlayerDelete($match_player_id)
+    {
+        $matchesPlayers = TableRegistry::get("MatchesPlayers");
+        $matchesPlayerRecord = $matchesPlayers->get($match_player_id);
+        $matchesPlayers->delete($matchesPlayerRecord);
     }
 
     protected function _playerRowFields()

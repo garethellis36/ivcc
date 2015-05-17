@@ -45,7 +45,50 @@ class MatchesTable extends Table {
             ->add('opposition', 'valid', ['rule' => 'notBlank'])
             ->notEmpty('opposition');
 
+        $validator
+            ->add('ivcc_batted_first', 'value', [
+                'rule' => 'boolean'
+            ]);
+
+        $isNumericAndNotDecimal = "/^[0-9]*$/";
+
+        //certain fields can be empty if no result set
+        $fields = [
+            'ivcc_total' => [],
+            'ivcc_extras' => [],
+            'ivcc_wickets' => [],
+            'ivcc_overs' => [
+                'rule' => 'numeric'
+            ],
+            'opposition_total' => [],
+            'opposition_wickets' => [],
+            'opposition_overs' => [
+                'rule' => 'numeric'
+            ]
+        ];
+
+        foreach ($fields as $field => $rules) {
+
+            $rule = ["custom", $isNumericAndNotDecimal];
+            if (isset($rules["rule"])) {
+                $rule = ['rule' => $rules["rule"]];
+            }
+
+            $validator
+                ->allowEmpty($field, function ($context) {
+                    return (!isset($context['data']['result']) || empty($context['data']['result']));
+                })
+                ->add($field, "valid", $rule);
+        }
+
         return $validator;
+    }
+
+    public function isNumericAndNotDecimal()
+    {
+        if (stripos($value, '.') !== false) {
+            return false;
+        }
     }
 
     public function getTeamStats($year)

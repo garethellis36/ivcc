@@ -5,10 +5,18 @@
     <div class="columns">
         <div class="column one-fifth">
             <?php
+
+            $date = null;
+            if ($match->date instanceof Cake\i8n\Time) {
+                $date = $match->date->format("Y-m-d H:i");
+            } else {
+                $date = date("Y-m-d H:i", strtotime($match->date));
+            }
+
             echo $this->Form->input('date', [
                 'class' => 'datetimepicker input-mini',
                 'type' => 'text',
-                'value' => $match->date->format("Y-m-d H:i")
+                'value' => $date
             ]);
             echo $this->Form->input('opposition', [
                 'class' => 'input-mini'

@@ -1,3 +1,5 @@
 - fb auth/sign-up
-- validation for match edit screen - server-side and JS
+- JS validation for match edit screen
+- add cake validation for field length for varchar fields match/player/news/users
+- wisiwyg editor for news/match report
 - fix responsive layout
