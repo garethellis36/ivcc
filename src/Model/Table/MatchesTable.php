@@ -8,11 +8,11 @@
 
 namespace App\Model\Table;
 
-use Cake\ORM\Table;
+use App\Model\Table\AppTable;
 use Cake\Validation\Validator;
 use SoftDelete\Model\Table\SoftDeleteTrait;
 
-class MatchesTable extends Table {
+class MatchesTable extends AppTable {
 
     use SoftDeleteTrait;
 
@@ -55,40 +55,51 @@ class MatchesTable extends Table {
         //certain fields can be empty if no result set
         $fields = [
             'ivcc_total' => [],
-            'ivcc_extras' => [],
-            'ivcc_wickets' => [],
+            'ivcc_extras' => [
+                'requireWith' => "ivcc_total"
+            ],
+            'ivcc_wickets' => [
+                'requireWith' => "ivcc_total"
+            ],
             'ivcc_overs' => [
-                'rule' => 'numeric'
+                'rule' => [$this, "validOvers"],
+                'requireWith' => "ivcc_total"
             ],
             'opposition_total' => [],
-            'opposition_wickets' => [],
+            'opposition_wickets' => [
+                'requireWith' => "opposition_total"
+            ],
             'opposition_overs' => [
-                'rule' => 'numeric'
+                'requireWith' => "opposition_total",
+                'rule' => [$this, "validOvers"]
             ]
         ];
 
         foreach ($fields as $field => $rules) {
 
             $rule = ["custom", $isNumericAndNotDecimal];
+
             if (isset($rules["rule"])) {
-                $rule = ['rule' => $rules["rule"]];
+                $rule = $rules["rule"];
             }
 
             $validator
-                ->allowEmpty($field, function ($context) {
-                    return (!isset($context['data']['result']) || empty($context['data']['result']));
+                ->allowEmpty($field, function ($context) use ($rules) {
+
+                    if (!isset($rules["requireWith"])) {
+                        return true;
+                    }
+
+
+                    return (empty($context["data"][$rules['requireWith']]));
+
                 })
-                ->add($field, "valid", $rule);
+                ->add($field, "valid", [
+                    "rule" => $rule
+                ]);
         }
 
         return $validator;
-    }
-
-    public function isNumericAndNotDecimal()
-    {
-        if (stripos($value, '.') !== false) {
-            return false;
-        }
     }
 
     public function getTeamStats($year)

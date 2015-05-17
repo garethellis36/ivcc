@@ -9,12 +9,12 @@
 namespace App\Model\Table;
 
 use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\ORM\Table;
+use App\Model\Table\AppTable;
 use Cake\ORM\Query;
 use App\Lib\CricketUtility;
 use Cake\Validation\Validator;
 
-class MatchesPlayersTable extends Table {
+class MatchesPlayersTable extends AppTable {
 
     public function initialize(array $config)
     {
@@ -87,8 +87,8 @@ class MatchesPlayersTable extends Table {
             ->allowEmpty('bowling_overs', function ($context) {
                 return $this->anyBowlingFieldsCompleted($context);
             })
-            ->add('bowling_overs', 'validDecimal', [
-                'rule' => 'numeric'
+            ->add('bowling_overs', 'validOvers', [
+                'rule' => [$this, 'validOvers']
             ]);
 
         $validator

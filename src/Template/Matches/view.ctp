@@ -15,7 +15,7 @@
                 <strong>Format:</strong> <?= $scorecard["format"]["name"] ?>
                 <br>
                 <strong>Result:</strong> <?= $scorecard["result"] ?>
-                <?php if (isset($scorecard["result_more"])): ?>
+                <?php if (isset($scorecard["result_more"]) && !empty($scorecard["result_more"])): ?>
                     by <?= h($scorecard["result_more"]) ?>
                 <?php endif; ?>
             </p>
