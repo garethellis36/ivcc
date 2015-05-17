@@ -1,4 +1,4 @@
-<div class="columns">
+<div class="columns" id="top">
 
     <div class="column one-fifth">
 
@@ -43,7 +43,7 @@
                             <img class="avatar" src="/img/players/<?= $img; ?>">
                         </div>
                         <div class="column two-fifths">
-                            <h2><?= $this->Player->name($player, true) ?></h2>
+                            <h2><?= $this->Player->name($player, true) ?><sup class="padding-left">[<a href="#top">top</a>]</sup></h2>
                             <?php if ($this->Authorization->isAdmin()): ?>
                                 <p>
                                     <small>
