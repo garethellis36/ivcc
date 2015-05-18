@@ -11,6 +11,8 @@ namespace App\Model\Table;
 use App\Model\Table\AppTable;
 use Cake\Validation\Validator;
 use SoftDelete\Model\Table\SoftDeleteTrait;
+use Cake\Datasource\EntityInterface;
+use Cake\ORM\TableRegistry;
 
 class MatchesTable extends AppTable {
 
@@ -22,6 +24,88 @@ class MatchesTable extends AppTable {
 
         $this->belongsTo("Formats");
     }
+
+    /*
+     * Overwriting patchEntity from Cake\ORM\Table in order to do some pre-save data manipulation
+     */
+    public function patchEntity(EntityInterface $entity, array $data, array $options = [])
+    {
+
+        //unset certain fields if no result is set
+        if (isset($data["result"]) && empty($data["result"])) {
+
+            $data["result_more"] = null;
+
+            $data["ivcc_total"] = null;
+            $data["ivcc_extras"] = null;
+            $data["ivcc_wickets"] = null;
+            $data["ivcc_overs"] = null;
+
+            $data["opposition_total"] = null;
+            $data["opposition_wickets"] = null;
+            $data["opposition_overs"] = null;
+        }
+
+        if (isset($data["matches_players"])) {
+            $data = $this->tidyMatchesPlayersData($data);
+        }
+
+        return parent::patchEntity($entity, $data, $options);
+    }
+
+    private function tidyMatchesPlayersData($data)
+    {
+
+        if (count($data["matches_players"]) != 11) {
+            throw new \Exception ("Invalid number of players provided");
+        }
+
+        //remove unselected player slots from data array
+        $playerIds = [];
+        foreach ($data["matches_players"] as $i => $player) {
+            
+            if (empty($player["player_id"])) {
+                unset($data["matches_players"][$i]);
+
+                //delete existing MatchesPlayers record if necessary
+                if (!empty($player["id"])) {
+                    $this->quickMatchPlayerDelete($player["id"]);
+                }
+
+                continue;
+            }
+
+            //remove duplicate players
+            if (in_array($player["player_id"], $playerIds)) {
+
+                //remove from request data array so nothing gets saved
+                unset($data["matches_players"][$i]);
+
+                //delete existing record from database if necessary
+                $this->quickMatchPlayerDelete($player["id"]);
+
+                continue;
+            }
+            $playerIds[] = $player["player_id"];
+
+            //unset runs scored/mode of dismissal if player did not bat
+            if ($player["did_not_bat"] == 1) {
+                $data["matches_players"][$i]["batting_runs"] = null;
+                $data["matches_players"][$i]["modes_of_dismissal_id"] = null;
+            }
+
+        }
+
+        return $data;
+    }
+
+    private function quickMatchPlayerDelete($match_player_id)
+    {
+        $matchesPlayers = TableRegistry::get("MatchesPlayers");
+        $matchesPlayerRecord = $matchesPlayers->get($match_player_id);
+        $matchesPlayers->delete($matchesPlayerRecord);
+    }
+
 
     /**
      * Default validation rules.
@@ -129,7 +213,6 @@ class MatchesTable extends AppTable {
     public function getHighestTeamScore($options)
     {
         //get best team score
-
         return $this->find("all")
             ->where($options["where"])
             ->order(["Matches.ivcc_total DESC"])
@@ -138,7 +221,7 @@ class MatchesTable extends AppTable {
 
     public function getLowestTeamScore($options)
     {
-        //get best team score
+        //get worst team score
         return $this->find("all")
             ->order(["Matches.ivcc_total ASC"])
             ->where($options["where"])

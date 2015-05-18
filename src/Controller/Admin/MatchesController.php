@@ -49,57 +49,8 @@ class MatchesController extends AppController
                 ]
             ]
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-
-            //unset certain fields if no result is set
-            if (empty($this->request->data["result"])) {
-
-                $this->request->data["result_more"] = null;
-
-                $this->request->data["ivcc_total"] = null;
-                $this->request->data["ivcc_extras"] = null;
-                $this->request->data["ivcc_wickets"] = null;
-                $this->request->data["ivcc_overs"] = null;
-
-                $this->request->data["opposition_total"] = null;
-                $this->request->data["opposition_wickets"] = null;
-                $this->request->data["opposition_overs"] = null;
-            }
-
-            //remove unselected player slots from data array
-            $playerIds = [];
-            foreach ($this->request->data["matches_players"] as $i => $player) {
-                if (empty($player["player_id"])) {
-                    unset($this->request->data["matches_players"][$i]);
-
-                    //delete existing MatchesPlayers record if necessary
-                    if (!empty($player["id"])) {
-                        $this->quickMatchPlayerDelete($player["id"]);
-                    }
-
-                    continue;
-                }
-
-                //remove duplicate players
-                if (in_array($player["player_id"], $playerIds)) {
-
-                    //remove from request data array so nothing gets saved
-                    unset($this->request->data["matches_players"][$i]);
-
-                    //delete existing record from database if necessary
-                    $this->quickMatchPlayerDelete($player["id"]);
-
-                    continue;
-                }
-                $playerIds[] = $player["player_id"];
-
-                //unset runs scored/mode of dismissal if player did not bat
-                if ($player["did_not_bat"] == 1) {
-                    $this->request->data["matches_players"][$i]["batting_runs"] = null;
-                    $this->request->data["matches_players"][$i]["modes_of_dismissal_id"] = null;
-                }
-
-            }
 
             $match = $this->Matches->patchEntity($match, $this->request->data, [
                 "associated" => [
@@ -121,32 +72,41 @@ class MatchesController extends AppController
                 return $this->redirect($url);
             }
 
+            //convert player validation errors into strings to print in a flash message above scorecard
             if (!empty($match->errors()['matches_players'])) {
-
-                $scorecardErrors = [];
-
-                foreach ($match->errors()['matches_players'] as $k => $scorecardError) {
-
-                    foreach ($scorecardError as $field => $error) {
-
-                        foreach ($error as $ruleType => $errorMessage) {
-
-                            $scorecardErrors[] = $match->matches_players[$k]->player->name
-                                                . " - " . Inflector::humanize($field)
-                                                . " - " . $errorMessage;
-
-                        }
-                    }
-                }
-
-                $this->set(compact("scorecardErrors"));
+                $this->convertMatchesPlayersErrorsForFlash($match);
             }
 
             $this->Flash->error('The match could not be saved. Please, try again.');
 
         }
 
+        $this->populateDropDowns();
 
+        $this->set(compact('match'));
+        $this->set('_serialize', ['match']);
+
+        $this->render("form");
+    }
+
+    private function convertMatchesPlayersErrorsForFlash(\App\Model\Entity\Match $match)
+    {
+        $scorecardErrors = [];
+        foreach ($match->errors()['matches_players'] as $k => $scorecardError) {
+            foreach ($scorecardError as $field => $error) {
+                foreach ($error as $ruleType => $errorMessage) {
+                    $scorecardErrors[] = $match->matches_players[$k]->player->name
+                        . " - " . Inflector::humanize($field)
+                        . " - " . $errorMessage;
+                }
+            }
+        }
+
+        $this->set(compact("scorecardErrors"));
+    }
+
+    private function populateDropdowns()
+    {
         $formats = TableRegistry::get("formats");
         $formats = $formats->getList();
 
@@ -167,17 +127,13 @@ class MatchesController extends AppController
             "Cancelled" => "Cancelled"
         ];
 
-        $this->set(compact('match', 'formats', 'results', 'players', 'modesOfDismissals', 'playerRowFields'));
-        $this->set('_serialize', ['match']);
-
-        $this->render("form");
-    }
-
-    private function quickMatchPlayerDelete($match_player_id)
-    {
-        $matchesPlayers = TableRegistry::get("MatchesPlayers");
-        $matchesPlayerRecord = $matchesPlayers->get($match_player_id);
-        $matchesPlayers->delete($matchesPlayerRecord);
+        $this->set(compact(
+            "formats",
+            "players",
+            "modesOfDismissals",
+            "playerRowFields",
+            "results"
+        ));
     }
 
     protected function _playerRowFields()
