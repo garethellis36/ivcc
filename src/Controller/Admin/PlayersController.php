@@ -37,7 +37,9 @@ class PlayersController extends AppController
         $roles = $roles->getList();
 
         $this->set(compact('player', 'roles'));
-        $this->set('_serialize', ['usmatcher']);
+        $this->set('_serialize', ['player']);
+
+        $this->render('form');
     }
 
     public function delete($player_id)
@@ -99,6 +101,8 @@ class PlayersController extends AppController
 
         $this->set(compact('player', 'roles'));
         $this->set('_serialize', ['player']);
+
+        $this->render('form');
     }
 
     private function validPhoto()

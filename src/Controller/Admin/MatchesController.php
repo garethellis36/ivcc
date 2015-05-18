@@ -33,6 +33,8 @@ class MatchesController extends AppController
 
         $this->set(compact('match', 'formats'));
         $this->set('_serialize', ['match']);
+
+        $this->render("form");
     }
 
     public function edit($match_id)
@@ -167,6 +169,8 @@ class MatchesController extends AppController
 
         $this->set(compact('match', 'formats', 'results', 'players', 'modesOfDismissals', 'playerRowFields'));
         $this->set('_serialize', ['match']);
+
+        $this->render("form");
     }
 
     private function quickMatchPlayerDelete($match_player_id)

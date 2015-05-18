@@ -9,7 +9,7 @@
             $date = null;
             if ($match->date instanceof Cake\i8n\Time) {
                 $date = $match->date->format("Y-m-d H:i");
-            } else {
+            } elseif ($match->date) {
                 $date = date("Y-m-d H:i", strtotime($match->date));
             }
 
@@ -38,73 +38,76 @@
             ]);
             ?>
         </div>
-        <div class="column one-fifth">
-            <?php
-            echo $this->Form->input("result", [
-                "class" => "input-mini resultSelect",
-                "type" => "select",
-                "empty" => "--"
-            ]);
 
-            echo $this->Form->input("result_more", [
-                "class" => "input-mini disableWithoutResult",
-                "label" => "by (e.g. 40 runs)"
-            ]);
-            ?>
-        </div>
+        <?php if ($this->request->params['action'] == 'edit'): ?>
+            <div class="column one-fifth">
+                <?php
+                echo $this->Form->input("result", [
+                    "class" => "input-mini resultSelect",
+                    "type" => "select",
+                    "empty" => "--"
+                ]);
 
-        <div class="column one-fifth">
-            <?php
-            echo $this->Form->input("ivcc_total", [
-                "class" => "input-mini disableWithoutResult",
-                'label' => "IVCC total",
-                "type" => "number"
-            ]);
+                echo $this->Form->input("result_more", [
+                    "class" => "input-mini disableWithoutResult",
+                    "label" => "by (e.g. 40 runs)"
+                ]);
+                ?>
+            </div>
 
-            echo $this->Form->input("ivcc_extras", [
-                "class" => "input-mini disableWithoutResult",
-                'label' => "IVCC extras"
-            ]);
+            <div class="column one-fifth">
+                <?php
+                echo $this->Form->input("ivcc_total", [
+                    "class" => "input-mini disableWithoutResult",
+                    'label' => "IVCC total",
+                    "type" => "number"
+                ]);
 
-            echo $this->Form->input("ivcc_wickets", [
-                "class" => "input-mini disableWithoutResult",
-                'label' => "IVCC wickets"
-            ]);
+                echo $this->Form->input("ivcc_extras", [
+                    "class" => "input-mini disableWithoutResult",
+                    'label' => "IVCC extras"
+                ]);
 
-            echo $this->Form->input("ivcc_overs", [
-                "class" => "input-mini disableWithoutResult",
-                'label' => "IVCC overs"
-            ]);
+                echo $this->Form->input("ivcc_wickets", [
+                    "class" => "input-mini disableWithoutResult",
+                    'label' => "IVCC wickets"
+                ]);
 
-            echo $this->Form->input("ivcc_batted_first", [
-                "class" => "input-mini disableWithoutResult",
-                "label" => "IVCC batted first?",
-                "type" => "checkbox",
-                "checked" => (!isset($match->result) || $match->ivcc_batted_first == 1 ? true : false)
-            ]);
-            ?>
+                echo $this->Form->input("ivcc_overs", [
+                    "class" => "input-mini disableWithoutResult",
+                    'label' => "IVCC overs"
+                ]);
 
-        </div>
+                echo $this->Form->input("ivcc_batted_first", [
+                    "class" => "input-mini disableWithoutResult",
+                    "label" => "IVCC batted first?",
+                    "type" => "checkbox",
+                    "checked" => (!isset($match->result) || $match->ivcc_batted_first == 1 ? true : false)
+                ]);
+                ?>
 
-        <div class="column one-fifth">
-            <?php
-            echo $this->Form->input("opposition_total", [
-                "class" => "input-mini disableWithoutResult",
-                "label" => "Opposition total"
-            ]);
+            </div>
 
-            echo $this->Form->input("opposition_wickets", [
-                "class" => "input-mini disableWithoutResult",
-                "label" => "Opposition wickets"
-            ]);
+            <div class="column one-fifth">
+                <?php
+                echo $this->Form->input("opposition_total", [
+                    "class" => "input-mini disableWithoutResult",
+                    "label" => "Opposition total"
+                ]);
 
-            echo $this->Form->input("opposition_overs", [
-                "class" => "input-mini disableWithoutResult",
-                "label" => "Opposition overs"
-            ]);
+                echo $this->Form->input("opposition_wickets", [
+                    "class" => "input-mini disableWithoutResult",
+                    "label" => "Opposition wickets"
+                ]);
 
-            ?>
-        </div>
+                echo $this->Form->input("opposition_overs", [
+                    "class" => "input-mini disableWithoutResult",
+                    "label" => "Opposition overs"
+                ]);
+
+                ?>
+            </div>
+        <?php endif; ?>
 
     </div>
 

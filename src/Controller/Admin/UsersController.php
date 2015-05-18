@@ -45,6 +45,8 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+
+        $this->render('form');
     }
 
     /**
@@ -75,6 +77,8 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+
+        $this->render('form');
     }
 
     /**

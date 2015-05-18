@@ -35,6 +35,8 @@ class NewsController extends AppController
         }
         $this->set(compact('newsItem'));
         $this->set('_serialize', ['newsItem']);
+
+        $this->render("form");
     }
 
     /**
@@ -65,6 +67,8 @@ class NewsController extends AppController
         }
         $this->set(compact('newsItem'));
         $this->set('_serialize', ['newsItem']);
+
+        $this->render("form");
     }
 
     /**
