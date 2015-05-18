@@ -43,22 +43,24 @@ class UsersTable extends Table
             
         $validator
             ->add('email', 'valid', ['rule' => 'email'])
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => 'This email address already exists in the users list'])
             ->requirePresence('email', 'create')
+            ->add("email", 'length', ['rule' => ['maxLength', 255]])
             ->notEmpty('email');
 
         $validator
-            ->add('name', 'valid', ['rule' => 'notEmpty'])
+            ->add('name', 'valid', ['rule' => 'notBlank'])
             ->requirePresence('name', 'create')
+            ->add("name", 'length', ['rule' => ['maxLength', 50]])
             ->notEmpty('name');
             
         $validator
             ->requirePresence('password', 'create')
             ->notEmpty('password');
-            
+
         $validator
-            ->add('is_admin', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('is_admin', 'create')
-            ->notEmpty('is_admin');
+            ->notEmpty('is_admin')
+            ->add('is_admin', 'valid', ['rule' => 'boolean']);
 
         return $validator;
     }

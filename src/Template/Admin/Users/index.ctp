@@ -20,3 +20,4 @@
 
 <?php endforeach; ?>
 </ul>
+<p>* = admins</p>

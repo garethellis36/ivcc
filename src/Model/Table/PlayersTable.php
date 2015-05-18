@@ -47,8 +47,18 @@ class PlayersTable extends Table {
 
         $validator
             ->notEmpty('first_name')
+            ->add('first_name', 'length', ['rule' => ['lengthBetween', 1, 25]])
+            ->add('first_name', 'valid', ['rule' => ['custom', "/^([A-Za-z]|\s|-|')*$/"]]);
+
+        $validator
             ->notEmpty("initials")
-            ->notEmpty("last_name");
+            ->add('initials', 'length', ['rule' => ['lengthBetween', 1, 15]])
+            ->add('initials', 'valid', ['rule' => ['custom', "/^([A-Z]|\.)*$/"]]);
+
+        $validator
+            ->notEmpty("last_name")
+            ->add('last_name', 'length', ['rule' => ['lengthBetween', 1, 25]])
+            ->add('last_name', 'valid', ['rule' => ['custom', "/^([A-Za-z]|\s|-|')*$/"]]);
 
         return $validator;
     }

@@ -26,7 +26,8 @@ class NewsTable extends Table {
 
         $validator
             ->add('title', 'valid', ['rule' => 'notBlank'])
-            ->notEmpty('title');
+            ->notEmpty('title')
+            ->add('title', 'length', ['rule' => ['lengthBetween', 1, 100]]);
 
         $validator
             ->add('body', 'valid', ['rule' => 'notBlank'])

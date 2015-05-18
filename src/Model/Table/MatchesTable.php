@@ -43,7 +43,12 @@ class MatchesTable extends AppTable {
 
         $validator
             ->add('opposition', 'valid', ['rule' => 'notBlank'])
+            ->add('opposition', 'length', ['rule' => ['lengthBetween', 1, 50]])
             ->notEmpty('opposition');
+
+        $validator
+            ->allowEmpty("result_more")
+            ->add('result_more', 'length', ['rule' => ['lengthBetween', 1, 50]]);
 
         $validator
             ->add('ivcc_batted_first', 'value', [
