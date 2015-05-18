@@ -137,11 +137,6 @@ class MatchesPlayersTable extends AppTable {
         return true;
     }
 
-    private function zeroOrNotEmpty($value)
-    {
-        return ($value == 0 || !empty($value));
-    }
-
     public function getTeamStats($year)
     {
         if ($year != "all") {

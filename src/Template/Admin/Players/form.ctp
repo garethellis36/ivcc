@@ -1,32 +1,54 @@
 <?= $this->Form->create($player, ["type" => "file"]); ?>
 <fieldset>
     <legend><?= __(ucfirst($this->request->params['action']) . ' Player') ?></legend>
-    <?php
-    echo $this->Form->input('first_name', [
-        'class' => 'input-mini'
-    ]);
-    echo $this->Form->input('initials', [
-        'class' => 'input-mini'
-    ]);
-    echo $this->Form->input('last_name', [
-        'class' => 'input-mini'
-    ]);
 
-    echo $this->Form->input('previous_clubs', [
-        'class' => 'input-mini'
-    ]);
+    <div class="columns">
+        <div class="column one-fourth">
+            <?php
+            echo $this->Form->input('first_name', [
+                'class' => 'input-mini'
+            ]);
+            echo $this->Form->input('initials', [
+                'class' => 'input-mini'
+            ]);
+            echo $this->Form->input('last_name', [
+                'class' => 'input-mini'
+            ]);
+            ?>
+        </div>
 
-    if ($this->request->params['action'] == 'edit') {
-        $photoLabel = "Photo";
-        if ($player->photo) {
-            $photoLabel .= " - currently \"" . $player->photo . "\" - will only be replaced if you upload a new file - JPG file, max 50kb, 190p x 190px";
-        }
-        echo $this->Form->input('photo', ['label' => $photoLabel, 'type' => 'file']);
-    }
+        <div class="column one-fourth">
 
-    echo $this->Form->input('roles._ids', ['multiple' => 'checkbox', 'options' => $roles]);
+            <?php
+            echo $this->Form->input('previous_clubs', [
+                'class' => 'input-mini'
+            ]);
+            ?>
+        </div>
 
-    ?>
+
+
+    <?php if ($this->request->params['action'] == 'edit'): ?>
+        <div class="column one-fourth">
+            <?php
+            $photoLabel = "Photo";
+            if ($player->photo) {
+                $photoLabel .= " - JPG file, max 50kb, 190px x 190px";
+            }
+            echo $this->Form->input('photo', ['label' => $photoLabel, 'type' => 'file']);
+
+            if ($player->photo) {
+                echo $this->Form->input("delete_photo", ["type" => "checkbox"]);
+            }
+            ?>
+        </div>
+
+    <?php endif; ?>
+
+        <div class="column one-fourth">
+            <?= $this->Form->input('roles._ids', ['multiple' => 'checkbox', 'options' => $roles]) ?>
+        </div>
+
 </fieldset>
 <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
 <?= $this->Form->end() ?>

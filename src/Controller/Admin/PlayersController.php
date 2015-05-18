@@ -9,6 +9,7 @@
 namespace App\Controller\Admin;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Filesystem\File;
 
 class PlayersController extends AppController
 {
@@ -60,40 +61,46 @@ class PlayersController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
 
+            //we need to know the file name of the existing photo if it's being deleted
+            //$player->photo will be nulled by patchEntity so store it here
+            $existingPhoto = $player->photo;
 
-            // TODO - make this less bit (i.e. handling of file validation) less shite
+            $player = $this->Players->patchEntity($player, $this->request->data, [
+                'associated' => ["Roles"]
+            ]);
 
-            $continue = true;
+            //delete photo image from disk
+            if ($existingPhoto && empty($this->request->data["photo"]["name"])
+                && isset($this->request->data["delete_photo"]) && $this->request->data["delete_photo"] == 1) {
+                unlink(WWW_ROOT . DS . "img" . DS . "players" . DS . $existingPhoto);
+            }
 
-            if (isset($this->request->data["photo"]) && !empty($this->request->data["photo"]["name"])) {
-                if (!$this->validPhoto()) {
-                    $this->Flash->error("The photo you uploaded is not valid. Please make sure you choose a JPG file no larger than 50kb, with maximum dimensions of 190px x 190px");
-                    $continue = false;
-                } else {
-                    $target = WWW_ROOT . DS . "img" . DS . "players" . DS . $this->request->data["photo"]["name"];
+            /*
+             * set file name to save in database
+             * if you don't do this it tries to save the data array
+             * and if you set the name before patchEntity returns (e.g. in patchEntity itself), validation will fail
+             */
+            $errors = $player->errors();
+            if (empty($errors) && !empty($this->request->data["photo"]["name"])) {
+                $file = new File($this->request->data["photo"]["tmp_name"]);
+                $player->photo = strtolower($file->safe($player->initials . $player->last_name)) . ".jpg";
+            }
+
+            if ($this->Players->save($player)) {
+
+                if (!empty($this->request->data["photo"]["name"])) {
+                    $target = WWW_ROOT . DS . "img" . DS . "players" . DS . $player->photo;
                     if (!move_uploaded_file($this->request->data["photo"]["tmp_name"], $target)) {
-                        $continue = false;
-                        $this->Flash->error("Photo upload failed");
-                    } else {
-                        $this->request->data["photo"] = $this->request->data["photo"]["name"];
+                        $this->Flash->error("FYI: file failed to upload");
                     }
                 }
+
+                $this->Flash->success('Player saved.');
+                return $this->redirect("/players");
             } else {
-                unset($this->request->data["photo"]);
+                $this->Flash->error('The player could not be saved. Please, try again.');
             }
 
-            if ($continue) {
-
-                $player = $this->Players->patchEntity($player, $this->request->data, [
-                    'associated' => ["Roles"]
-                ]);
-                if ($this->Players->save($player)) {
-                    $this->Flash->success('Player saved.');
-                    return $this->redirect("/players");
-                } else {
-                    $this->Flash->error('The player could not be saved. Please, try again.');
-                }
-            }
         }
 
         $roles = TableRegistry::get("roles");
@@ -105,23 +112,11 @@ class PlayersController extends AppController
         $this->render('form');
     }
 
-    private function validPhoto()
+    public function delete_photo($player_id)
     {
-        if ($this->request->data["photo"]["size"] > 50000) {
-            return false;
-        }
+        $player = $this->Player->get($player_id);
 
-        if ($this->request->data["photo"]["type"] != "image/jpeg") {
-            return false;
-        }
-
-        $size = getimagesize($this->request->data["photo"]["tmp_name"]);
-        if ($size[0] > 190 || $size[0] > 190) {
-            return false;
-        }
-
-        return true;
+        $this->redirect("/players/edit/" . $player_id);
     }
-
 
 }

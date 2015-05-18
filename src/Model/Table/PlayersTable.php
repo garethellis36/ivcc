@@ -11,6 +11,7 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use SoftDelete\Model\Table\SoftDeleteTrait;
+use Cake\Datasource\EntityInterface;
 
 
 class PlayersTable extends Table {
@@ -22,6 +23,22 @@ class PlayersTable extends Table {
         $this->hasMany("PlayersScorecards");
 
         $this->belongsToMany("Roles");
+    }
+
+    /*
+     * Overwriting patchEntity from Cake\ORM\Table in order to do some pre-save data manipulation
+     */
+    public function patchEntity(EntityInterface $entity, array $data, array $options = [])
+    {
+        if (isset($data["photo"]) && empty($data["photo"]["name"])) {
+            unset($data["photo"]);
+        }
+
+        if (isset($data["photo"]) && empty($data["photo"]["name"]) && isset($data["delete_photo"]) && $data["delete_photo"] == 1) {
+            $data["photo"] = null;
+        }
+
+        return parent::patchEntity($entity, $data, $options);
     }
 
     public function findForIndex()
@@ -60,7 +77,29 @@ class PlayersTable extends Table {
             ->add('last_name', 'length', ['rule' => ['lengthBetween', 1, 25]])
             ->add('last_name', 'valid', ['rule' => ['custom', "/^([A-Za-z]|\s|-|')*$/"]]);
 
+        $validator
+            ->allowEmpty("photo")
+            ->add("photo", "validImage", [
+                "rule" => ["uploadedFile", [
+                        "types" => ["image/jpeg"],
+                        "maxSize" => 50000,
+                        "optional" => true
+                    ]
+                ],
+                "message" => "File must be a JPG no larger than 50kb"
+            ])
+            ->add("photo", "imageDimension", [
+                "rule" => [$this, "validateImageDimensions"],
+                "message" => "File must be no bigger than 190px x 190px  - resize and try again"
+            ]);
+
         return $validator;
+    }
+
+    public function validateImageDimensions($file, $maxWidth = 190, $maxHeight = 190)
+    {
+        $fileSize = getimagesize($file["tmp_name"]);
+        return ($fileSize[0] <= $maxWidth && $fileSize[1] <= $maxHeight);
     }
 
     public function getList()
