@@ -45,4 +45,34 @@ class CricketUtility
     {
         return ($balls / self::$ballsPerOver);
     }
+
+    public static function calculateBattingAverage($runs, $innings, $notOuts)
+    {
+        $dismissals = $innings - $notOuts;
+        if ($dismissals == 0) {
+            return false;
+        }
+
+        return round($runs / $dismissals, 2);
+    }
+
+    public static function calculateBowlingAverage($runs, $wickets)
+    {
+        if ($wickets == 0) {
+            return false;
+        }
+        return round($runs / $wickets, 2);
+    }
+
+    public static function calculateBowlingEconomy($overs, $runs)
+    {
+        if ($overs == 0) {
+            return false;
+        }
+
+        //we need overs in decimal form, e.g. 12.3 (12 overs & 3 balls) needs to be 12.5 (12 and a half)
+        $overs = self::convertBallsToDecimal(self::convertOversToBalls($overs));
+        return round($runs / $overs, 2);
+    }
+
 }

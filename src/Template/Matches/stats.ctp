@@ -189,7 +189,7 @@
                         <td><?= number_format($batsman->batting_innings) ?></td>
                         <td><?= number_format($batsman->batting_not_out) ?></td>
                         <td><?= number_format($batsman->batting_runs) ?></td>
-                        <td><?= $batsman->batting_average ?></td>
+                        <td><?= ($batsman->batting_average !== false ? $batsman->batting_average : "-" ) ?></td>
                         <td>
                             <?= $batsman->batting_high_score->batting_runs . ($batsman->batting_high_score->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
                         </td>
@@ -224,8 +224,8 @@
                         <td><?= number_format($bowler->bowling_maidens) ?></td>
                         <td><?= number_format($bowler->bowling_runs) ?></td>
                         <td><?= number_format($bowler->bowling_wickets) ?></td>
-                        <td><?= $bowler->bowling_average ?></td>
-                        <td><?= $bowler->bowling_economy ?></td>
+                        <td><?= ($bowler->bowling_average !== false ? $bowler->bowling_average : "-") ?></td>
+                        <td><?= ($bowler->bowling_economy !== false ? $bowler->bowling_economy : "-") ?></td>
                         <td>
                             <?= $bowler->best_bowling->bowling_wickets . " for " . $bowler->best_bowling->bowling_runs ?>
                         </td>

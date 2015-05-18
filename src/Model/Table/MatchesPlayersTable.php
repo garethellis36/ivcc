@@ -298,11 +298,11 @@ class MatchesPlayersTable extends AppTable {
             $player->batting_high_score = $this->find("highestIndividualScore", $options);
             $player->batting_runs = $this->find("total", array_merge($options, ["field" => "batting_runs"]));
 
-            $player->batting_average = "-";
-            $dismissals = $player->batting_innings - $player->batting_not_out;
-            if ($dismissals > 0) {
-                $player->batting_average = round($player->batting_runs / $dismissals, 2);
-            }
+            $player->batting_average = CricketUtility::calculateBattingAverage(
+                $player->batting_runs,
+                $player->batting_innings,
+                $player->batting_not_out
+            );
         }
         return $players;
     }
@@ -346,17 +346,15 @@ class MatchesPlayersTable extends AppTable {
             $player->bowling_runs = $this->find("total", array_merge($options, ["field" => "bowling_runs"]));
             $player->bowling_wickets = $this->find("total", array_merge($options, ["field" => "bowling_wickets"]));
 
-            $player->bowling_economy = "-";
-            if ($player->bowling_overs > 0) {
-                $ballsBowled = CricketUtility::convertOversToBalls($player->bowling_overs);
-                $decimalOvers = CricketUtility::convertBallsToDecimal($ballsBowled);
-                $player->bowling_economy = round($player->bowling_runs / $decimalOvers, 2);
-            }
+            $player->bowling_economy = CricketUtility::calculateBowlingEconomy(
+                $player->bowling_overs,
+                $player->bowling_runs
+            );
 
-            $player->bowling_average = "-";
-            if ($player->bowling_wickets > 0) {
-                $player->bowling_average = round($player->bowling_runs / $player->bowling_wickets, 2);
-            }
+            $player->bowling_average = CricketUtility::calculateBowlingAverage(
+                $player->bowling_runs,
+                $player->bowling_wickets
+            );
 
             $player->best_bowling = $this->find("bestBowling", $options);
         }
