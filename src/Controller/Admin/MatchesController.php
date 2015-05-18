@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 
 class MatchesController extends AppController
 {
@@ -41,7 +42,8 @@ class MatchesController extends AppController
                 "MatchesPlayers" => [
                     "sort" => [
                         "MatchesPlayers.batting_order_no ASC"
-                    ]
+                    ],
+                    "Players"
                 ]
             ]
         ]);
@@ -115,11 +117,32 @@ class MatchesController extends AppController
                     $url .= "?year=" . substr($match->date, 0, 4);
                 }
                 return $this->redirect($url);
-            } else {
-                $this->Flash->error('The match could not be saved. Please, try again.');
             }
-        }
 
+            if (!empty($match->errors()['matches_players'])) {
+
+                $scorecardErrors = [];
+
+                foreach ($match->errors()['matches_players'] as $k => $scorecardError) {
+
+                    foreach ($scorecardError as $field => $error) {
+
+                        foreach ($error as $ruleType => $errorMessage) {
+
+                            $scorecardErrors[] = $match->matches_players[$k]->player->name
+                                                . " - " . Inflector::humanize($field)
+                                                . " - " . $errorMessage;
+
+                        }
+                    }
+                }
+
+                $this->set(compact("scorecardErrors"));
+            }
+
+            $this->Flash->error('The match could not be saved. Please, try again.');
+
+        }
 
 
         $formats = TableRegistry::get("formats");

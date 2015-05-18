@@ -116,6 +116,19 @@
         </div>
     </div>
 
+    <?php if (isset($scorecardErrors)): ?>
+
+        <div class="flash flash-error">
+            <h4>Please address the following errors in the scorecard:</h4>
+            <ul class="no-bullets">
+                <?php foreach ($scorecardErrors as $error): ?>
+                    <li><?= $error ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+    <?php endif; ?>
+
     <table class="small-headings no-vertical-padding">
 
         <thead>
@@ -151,7 +164,8 @@
 
         $defaultOptions = [
             "label" => false,
-            "data-rowId" => $i
+            "data-rowId" => $i,
+            "error" => false
         ];
         foreach ($playerRowFields as $fieldName => $options) {
             if (isset($options["default"]) && $options["default"] == "rowNumber") {

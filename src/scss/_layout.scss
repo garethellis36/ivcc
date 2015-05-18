@@ -100,9 +100,15 @@ table {
   background-position-y: -25px;
 }
 
-.pagination {
+.no-bullets {
   li {
     list-style: none;
+  }
+}
+
+.pagination {
+  @extend .no-bullets;
+  li {
     float: left;
     margin-right: 2rem;
   }
@@ -116,6 +122,10 @@ table {
 
 .message {
   @extend .flash;
+
+  &.error {
+    @extend .flash-error;
+  }
 }
 
 .filter-item {
