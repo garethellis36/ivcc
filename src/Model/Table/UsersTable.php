@@ -6,12 +6,15 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Users Model
  */
 class UsersTable extends Table
 {
+
+    use SoftDeleteTrait;
 
     /**
      * Initialize method

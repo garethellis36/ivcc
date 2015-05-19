@@ -45,7 +45,7 @@ class AppController extends Controller
             'authenticate' => [
                 'Form' => [
                     'fields' => ['username' => 'email', 'password' => 'password'],
-                    'scope' => ['Users.enabled' => 1]
+                    'scope' => ['Users.deleted IS' => null]
                 ],
             ],
             'authorize' => 'Controller'

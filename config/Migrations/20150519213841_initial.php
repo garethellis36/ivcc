@@ -266,10 +266,9 @@ class Initial extends AbstractMigration
                 'limit' => 11,
                 'null' => false,
             ])
-            ->addColumn('enabled', 'integer', [
-                'default' => 1,
-                'limit' => 11,
-                'null' => false,
+            ->addColumn('deleted', 'datetime', [
+                'default' => null,
+                'null' => true,
             ])
             ->create();
     }
