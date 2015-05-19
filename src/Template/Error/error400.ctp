@@ -32,7 +32,7 @@ endif;
 <p class="error">
     <strong><?= __d('cake', 'Error') ?>: </strong>
     <?= sprintf(
-        __d('cake', 'The requested address %s was not found on this server.'),
+        __d('cake', 'Ooh - a real rip-snorter past the outside edge! The requested address %s was not found on this server.'),
         "<strong>'{$url}'</strong>"
     ) ?>
 </p>
