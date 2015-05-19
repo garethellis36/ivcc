@@ -1,4 +1,4 @@
-<div class="columns">
+<div class="columns break">
 
     <div class="one-fifth column">
 
@@ -18,8 +18,8 @@
 
         <h2>Stats</h2>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth bold">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Highest team total</strong>
             </div>
             <div class="column four-fifths">
@@ -33,8 +33,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Lowest team total</strong>
             </div>
             <div class="column four-fifths">
@@ -48,8 +48,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Leading run scorer</strong>
             </div>
             <div class="column four-fifths">
@@ -67,8 +67,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Leading wicket taker</strong>
             </div>
             <div class="column four-fifths">
@@ -88,8 +88,8 @@
 
 
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Highest individual score</strong>
             </div>
             <div class="column four-fifths">
@@ -104,8 +104,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Best individual bowling</strong>
             </div>
             <div class="column four-fifths">
@@ -121,8 +121,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Semi-Centurions</strong>
             </div>
             <div class="column four-fifths">
@@ -137,8 +137,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Michelle Pfive-fors</strong>
             </div>
             <div class="column four-fifths">
@@ -153,8 +153,8 @@
             </div>
         </div>
 
-        <div class="columns padding-bottom">
-            <div class="column one-fifth">
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Club Zero</strong>
             </div>
             <div class="column four-fifths">
@@ -175,11 +175,11 @@
                 <thead>
                     <tr>
                         <th>&nbsp;</th>
-                        <th>Innings</th>
-                        <th>Not out</th>
-                        <th>Runs</th>
-                        <th>Average</th>
-                        <th>High score</th>
+                        <th>I</th>
+                        <th>NO</th>
+                        <th>R</th>
+                        <th>AVG</th>
+                        <th>HS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -207,13 +207,13 @@
                 <thead>
                 <tr>
                     <th>&nbsp;</th>
-                    <th>Overs</th>
-                    <th>Maidens</th>
-                    <th>Runs</th>
-                    <th>Wickets</th>
-                    <th>Average</th>
-                    <th>Economy</th>
-                    <th>Best bowling</th>
+                    <th>O</th>
+                    <th>M</th>
+                    <th>R</th>
+                    <th>W</th>
+                    <th>AVG</th>
+                    <th>ECON</th>
+                    <th>BB</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -226,8 +226,8 @@
                         <td><?= number_format($bowler->bowling_wickets) ?></td>
                         <td><?= ($bowler->bowling_average !== false ? $bowler->bowling_average : "-") ?></td>
                         <td><?= ($bowler->bowling_economy !== false ? $bowler->bowling_economy : "-") ?></td>
-                        <td>
-                            <?= $bowler->best_bowling->bowling_wickets . " for " . $bowler->best_bowling->bowling_runs ?>
+                        <td class="last">
+                            <?= $bowler->best_bowling->bowling_wickets . "-" . $bowler->best_bowling->bowling_runs ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

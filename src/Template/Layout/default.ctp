@@ -22,7 +22,7 @@
     <header class="masthead">
         <div class="container">
             <a href="/" class="masthead-logo">
-                <span class="red">Iffley Village</span> Cricket Club
+                <span>Iffley Village</span> Cricket Club
             </a>
 
             <nav class="masthead-nav">

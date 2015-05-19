@@ -1,4 +1,4 @@
-<div class="columns" id="top">
+<div class="columns break" id="top">
 
     <div class="column one-fifth">
 
@@ -32,8 +32,8 @@
 
                 <div class="player" id="<?= $player["id"] ?>">
 
-                    <div class="columns">
-                        <div class="column one-fifth">
+                    <div class="columns break">
+                        <div class="column one-fourth">
                             <?php
                             $img = "anon.png";
                             if (isset($player["photo"]) && file_exists(WWW_ROOT . DS . "img" . DS . "players" . DS . $player["photo"])) {
@@ -42,7 +42,7 @@
                             ?>
                             <img class="avatar" src="/img/players/<?= $img; ?>">
                         </div>
-                        <div class="column two-fifths">
+                        <div class="column one-half">
                             <h2><?= $this->Player->name($player, true) ?><sup class="padding-left">[<a href="#top">top</a>]</sup></h2>
                             <?php if ($this->Authorization->isAdmin()): ?>
                                 <p>
@@ -61,7 +61,7 @@
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="column two-fifths">
+                        <div class="column one-fourth">
                             <?php if (!empty($player["previous_clubs"])): ?>
                                 <h6>Previous clubs:</h6>
                                 <?= nl2br(h($player["previous_clubs"])) ?>
@@ -78,15 +78,15 @@
                         </div>
 
                         <div class="one-fourth column">
-                            <strong>Appearances</strong>
+                            <strong>Apps</strong>
                         </div>
 
                         <div class="one-fourth column">
-                            <strong>Best batting</strong>
+                            <strong>HS</strong>
                         </div>
 
                         <div class="one-fourth column">
-                            <strong>Best bowling</strong>
+                            <strong>BB</strong>
                         </div>
 
                     </div>
@@ -127,7 +127,7 @@
                     <div class="columns">
 
                         <div class="one-fourth column">
-                            <?= date("Y") ?> season
+                            <?= date("Y") ?>
                         </div>
 
                         <div class="one-fourth column">

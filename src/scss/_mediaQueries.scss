@@ -12,7 +12,21 @@
 @media (max-width: 34em) {
   .masthead-nav {
     padding-top: 1rem;
-    border-top: 0.075rem solid rgba(255, 255, 255, 0.25)
+    text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .masthead-logo {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .masthead-nav {
+    a:not(:last-child) {
+      margin-right: 1em;
+    }
   }
 }
 
@@ -28,7 +42,8 @@
 
     .masthead-nav {
       float: right;
-      margin-top: .5rem
+      margin-top: .5rem;
+      margin-left: 10px;
     }
 
   }
@@ -48,9 +63,51 @@
 
 
 @media (max-width: 760px) {
-  .column {
-    float: none;
-    width: 100%;
-    margin-bottom: 30px
+
+  .columns.break {
+    > .column {
+      float: none;
+      width: 100%;
+      margin-bottom: 20px;
+
+      &.smaller-bottom-margin {
+        margin-bottom: 10px;
+      }
+    }
+
+  }
+
+  .avatar {
+    max-width: none !important;
+  }
+
+  table {
+    th, td {
+      padding: 4px 8px 4px 0;
+    }
+
+    tr td.last {
+      padding-right: 0;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  table {
+    th, td {
+      font-size: 11px;
+    }
+  }
+}
+
+@media (max-width: 1030px) {
+  .avatar {
+    max-width: 152px;
+  }
+}
+
+@media (max-width: 880px) {
+  .avatar {
+    max-width: 130px;
   }
 }

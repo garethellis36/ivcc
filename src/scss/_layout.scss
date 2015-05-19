@@ -16,6 +16,12 @@ body {
   margin-bottom: 1.5rem;
   background-color: $midBlue;
 
+  .masthead-nav {
+    a:not(:last-child) {
+      margin-right: 1.25em;
+    }
+  }
+
   .masthead-logo {
     display: inline-block;
     background-image: url("/img/logosmall.png");

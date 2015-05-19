@@ -2,7 +2,7 @@
 
 <div class="container">
 
-    <div class="columns">
+    <div class="columns break">
 
         <div class="column one-half">
 
@@ -30,6 +30,8 @@
                 <p>No news items found.</p>
 
             <?php else: ?>
+
+                <h3>Latest news</h3>
 
                 <?php foreach ($news as $newsItem): ?>
 

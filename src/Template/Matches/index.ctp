@@ -1,4 +1,4 @@
-<div class="columns">
+<div class="columns break">
 
     <div class="one-fifth column">
 
@@ -16,93 +16,93 @@
 
     <div class="four-fifths column">
 
-        <div class="container">
+        <h1>Matches</h1>
 
-            <h1>Matches</h1>
+        <?php if (empty($matches)): ?>
+            <p>No matches found.</p>
+        <?php else: ?>
 
-            <?php if (empty($matches)): ?>
-                <p>No matches found.</p>
-            <?php else: ?>
+            <?php foreach ($matches as $match): ?>
 
-                <table>
+                <div class="horizontal-line padding-bottom"></div>
 
-                    <thead>
+                <div class="columns break">
 
-                        <tr>
-                            <th>Date</th>
-                            <th>Opposition</th>
-                            <th>Format</th>
-                            <th>Result</th>
-                            <th>Match report &amp; scorecard</th>
-                            <?php if ($this->Authorization->isAdmin()): ?>
-                                <th>Edit/delete</th>
+                    <div class="column one-fourth smaller-bottom-margin">
+                        <strong>Date</strong>
+                    </div>
+                    <div class="column three-fourths">
+                        <?= $match->date->format("D jS M Y @ H:i") ?>
+                    </div>
+
+                </div>
+
+                <div class="columns break">
+
+                    <div class="column one-fourth smaller-bottom-margin">
+                        <strong>Opposition</strong>
+                    </div>
+                    <div class="column three-fourths">
+                        <?= $match->opposition ?>
+                    </div>
+
+                </div>
+
+                <div class="columns break">
+
+                    <div class="column one-fourth smaller-bottom-margin">
+                        <strong>Format</strong>
+                    </div>
+                    <div class="column three-fourths">
+                        <?= $match->format->name ?>
+                    </div>
+
+                </div>
+
+                <?php if ($match->date->format("Y-m-d") <= date("Y-m-d")): ?>
+
+                    <div class="columns break">
+
+                        <div class="column one-fourth smaller-bottom-margin">
+                            <strong>Result</strong>
+                        </div>
+
+                        <div class="column three-fourths">
+                            <?php if (isset($match["result"])): ?>
+                                <?= $match["result"] ?>
+                                <?php if (!empty($match["result_more"])): ?>
+                                    by <?= h($match["result_more"]) ?>
+                                <?php endif; ?><br>
+                                <a href="/matches/view/<?= $match["id"] ?>">
+                                    Match report &amp; scorecard
+                                </a>
+                            <?php else: ?>
+                                -
                             <?php endif; ?>
-                        </tr>
+                        </div>
 
-                    </thead>
+                    </div>
 
-                    <tbody>
+                <?php endif; ?>
 
-                        <?php foreach ($matches as $match): ?>
+                <?php if ($this->Authorization->isAdmin()): ?>
+                    <div class="columns break">
 
-                            <tr>
+                        <div class="column one-fourth smaller-bottom-margin">
+                            &nbsp;
+                        </div>
 
-                                <td>
-                                    <?= $match["date"]->format("D jS M Y @ H:i") ?>
-                                </td>
+                        <div class="column three-fourths">
+                            [<a href="/admin/matches/edit/<?= $match->id ?>">edit</a>]
+                            [<a href="/admin/matches/delete/<?= $match->id ?>" class="confirm">delete</a>]
+                        </div>
 
-                                <td>
-                                    <?= h($match["opposition"]) ?> (<?= $match["venue"] ?>)
-                                </td>
+                    </div>
+                <?php endif; ?>
 
-                                <td>
-                                    <?= $match["format"]["name"] ?>
-                                </td>
+            <?php endforeach; ?>
 
-                                <td>
-                                    <?php if (isset($match["result"])): ?>
-                                        <?= $match["result"] ?>
-                                        <?php if (!empty($match["result_more"])): ?>
-                                            by <?= h($match["result_more"]) ?>
-                                        <?php endif; ?>
-                                    <?php else: ?>
-                                        -
-                                    <?php endif; ?>
-                                </td>
-
-                                <td>
-                                    <?php if (isset($match["result"])): ?>
-                                    <a href="/matches/view/<?= $match["id"] ?>">
-                                        View
-                                    </a>
-                                    <?php else: ?>
-                                        -
-                                    <?php endif; ?>
-                                </td>
-
-                                <?php if ($this->Authorization->isAdmin()): ?>
-                                    <td>
-                                        [<a href="/admin/matches/edit/<?= $match["id"] ?>">
-                                            edit
-                                        </a>]
-                                        [<a href="/admin/matches/delete/<?= $match["id"] ?>" class="confirm">
-                                            delete
-                                        </a>]
-                                    </td>
-                                <?php endif; ?>
-
-                            </tr>
-
-                        <?php endforeach; ?>
-
-
-                    </tbody>
-
-                </table>
-
-            <?php endif; ?>
-
-        </div>
+        <?php endif; ?>
 
     </div>
 
@@ -111,8 +111,7 @@
 <?php if ($this->Authorization->isAdmin()): ?>
 
     <div class="flash-messages">
-        <div class="flash flash-with-icon">
-            <span class="octicon octicon-diff-added"></span>
+        <div class="flash">
             <a href="/admin/matches/add">
                 Add match
             </a>

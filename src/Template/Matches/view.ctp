@@ -8,7 +8,7 @@
     [<a href="/admin/matches/edit/<?= $scorecard["id"] ?>">edit</a>]
 <?php endif; ?>
 
-<div class="columns">
+<div class="columns break">
     <div class="column one-third">
 
             <p>
