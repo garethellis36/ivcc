@@ -54,5 +54,19 @@
     <?= $this->fetch('firstScripts') ?>
     <?= $this->fetch('scriptBottom') ?>
 
+    <footer>
+        <div class="container">
+            <?php if (empty($authUser)): ?>
+                <a href="/users/login">Login</a>
+            <?php else: ?>
+                <?php if ($this->Authorization->isAdmin()): ?>
+                    <a href="/admin/users">User management</a> |
+                <?php endif; ?>
+                <a href="/users/logout">Logout</a>
+            <?php endif; ?>
+                | <span class="yellow">Website by Garr</span>
+        </div>
+    </footer>
+
 </body>
 </html>
