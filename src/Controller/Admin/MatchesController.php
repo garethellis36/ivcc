@@ -18,7 +18,9 @@ class MatchesController extends AppController
 
             // this is the only way I've worked out how to pass on the date value from a single text field
             // from FormHelper - without this line the save fails because there's no date value left after patchEntity
-            $match->date = $this->request->data['date'];
+            if (empty($match->errors()['date'])) {
+                $match->date = $this->request->data['date'];
+            }
 
             if ($this->Matches->save($match)) {
                 $this->Flash->success('The match has been saved.');
@@ -58,7 +60,9 @@ class MatchesController extends AppController
                 ]
             ]);
 
-            $match->date = $this->request->data['date'];
+            if (empty($match->errors()['date'])) {
+                $match->date = $this->request->data['date'];
+            }
 
             if ($this->Matches->save($match)) {
                 $this->Flash->success('Match saved.');

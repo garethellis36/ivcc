@@ -69,7 +69,7 @@ $(document).ready(function() {
 
     //attach datetimepicker plugin
     $('.datetimepicker').datetimepicker({
-        format: 'Y-m-d H:i'
+        format: "Y-m-d H:i"
     });
 
     //disable fields as required on load of match edit screen

@@ -120,10 +120,13 @@ class MatchesTable extends AppTable {
             ->allowEmpty('id', 'create');
 
         $validator
-            ->add('date', 'valid', ['rule' => [
-                'datetime', 'ymd'
-            ]])
-            ->notEmpty('email');
+            ->add('date', 'valid', [
+                'rule' => [
+                    'datetime', 'ymd'
+                ],
+                "message" => "Date must be in the format Y-m-d H:i - use the datepicker widget"
+            ])
+            ->notEmpty('date');
 
         $validator
             ->add('opposition', 'valid', ['rule' => 'notBlank'])
