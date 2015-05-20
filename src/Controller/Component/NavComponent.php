@@ -16,25 +16,29 @@ class NavComponent extends Component {
         [
             "label" => "Home",
             "url" => "/",
-            "pattern" => "/^\/$/",
+            "pattern" => [
+                "/^\/$/",
+                "/^\/admin\/news/"
+
+            ],
             "active" => false,
         ],
         [
             "label" => "Matches",
             "url" => "/matches",
-            "pattern" => "/^\/matches/",
+            "pattern" => ["/\/matches/"],
             "active" => false
         ],
         [
             "label" => "Players",
             "url" => "/players",
-            "pattern" => "/^\/players/",
+            "pattern" => ["/\/players/"],
             "active" => false
         ],
         [
             "label" => "Stats",
             "url" => "/stats",
-            "pattern" => "/^\/stats/",
+            "pattern" => ["/^\/stats/"],
             "active" => false
         ]
     ];
@@ -42,8 +46,11 @@ class NavComponent extends Component {
     public function menuItems()
     {
         foreach ($this->menuItems as &$item) {
-            if (preg_match($item["pattern"], Router::url())) {
-                $item["active"] = true;
+            foreach ($item["pattern"] as $pattern) {
+                if (preg_match($pattern, Router::url())) {
+                    $item["active"] = true;
+                    break;
+                }
             }
         }
 
