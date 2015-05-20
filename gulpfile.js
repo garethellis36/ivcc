@@ -30,7 +30,7 @@ gulp.task('sass', function() {
     .pipe(notify("Sass completed"));
 });
 
-// admin css stuff
+// css used by js plugins - specific to /admin/ pages
 gulp.task('admin-css', function() {
    return gulp.src([
       'bower_components/datetimepicker/jquery.datetimepicker.css',
@@ -39,18 +39,7 @@ gulp.task('admin-css', function() {
    .pipe(gulp.dest('webroot/css'));
 });
 
-
-// Copy fonts
-gulp.task('fonts', function() {
-   return gulp.src([
-       'bower_components/octicons/octicons/octicons.eot',
-       'bower_components/octicons/octicons/octicons.svg',
-       'bower_components/octicons/octicons/octicons.tff',
-       'bower_components/octicons/octicons/octicons.woff'
-   ]).pipe(gulp.dest('webroot/css'));
-});
-
-// Concatenate & Minify JS
+// Concatenate & minifyjs for /admin/ pages
 gulp.task('scripts', function() {
     return gulp.src([
         'bower_components/jquery/**/*.min.js',
@@ -59,7 +48,7 @@ gulp.task('scripts', function() {
         'bower_components/jquery-numeric/dist/jquery-numeric.js',
         'src/js/**/*.js'
     ]).pipe(notify("JS started"))
-        .pipe(concat('app.min.js'))
+        .pipe(concat('admin.min.js'))
         .pipe(uglify().on('error', gutil.log))
         .pipe(gulp.dest('webroot/js'))
         .pipe(notify("JS completed"));

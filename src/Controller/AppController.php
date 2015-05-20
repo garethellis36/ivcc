@@ -58,7 +58,7 @@ class AppController extends Controller
 
         $loadJs = false;
         if ($authUser["is_admin"] == 1) {
-            $loadJs = true;
+            $loadJs = "admin";
         }
 
         $this->set(compact("loadJs", "authUser"));

@@ -1,4 +1,6 @@
-<?= $this->Form->create($match); ?>
+<?= $this->Form->create($match, [
+    "class" => ($this->request->params['action'] == 'edit' ? 'edit-match' : 'add-match')
+]); ?>
 <fieldset>
     <legend><?= __(ucfirst($this->request->params['action']) . ' Match') ?></legend>
 
@@ -121,18 +123,16 @@
             </div>
         </div>
 
-        <?php if (isset($scorecardErrors)): ?>
-
-            <div class="flash flash-error">
-                <h4>Please address the following errors in the scorecard:</h4>
-                <ul class="no-bullets">
+        <div id="scorecardErrors" class="flash flash-error<?= (isset($scorecardErrors) ? "" : " hide") ?>">
+            <h4>Please address the following errors in the scorecard:</h4>
+            <ul class="no-bullets">
+                <?php if (isset($scorecardErrors)): ?>
                     <?php foreach ($scorecardErrors as $error): ?>
                         <li><?= $error ?></li>
                     <?php endforeach; ?>
-                </ul>
-            </div>
-
-        <?php endif; ?>
+                <?php endif; ?>
+            </ul>
+        </div>
 
         <table class="small-headings no-vertical-padding">
 
@@ -196,31 +196,3 @@
 
 <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
 <?= $this->Form->end() ?>
-
-<?= $this->Html->script("jquery.datetimepicker", ['block' => 'scriptBottom']); ?>
-
-<?= $this->Html->scriptBlock("
-
-    function toggleDisabled(rowId, disable, className)
-    {
-        //console.log(rowId);
-        var row = $('#playerRow' + rowId);
-        return row.find(className).prop('disabled', disable);
-    }
-
-    $(document).ready(function() {
-
-        $('.datetimepicker').datetimepicker({
-            format: 'Y-m-d H:i'
-        });
-
-        $('.resultSelect').trigger('change');
-
-        $('.playerSelect').trigger('change');
-
-    });
-
-", ["block" => "scriptBottom"]) ?>
-
-
-

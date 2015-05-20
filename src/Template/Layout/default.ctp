@@ -11,7 +11,7 @@
     <?= $this->Html->css('app.css') ?>
     <?php if ($loadJs): ?>
         <?= $this->Html->css('js.css') ?>
-        <?= $this->Html->script('app.min', ['block' => 'firstScripts']) ?>
+        <?= $this->Html->script($loadJs . '.min', ['block' => 'firstScripts']) ?>
     <?php endif; ?>
 
     <?= $this->fetch('css') ?>
