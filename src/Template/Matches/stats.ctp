@@ -168,73 +168,77 @@
             </div>
         </div>
 
-        <div class="padding-bottom">
-            <h2>Batting averages</h2>
+        <?php if (count($batsmen) > 0): ?>
+            <div class="padding-bottom">
+                <h2>Batting averages</h2>
 
-            <table>
-                <thead>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>I</th>
+                            <th>NO</th>
+                            <th>R</th>
+                            <th>AVG</th>
+                            <th>HS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($batsmen as $batsman): ?>
+                        <tr>
+                            <td><?= h($batsman->name) ?></td>
+                            <td><?= number_format($batsman->batting_innings) ?></td>
+                            <td><?= number_format($batsman->batting_not_out) ?></td>
+                            <td><?= number_format($batsman->batting_runs) ?></td>
+                            <td><?= ($batsman->batting_average !== false ? $batsman->batting_average : "-" ) ?></td>
+                            <td>
+                                <?= $batsman->batting_high_score->batting_runs . ($batsman->batting_high_score->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+
+        <?php if (count($bowlers) > 0): ?>
+            <div class="padding-bottom">
+
+                <h2>Bowling averages</h2>
+
+                <table>
+                    <thead>
                     <tr>
                         <th>&nbsp;</th>
-                        <th>I</th>
-                        <th>NO</th>
+                        <th>O</th>
+                        <th>M</th>
                         <th>R</th>
+                        <th>W</th>
                         <th>AVG</th>
-                        <th>HS</th>
+                        <th>ECON</th>
+                        <th>BB</th>
                     </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($batsmen as $batsman): ?>
-                    <tr>
-                        <td><?= h($batsman->name) ?></td>
-                        <td><?= number_format($batsman->batting_innings) ?></td>
-                        <td><?= number_format($batsman->batting_not_out) ?></td>
-                        <td><?= number_format($batsman->batting_runs) ?></td>
-                        <td><?= ($batsman->batting_average !== false ? $batsman->batting_average : "-" ) ?></td>
-                        <td>
-                            <?= $batsman->batting_high_score->batting_runs . ($batsman->batting_high_score->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($bowlers as $bowler): ?>
+                        <tr>
+                            <td><?= h($bowler->name) ?></td>
+                            <td><?= number_format($bowler->bowling_overs) ?></td>
+                            <td><?= number_format($bowler->bowling_maidens) ?></td>
+                            <td><?= number_format($bowler->bowling_runs) ?></td>
+                            <td><?= number_format($bowler->bowling_wickets) ?></td>
+                            <td><?= ($bowler->bowling_average !== false ? $bowler->bowling_average : "-") ?></td>
+                            <td><?= ($bowler->bowling_economy !== false ? $bowler->bowling_economy : "-") ?></td>
+                            <td class="last">
+                                <?= $bowler->best_bowling->bowling_wickets . "-" . $bowler->best_bowling->bowling_runs ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
 
-        <div class="padding-bottom">
-
-            <h2>Bowling averages</h2>
-
-            <table>
-                <thead>
-                <tr>
-                    <th>&nbsp;</th>
-                    <th>O</th>
-                    <th>M</th>
-                    <th>R</th>
-                    <th>W</th>
-                    <th>AVG</th>
-                    <th>ECON</th>
-                    <th>BB</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($bowlers as $bowler): ?>
-                    <tr>
-                        <td><?= h($bowler->name) ?></td>
-                        <td><?= number_format($bowler->bowling_overs) ?></td>
-                        <td><?= number_format($bowler->bowling_maidens) ?></td>
-                        <td><?= number_format($bowler->bowling_runs) ?></td>
-                        <td><?= number_format($bowler->bowling_wickets) ?></td>
-                        <td><?= ($bowler->bowling_average !== false ? $bowler->bowling_average : "-") ?></td>
-                        <td><?= ($bowler->bowling_economy !== false ? $bowler->bowling_economy : "-") ?></td>
-                        <td class="last">
-                            <?= $bowler->best_bowling->bowling_wickets . "-" . $bowler->best_bowling->bowling_runs ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-
-        </div>
+            </div>
+        <?php endif; ?>
 
     </div>
 
