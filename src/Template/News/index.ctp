@@ -12,9 +12,6 @@
                 We are a social cricket club based in Oxford. We play friendly 40- and 20-over cricket matches against like-minded clubs around the county.
             </p>
 
-            <p>
-                Want to contact us? Try howling at the moon.
-            </p>
         </div>
 
         <div class="column one-half">
