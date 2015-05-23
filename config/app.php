@@ -5,7 +5,7 @@ if (!file_exists(ROOT . DS . 'config/config.yml')) {
     throw new Exception("Config file not found");
 }
 
-$config = Yaml::parse(file_get_contents('config/config.yml'));
+$config = Yaml::parse(file_get_contents(ROOT . DS . 'config/config.yml'));
 
 return [
     /**
