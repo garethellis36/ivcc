@@ -12,7 +12,7 @@
         ]);
 
         if ($user->id && $user->id != $authUser["id"]) {
-            echo $this->Form->input('is_admin', ["type" => "checkbox"]);
+            echo $this->Form->input('is_admin', ["type" => "checkbox", "required" => false]);
         }
     ?>
 </fieldset>

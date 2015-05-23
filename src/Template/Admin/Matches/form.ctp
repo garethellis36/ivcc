@@ -1,5 +1,6 @@
 <?= $this->Form->create($match, [
-    "class" => ($this->request->params['action'] == 'edit' ? 'edit-match' : 'add-match')
+    "class" => ($this->request->params['action'] == 'edit' ? 'edit-match' : 'add-match'),
+    "novalidate" => true
 ]); ?>
 <fieldset>
     <legend><?= __(ucfirst($this->request->params['action']) . ' Match') ?></legend>
@@ -84,7 +85,8 @@
                     "class" => "input-mini disableWithoutResult",
                     "label" => "IVCC batted first?",
                     "type" => "checkbox",
-                    "checked" => (!isset($match->result) || $match->ivcc_batted_first == 1 ? true : false)
+                    "checked" => (!isset($match->result) || $match->ivcc_batted_first == 1 ? true : false),
+                    "required" => false
                 ]);
                 ?>
 
@@ -170,7 +172,8 @@
             $defaultOptions = [
                 "label" => false,
                 "data-rowId" => $i,
-                "error" => false
+                "error" => false,
+                "required" => false
             ];
             foreach ($playerRowFields as $fieldName => $options) {
                 if (isset($options["default"]) && $options["default"] == "rowNumber") {
