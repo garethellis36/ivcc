@@ -8,7 +8,8 @@
         $label = 'Password' . ($this->request->params['action'] == 'edit' ? ' (leave blank not to change)' : '');
         echo $this->Form->input('password', [
             "label" => $label,
-            "value " => ""
+            "value " => "",
+            "required" => false
         ]);
 
         if ($user->id && $user->id != $authUser["id"]) {
