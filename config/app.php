@@ -1,7 +1,7 @@
 <?php
 use Symfony\Component\Yaml\Yaml;
 
-if (!file_exists('config/config.yml')) {
+if (!file_exists(ROOT . DS . 'config/config.yml')) {
     throw new Exception("Config file not found");
 }
 
