@@ -12,7 +12,5 @@ bower_components/
 /config/*.yml
 !/config/config.sample.yml
 
-webroot/css/*
-webroot/js/*
 webroot/img/players/*
 !webroot/img/players/anon.png
