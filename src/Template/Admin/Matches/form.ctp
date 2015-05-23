@@ -5,7 +5,7 @@
 <fieldset>
     <legend><?= __(ucfirst($this->request->params['action']) . ' Match') ?></legend>
 
-    <div class="columns">
+    <div class="columns break">
         <div class="column one-fifth">
             <?php
 

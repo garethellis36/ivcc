@@ -2,7 +2,7 @@
 <fieldset>
     <legend><?= __(ucfirst($this->request->params['action']) . ' Player') ?></legend>
 
-    <div class="columns">
+    <div class="columns break">
         <div class="column one-fourth">
             <?php
             echo $this->Form->input('first_name', [
