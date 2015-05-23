@@ -26,13 +26,15 @@
             </a>
 
             <nav class="masthead-nav">
-                <?php foreach ($menuItems as $item): ?>
-                    <?= $this->Html->link($item["label"],
-                        $item["url"], [
-                            "class" => ($item["active"] ? "active" : null)
-                        ]
-                    ) ?>
-                <?php endforeach; ?>
+                <?php if (isset($menuItems)): ?>
+                    <?php foreach ($menuItems as $item): ?>
+                        <?= $this->Html->link($item["label"],
+                            $item["url"], [
+                                "class" => ($item["active"] ? "active" : null)
+                            ]
+                        ) ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
