@@ -31,11 +31,3 @@ Database seeding includes a default admin user with the following credentials.
 It is strongly recommended that after logging in with this user, you create a new user with your own credentials and then delete the default admin account.   
 * Email: admin@admin.admin
 * Password: admin
-
-
-# Building for deployment  
-  
-* Create a build for deployment with `build blabla`. This will create a ZIP file of the application.
-* Deploy the zip to the target environment and unpack.
-* Ensure the following directories have write-access for the www-user: `/logs`, `/tmp` and `/webroot/img/players`
-* Run `bin/cake migrations migrate` to ensure the database is set-up and up-to-date
