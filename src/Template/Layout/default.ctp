@@ -9,7 +9,7 @@
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('app.css') ?>
-    <?php if ($loadJs): ?>
+    <?php if (isset($loadJs) && $loadJs): ?>
         <?= $this->Html->css('js.css') ?>
         <?= $this->Html->script($loadJs . '.min', ['block' => 'firstScripts']) ?>
     <?php endif; ?>
