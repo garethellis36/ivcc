@@ -1,5 +1,7 @@
 # IVCC website
 
+[![Code Climate](https://codeclimate.com/github/garethellis36/ivcc/badges/gpa.svg)](https://codeclimate.com/github/garethellis36/ivcc)
+
 This is the repository for the Iffley Village Cricket Club website. 
 The site uses CakePHP 3 & MySQL for its back-end, with a front-end based on Primer CSS for its responsive layout.
 
