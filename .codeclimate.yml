@@ -6,5 +6,8 @@ languages:
   Python: false
 exclude_paths:
  - "config/**/*.*"
+ - "config/app.php"
+ - "config/app.default.php"
  - "plugins/**/*.*"
  - "webroot/**/*.*"
+ - "bin/**/*.*"

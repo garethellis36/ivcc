@@ -13,6 +13,7 @@ use App\Model\Table\AppTable;
 use Cake\ORM\Query;
 use App\Lib\CricketUtility;
 use Cake\Validation\Validator;
+use App\Model\Entity\Player;
 
 class MatchesPlayersTable extends AppTable {
 
@@ -23,6 +24,14 @@ class MatchesPlayersTable extends AppTable {
         $this->belongsTo("ModesOfDismissal");
 
     }
+
+
+    private $validOrderNo = [
+        'validRange' => [
+            'rule' => ['range', 1, 11],
+            'message' => 'Must be between 1 and 11'
+        ]
+    ];
 
     /**
      * Default validation rules.
@@ -40,29 +49,28 @@ class MatchesPlayersTable extends AppTable {
             ->add('player_id', 'valid', ['rule' => 'notBlank'])
             ->notEmpty("player_id");
 
-        $validator
-            ->add('did_not_bat', 'valid', ['rule' => 'boolean']);
-
-
-        //these rules apply to both batting order no and bowling order no
-        $isNumericAndNotDecimal = "/^[0-9]*$/";
 
         $validNumber = [
-            'rule' => ['custom', $isNumericAndNotDecimal],
+            'rule' => [$this, "validInteger"],
             'message' => 'Number only, no decimals'
         ];
+        $this->validOrderNo["validNumber"] = $validNumber;
 
-        $validOrderNo = [
-            'validNumber' => $validNumber,
-            'validRange' => [
-                'rule' => ['range', 1, 11],
-                'message' => 'Must be between 1 and 11'
-            ]
-        ];
+        $validator = $this->validationBatting($validator, $validNumber);
 
+        $validator = $this->validationBowling($validator, $validNumber);
+
+        return $validator;
+
+    }
+
+    private function validationBatting(Validator $validator, $validNumber)
+    {
+        $validator
+            ->add('did_not_bat', 'valid', ['rule' => 'boolean']);
         $validator
             ->notEmpty('batting_order_no')
-            ->add('batting_order_no', $validOrderNo);
+            ->add('batting_order_no', $this->validOrderNo);
 
         $validator
             ->allowEmpty('batting_runs', function ($context) {
@@ -76,12 +84,16 @@ class MatchesPlayersTable extends AppTable {
             })
             ->add('modes_of_dismissal_id', 'validNumber', $validNumber);
 
+        return $validator;
+    }
 
+    private function validationBowling(Validator $validator, $validNumber)
+    {
         $validator
             ->allowEmpty('bowling_order_no', function ($context) {
                 return $this->anyBowlingFieldsCompleted($context);
             })
-            ->add('bowling_order_no', $validOrderNo);
+            ->add('bowling_order_no', $this->validOrderNo);
 
         $validator
             ->allowEmpty('bowling_overs', function ($context) {
@@ -109,9 +121,7 @@ class MatchesPlayersTable extends AppTable {
             })
             ->add('bowling_wickets', 'validNumber', $validNumber);
 
-
         return $validator;
-
     }
 
     private function hasBatted($context)
@@ -156,6 +166,13 @@ class MatchesPlayersTable extends AppTable {
             "contain" => $contain,
             "where" => (isset($where) ? $where : [])
         ];
+
+        return $this->_getTeamStats($options);
+    }
+
+    private function _getTeamStats($options)
+    {
+        $stats = [];
 
         $stats["leadingRunScorer"] = $this->find("leading", array_merge($options, ["field" => "batting_runs"]));
         $stats["leadingWicketTaker"] = $this->find("leading", array_merge($options, ["field" => "bowling_wickets"]));
@@ -212,10 +229,15 @@ class MatchesPlayersTable extends AppTable {
             "where" => $where
         ];
 
+        return $this->_getIndividualStats($options);
+    }
+
+    private function _getIndividualStats($options)
+    {
+        $results = [];
         $results["apps"] = $this->find("individualApps", $options);
         $results["bestBatting"] = $this->find("highestIndividualScore", $options);
         $results["bestBowling"] = $this->find("bestBowling", $options);
-
         return $results;
     }
 
@@ -284,27 +306,32 @@ class MatchesPlayersTable extends AppTable {
         }
 
         foreach ($players as $player) {
-
-            $playerWhere = $where;
-            $playerWhere["MatchesPlayers.player_id"] = $player->id;
-
-            $options = [
-                "where" => $playerWhere,
-                "contain" => ["Matches", "ModesOfDismissal"]
-            ];
-
-            $player->batting_innings = $this->find("numberOfInnings", $options);
-            $player->batting_not_out = $this->find("numberNotOut", $options);
-            $player->batting_high_score = $this->find("highestIndividualScore", $options);
-            $player->batting_runs = $this->find("total", array_merge($options, ["field" => "batting_runs"]));
-
-            $player->batting_average = CricketUtility::calculateBattingAverage(
-                $player->batting_runs,
-                $player->batting_innings,
-                $player->batting_not_out
-            );
+            $player = $this->_getPlayerBattingStats($player, $where);
         }
         return $players;
+    }
+
+    private function _getPlayerBattingStats(Player $player, $where)
+    {
+        $where["MatchesPlayers.player_id"] = $player->id;
+
+        $options = [
+            "where" => $where,
+            "contain" => ["Matches", "ModesOfDismissal"]
+        ];
+
+        $player->batting_innings = $this->find("numberOfInnings", $options);
+        $player->batting_not_out = $this->find("numberNotOut", $options);
+        $player->batting_high_score = $this->find("highestIndividualScore", $options);
+        $player->batting_runs = $this->find("total", array_merge($options, ["field" => "batting_runs"]));
+
+        $player->batting_average = CricketUtility::calculateBattingAverage(
+            $player->batting_runs,
+            $player->batting_innings,
+            $player->batting_not_out
+        );
+
+        return $player;
     }
 
     public function findNumberOfInnings (Query $query, array $options = [])
@@ -332,33 +359,38 @@ class MatchesPlayersTable extends AppTable {
         }
 
         foreach ($players as $player) {
-
-            $playerWhere = $where;
-            $playerWhere["MatchesPlayers.player_id"] = $player->id;
-
-            $options = [
-                "where" => $playerWhere,
-                "contain" => ["Matches", "ModesOfDismissal"]
-            ];
-
-            $player->bowling_overs = $this->find("numberOfOvers", $options);
-            $player->bowling_maidens = $this->find("total", array_merge($options, ["field" => "bowling_maidens"]));
-            $player->bowling_runs = $this->find("total", array_merge($options, ["field" => "bowling_runs"]));
-            $player->bowling_wickets = $this->find("total", array_merge($options, ["field" => "bowling_wickets"]));
-
-            $player->bowling_economy = CricketUtility::calculateBowlingEconomy(
-                $player->bowling_overs,
-                $player->bowling_runs
-            );
-
-            $player->bowling_average = CricketUtility::calculateBowlingAverage(
-                $player->bowling_runs,
-                $player->bowling_wickets
-            );
-
-            $player->best_bowling = $this->find("bestBowling", $options);
+            $player = $this->_getPlayerBowlingAverages($player, $where);
         }
         return $players;
+    }
+
+    private function _getPlayerBowlingAverages(Player $player, $where)
+    {
+        $where["MatchesPlayers.player_id"] = $player->id;
+
+        $options = [
+            "where" => $where,
+            "contain" => ["Matches", "ModesOfDismissal"]
+        ];
+
+        $player->bowling_overs = $this->find("numberOfOvers", $options);
+        $player->bowling_maidens = $this->find("total", array_merge($options, ["field" => "bowling_maidens"]));
+        $player->bowling_runs = $this->find("total", array_merge($options, ["field" => "bowling_runs"]));
+        $player->bowling_wickets = $this->find("total", array_merge($options, ["field" => "bowling_wickets"]));
+
+        $player->bowling_economy = CricketUtility::calculateBowlingEconomy(
+            $player->bowling_overs,
+            $player->bowling_runs
+        );
+
+        $player->bowling_average = CricketUtility::calculateBowlingAverage(
+            $player->bowling_runs,
+            $player->bowling_wickets
+        );
+
+        $player->best_bowling = $this->find("bestBowling", $options);
+
+        return $player;
     }
 
     public function findNumberOfOvers(Query $query, array $options = [])

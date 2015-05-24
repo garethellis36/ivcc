@@ -142,8 +142,13 @@ class MatchesTable extends AppTable {
                 'rule' => 'boolean'
             ]);
 
-        $isNumericAndNotDecimal = "/^[0-9]*$/";
+        $validator = $this->validationTeamScores($validator);
 
+        return $validator;
+    }
+
+    private function validationTeamScores(Validator $validator)
+    {
         //certain fields can be empty if no result set
         $fields = [
             'ivcc_total' => [],
@@ -168,28 +173,34 @@ class MatchesTable extends AppTable {
         ];
 
         foreach ($fields as $field => $rules) {
-
-            $rule = ["custom", $isNumericAndNotDecimal];
-
-            if (isset($rules["rule"])) {
-                $rule = $rules["rule"];
-            }
-
-            $validator
-                ->allowEmpty($field, function ($context) use ($rules) {
-
-                    if (!isset($rules["requireWith"])) {
-                        return true;
-                    }
-
-
-                    return (empty($context["data"][$rules['requireWith']]));
-
-                })
-                ->add($field, "valid", [
-                    "rule" => $rule
-                ]);
+            $validator = $this->_addTeamScoreValidationRules($validator, $field, $rules);
         }
+
+        return $validator;
+    }
+
+    private function _addTeamScoreValidationRules(Validator $validator, $field, $rules)
+    {
+        $rule = [$this, "validInteger"];
+
+        if (isset($rules["rule"])) {
+            $rule = $rules["rule"];
+        }
+
+        $validator
+            ->allowEmpty($field, function ($context) use ($rules) {
+
+                if (!isset($rules["requireWith"])) {
+                    return true;
+                }
+
+
+                return (empty($context["data"][$rules['requireWith']]));
+
+            })
+            ->add($field, "valid", [
+                "rule" => $rule
+            ]);
 
         return $validator;
     }

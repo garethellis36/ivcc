@@ -28,4 +28,10 @@ class AppTable extends Table
         return ($parts[1] < 6);
     }
 
+
+    public function validInteger($value)
+    {
+        //debug(preg_match("/^[0-9]*$/", $value));
+        return (bool)preg_match("/^[0-9]*$/", $value);
+    }
 }
