@@ -53,17 +53,7 @@
                 <strong>Leading run scorer</strong>
             </div>
             <div class="column four-fifths">
-                <?php if ($stats["leadingRunScorer"]): ?>
-                    <?= number_format($stats["leadingRunScorer"][0]->total) ?>:&nbsp;
-                    <?php
-                    $first = true;
-                    foreach ($stats["leadingRunScorer"] as $leadingRunScorer): ?>
-                        <?php if ($first): $first = false; else: echo ",&nbsp;"; endif; ?>
-                        <?= $this->Player->name($leadingRunScorer->player) ?>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    -
-                <?php endif; ?>
+                <?= $this->Stats->leading($stats, "leadingRunScorer") ?>
             </div>
         </div>
 
@@ -72,17 +62,7 @@
                 <strong>Leading wicket taker</strong>
             </div>
             <div class="column four-fifths">
-                <?php if ($stats["leadingWicketTaker"]): ?>
-                    <?= number_format($stats["leadingWicketTaker"][0]->total) ?>:&nbsp;
-                    <?php
-                    $first = true;
-                    foreach ($stats["leadingWicketTaker"] as $leadingWicketTaker): ?>
-                        <?php if ($first): $first = false; else: echo ",&nbsp;"; endif; ?>
-                        <?= $this->Player->name($leadingWicketTaker->player) ?>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    -
-                <?php endif; ?>
+                <?= $this->Stats->leading($stats, "leadingWicketTaker") ?>
             </div>
         </div>
 

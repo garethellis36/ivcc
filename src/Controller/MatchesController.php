@@ -14,7 +14,7 @@ use Cake\ORM\TableRegistry;
 
 class MatchesController extends AppController {
 
-    public $helpers = ["Scorecard", "Player"];
+    public $helpers = ["Scorecard", "Player", "Stats"];
 
     public function initialize()
     {

@@ -57,36 +57,36 @@ class CricketUtilityTest extends TestCase
         }
     }
 
+    private $battingInputs = [
+        [
+            "runs" => 150,
+            "innings" => 10,
+            "not_outs" => 0,
+            "average" => 15
+        ],
+        [
+            "runs" => 12,
+            "innings" => 2,
+            "not_outs" => 1,
+            "average" => 12
+        ],
+        [
+            "runs" => 255,
+            "innings" => 12,
+            "not_outs" => 2,
+            "average" => 25.5
+        ],
+        [
+            "runs" => 75,
+            "innings" => 2,
+            "not_outs" => 2,
+            "average" => false
+        ],
+    ];
+
     public function testCalculateBattingAverage()
     {
-        $inputs = [
-            [
-                "runs" => 150,
-                "innings" => 10,
-                "not_outs" => 0,
-                "average" => 15
-            ],
-            [
-                "runs" => 12,
-                "innings" => 2,
-                "not_outs" => 1,
-                "average" => 12
-            ],
-            [
-                "runs" => 255,
-                "innings" => 12,
-                "not_outs" => 2,
-                "average" => 25.5
-            ],
-            [
-                "runs" => 75,
-                "innings" => 2,
-                "not_outs" => 2,
-                "average" => false
-            ],
-        ];
-
-        foreach ($inputs as $input) {
+        foreach ($this->battingInputs as $input) {
             $this->assertEquals(
                 $input["average"],
                 CricketUtility::calculateBattingAverage(
@@ -99,27 +99,27 @@ class CricketUtilityTest extends TestCase
 
     }
 
+    private $bowlingAverageInputs = [
+        [
+            "runs" => 100,
+            "wickets" => 10,
+            "average" => 10
+        ],
+        [
+            "runs" => 50,
+            "wickets" => 0,
+            "average" => false
+        ],
+        [
+            "runs" => 185,
+            "wickets" => 10,
+            "average" => 18.5
+        ]
+    ];
+
     public function testCalculateBowlingAverage()
     {
-        $inputs = [
-            [
-                "runs" => 100,
-                "wickets" => 10,
-                "average" => 10
-            ],
-            [
-                "runs" => 50,
-                "wickets" => 0,
-                "average" => false
-            ],
-            [
-                "runs" => 185,
-                "wickets" => 10,
-                "average" => 18.5
-            ]
-        ];
-
-        foreach ($inputs as $input) {
+        foreach ($this->bowlingAverageInputs as $input) {
             $this->assertEquals(
                 $input["average"],
                 CricketUtility::calculateBowlingAverage(
@@ -130,27 +130,28 @@ class CricketUtilityTest extends TestCase
         }
     }
 
+    private $bowlingEconomyInputs = [
+        [
+            "runs" => 50,
+            "overs" => 5,
+            "econ" => 10
+        ],
+        [
+            "runs" => 50,
+            "overs" => 0,
+            "econ" => false
+        ],
+        [
+            "runs" => 165,
+            "overs" => 20,
+            "econ" => 8.25
+        ]
+    ];
+
     public function testCalculateBowlingEconomy()
     {
-        $inputs = [
-            [
-                "runs" => 50,
-                "overs" => 5,
-                "econ" => 10
-            ],
-            [
-                "runs" => 50,
-                "overs" => 0,
-                "econ" => false
-            ],
-            [
-                "runs" => 165,
-                "overs" => 20,
-                "econ" => 8.25
-            ]
-        ];
 
-        foreach ($inputs as $input) {
+        foreach ($this->bowlingEconomyInputs as $input) {
             $this->assertEquals(
                 $input["econ"],
                 CricketUtility::calculateBowlingEconomy(

@@ -101,26 +101,7 @@
                             <?= $player["career_stats"]["apps"] ?>
                         </div>
 
-                        <?php if ($player["career_stats"]["apps"] > 0): ?>
-
-                            <div class="one-fourth column">
-                                <?php if ($player["career_stats"]["bestBatting"]->did_not_bat == 0): ?>
-                                    <?= $player["career_stats"]["bestBatting"]->batting_runs ?><?php if ($player["career_stats"]["bestBatting"]->modes_of_dismissal->not_out == 1): ?>*<?php endif; ?>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </div>
-
-                            <div class="one-fourth column">
-                                <?php if (isset($player["career_stats"]["bestBowling"]->bowling_order_no)): ?>
-                                    <?= $player["career_stats"]["bestBowling"]->bowling_wickets ?>
-                                    for <?= $player["career_stats"]["bestBowling"]->bowling_runs ?>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </div>
-
-                        <?php endif; ?>
+                        <?= $this->Player->best($player, "career_stats") ?>
 
                     </div>
 
@@ -134,26 +115,7 @@
                             <?= $player["this_season_stats"]["apps"] ?>
                         </div>
 
-                        <?php if ($player["this_season_stats"]["apps"] > 0): ?>
-
-                            <div class="one-fourth column">
-                                <?php if ($player["this_season_stats"]["bestBatting"]->did_not_bat == 0): ?>
-                                    <?= $player["this_season_stats"]["bestBatting"]->batting_runs ?><?php if ($player["this_season_stats"]["bestBatting"]->modes_of_dismissal->not_out == 1): ?>*<?php endif; ?>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </div>
-
-                            <div class="one-fourth column">
-                                <?php if (isset($player["this_season_stats"]["bestBowling"]->bowling_order_no)): ?>
-                                    <?= $player["this_season_stats"]["bestBowling"]->bowling_wickets ?>
-                                    for <?= $player["this_season_stats"]["bestBowling"]->bowling_runs ?>
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </div>
-
-                        <?php endif; ?>
+                        <?= $this->Player->best($player, "this_season_stats") ?>
 
                     </div>
 
