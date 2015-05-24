@@ -25,8 +25,11 @@ class MatchesPlayersTable extends AppTable {
 
     }
 
-
     private $validOrderNo = [
+        "validNumber" => [
+            'rule' => ["naturalNumber", true],
+            'message' => 'Number only, no decimals'
+        ],
         'validRange' => [
             'rule' => ['range', 1, 11],
             'message' => 'Must be between 1 and 11'
@@ -49,22 +52,15 @@ class MatchesPlayersTable extends AppTable {
             ->add('player_id', 'valid', ['rule' => 'notBlank'])
             ->notEmpty("player_id");
 
+        $validator = $this->validationBatting($validator);
 
-        $validNumber = [
-            'rule' => [$this, "validInteger"],
-            'message' => 'Number only, no decimals'
-        ];
-        $this->validOrderNo["validNumber"] = $validNumber;
-
-        $validator = $this->validationBatting($validator, $validNumber);
-
-        $validator = $this->validationBowling($validator, $validNumber);
+        $validator = $this->validationBowling($validator);
 
         return $validator;
 
     }
 
-    private function validationBatting(Validator $validator, $validNumber)
+    private function validationBatting(Validator $validator)
     {
         $validator
             ->add('did_not_bat', 'valid', ['rule' => 'boolean']);
@@ -76,18 +72,18 @@ class MatchesPlayersTable extends AppTable {
             ->allowEmpty('batting_runs', function ($context) {
                 return $this->hasBatted($context);
             })
-            ->add('batting_order_no', 'validNumber', $validNumber);
+            ->add('batting_order_no', 'validNumber', ["message" => "Number only, no decimals", "rule" => ["naturalNumber", true]]);
 
         $validator
             ->allowEmpty('modes_of_dismissal_id', function ($context) {
                 return $this->hasBatted($context);
             })
-            ->add('modes_of_dismissal_id', 'validNumber', $validNumber);
+            ->add('modes_of_dismissal_id', 'validNumber', ["message" => "Number only, no decimals", "rule" => ["naturalNumber", true]]);
 
         return $validator;
     }
 
-    private function validationBowling(Validator $validator, $validNumber)
+    private function validationBowling(Validator $validator)
     {
         $validator
             ->allowEmpty('bowling_order_no', function ($context) {
@@ -107,19 +103,19 @@ class MatchesPlayersTable extends AppTable {
             ->allowEmpty('bowling_maidens', function ($context) {
                 return $this->anyBowlingFieldsCompleted($context);
             })
-            ->add('bowling_maidens', 'validNumber', $validNumber);
+            ->add('bowling_maidens', 'validNumber', ["message" => "Number only, no decimals", "rule" => ["naturalNumber", true]]);
 
         $validator
             ->allowEmpty('bowling_runs', function ($context) {
                 return $this->anyBowlingFieldsCompleted($context);
             })
-            ->add('bowling_runs', 'validNumber', $validNumber);
+            ->add('bowling_runs', 'validNumber', ["message" => "Number only, no decimals", "rule" => ["naturalNumber", true]]);
 
         $validator
             ->allowEmpty('bowling_wickets', function ($context) {
                 return $this->anyBowlingFieldsCompleted($context);
             })
-            ->add('bowling_wickets', 'validNumber', $validNumber);
+            ->add('bowling_wickets', 'validNumber', ["message" => "Number only, no decimals", "rule" => ["naturalNumber", true]]);
 
         return $validator;
     }

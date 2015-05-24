@@ -181,7 +181,7 @@ class MatchesTable extends AppTable {
 
     private function _addTeamScoreValidationRules(Validator $validator, $field, $rules)
     {
-        $rule = [$this, "validInteger"];
+        $rule = ["naturalNumber", true];
 
         if (isset($rules["rule"])) {
             $rule = $rules["rule"];
