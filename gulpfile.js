@@ -12,6 +12,8 @@ var gutil = require('gulp-util');
 var notify = require("gulp-notify");
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
+var sourcemaps = require('gulp-sourcemaps');
+var minifyCss = require('gulp-minify-css');
 
 
 // Lint Task
@@ -25,9 +27,12 @@ gulp.task('lint', function() {
 gulp.task('sass', function() {
     return gulp.src([
         'src/scss/app.scss'
-    ]).pipe(notify("Sass started"))
+    ]).pipe(sourcemaps.init())
+        .pipe(notify("Sass started"))
     .pipe(sass())
     .pipe(concat('app.css'))
+    .pipe(minifyCss({compatibility: 'ie8'}))
+    .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('webroot/css'))
     .pipe(notify("Sass completed"));
 });
