@@ -10,6 +10,8 @@ var rename = require('gulp-rename');
 var minify = require("gulp-minify");
 var gutil = require('gulp-util');
 var notify = require("gulp-notify");
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
 
 
 // Lint Task
@@ -54,13 +56,25 @@ gulp.task('scripts', function() {
         .pipe(notify("JS completed"));
 });
 
+// minify images
+gulp.task('img', function () {
+    return gulp.src('src/img/**/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest('webroot/img'));
+});
+
 // Watch Files For Changes
 gulp.task('watch', function() {
     gulp.watch('src/js/**/*.js', ['lint', 'js']);
     gulp.watch('src/scss/*.scss', ['sass']);
+    gulp.watch('src/img/**/*', ['img']);
 });
 
 gulp.task('js', ['scripts', 'admin-css']);
 
 // Default Task
-gulp.task('default', ['lint', 'sass', 'js', 'watch']);
+gulp.task('default', ['lint', 'sass', 'js', 'img', 'watch']);
