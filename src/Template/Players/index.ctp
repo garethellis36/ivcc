@@ -66,6 +66,10 @@
                                 <h6>Previous clubs:</h6>
                                 <?= nl2br(h($player["previous_clubs"])) ?>
                             <?php endif; ?>
+                            <?php if (!empty($player["fines_owed"])): ?>
+                                <h6>Fines owed:</h6>
+                                <?= h($player["fines_owed"]) ?>
+                            <?php endif; ?>
                         </div>
                     </div>
 

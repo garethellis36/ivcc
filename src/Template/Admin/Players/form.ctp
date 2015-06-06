@@ -24,6 +24,13 @@
                 'class' => 'input-mini'
             ]);
             ?>
+
+            <?php
+            echo $this->Form->input('fines_owed', [
+                'class' => 'input-mini'
+            ]);
+            ?>
+
         </div>
 
 

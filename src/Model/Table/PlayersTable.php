@@ -78,6 +78,10 @@ class PlayersTable extends Table {
             ->add('last_name', 'valid', ['rule' => ['custom', "/^([A-Za-z]|\s|-|')*$/"]]);
 
         $validator
+            ->allowEmpty("fines_owed")
+            ->add("fines_owed", "length", ["rule" => ["maxLength", 255]]);
+
+        $validator
             ->allowEmpty("photo")
             ->add("photo", "validImage", [
                 "rule" => ["uploadedFile", [
