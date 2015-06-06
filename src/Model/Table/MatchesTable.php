@@ -205,11 +205,15 @@ class MatchesTable extends AppTable {
         return $validator;
     }
 
-    public function getTeamStats($year)
+    public function getTeamStats($year, $format)
     {
         if ($year != "all") {
             $where["Matches.date >= "] = $year . "-01-01";
             $where["Matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if ($format != "all") {
+            $where["Matches.format_id"] = $format;
         }
 
         $where[] = "Matches.ivcc_total IS NOT NULL";

@@ -10,7 +10,7 @@ class StatsHelper extends Helper
     public function leading($stats, $field)
     {
 
-        if (!isset($stats[$field])) {
+        if (!isset($stats[$field]) || empty($stats[$field])) {
             return "-";
         }
 

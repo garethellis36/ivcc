@@ -116,7 +116,7 @@ class PlayersTable extends Table {
         return $query->toArray();
     }
 
-    public function getBatsmen($year)
+    public function getBatsmen($year, $format)
     {
 
         //get all players who have batted in this year
@@ -125,6 +125,10 @@ class PlayersTable extends Table {
         if (is_numeric($year) && $year !== "all") {
             $where["matches.date >= "] = $year . "-01-01";
             $where["matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if (is_numeric($format) && $format !== "all") {
+           $where["matches.format_id"] = $format;
         }
 
         return $this->find("all")
@@ -137,7 +141,7 @@ class PlayersTable extends Table {
 
     }
 
-    public function getBowlers($year)
+    public function getBowlers($year, $format)
     {
 
         //get all players who have batted in this year
@@ -145,6 +149,10 @@ class PlayersTable extends Table {
         if (is_numeric($year) && $year !== "all") {
             $where["matches.date >= "] = $year . "-01-01";
             $where["matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if (is_numeric($format) && $format !== "all") {
+            $where["matches.format_id"] = $format;
         }
 
         return $this->find("all")

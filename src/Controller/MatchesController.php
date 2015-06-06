@@ -80,21 +80,23 @@ class MatchesController extends AppController {
     public function stats()
     {
         $year = ( isset($this->request->query["year"]) && is_numeric($this->request->query["year"]) ? $this->request->query["year"] : "all" );
+        $format = ( isset($this->request->query["format"]) && is_numeric($this->request->query["format"]) ? $this->request->query["format"] : "all" );
 
-        $stats = $this->Matches->getTeamStats($year);
+        $stats = $this->Matches->getTeamStats($year, $format);
 
         $scorecards = TableRegistry::get("MatchesPlayers");
-        $stats = array_merge($scorecards->getTeamStats($year), $stats);
+        $stats = array_merge($scorecards->getTeamStats($year, $format), $stats);
 
         $players = TableRegistry::get("Players");
-        $batsmen = $players->getBatsmen($year);
-        $batsmen = $scorecards->getBattingAverages($batsmen, $year);
+        $batsmen = $players->getBatsmen($year, $format);
+        $batsmen = $scorecards->getBattingAverages($batsmen, $year, $format);
 
-        $bowlers = $players->getBowlers($year);
-        $bowlers = $scorecards->getBowlingAverages($bowlers, $year);
+        $bowlers = $players->getBowlers($year, $format);
+        $bowlers = $scorecards->getBowlingAverages($bowlers, $year, $format);
 
-        $this->set(compact("year", "stats", "batsmen", "bowlers"));
+        $this->set(compact("year", "stats", "batsmen", "bowlers", "format"));
         $this->_getYearsForView(true);
+        $this->_getFormatsForView();
     }
 
     public function _getYearsForView($include_all_time = false)
@@ -122,6 +124,21 @@ class MatchesController extends AppController {
         }
 
         $this->set(compact("years"));
+    }
+
+    public function _getFormatsForView()
+    {
+        $formats = TableRegistry::get("Formats");
+        $query = $formats->find('all')->indexBy("id");
+
+        $formats = [];
+        foreach ($query->toArray() as $format) {
+            $formats[$format->id] = $format->name;
+        }
+
+        $formats = ["all" => "All"] + $formats;
+
+        $this->set(compact("formats"));
     }
 
 }

@@ -143,11 +143,15 @@ class MatchesPlayersTable extends AppTable {
         return true;
     }
 
-    public function getTeamStats($year)
+    public function getTeamStats($year, $format)
     {
         if ($year != "all") {
             $where["Matches.date >= "] = $year . "-01-01";
             $where["Matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if ($format != "all") {
+            $where["Matches.format_id"] = $format;
         }
 
         $contain = [
@@ -291,7 +295,7 @@ class MatchesPlayersTable extends AppTable {
             ->all();
     }
 
-    public function getBattingAverages($players, $year)
+    public function getBattingAverages($players, $year, $format)
     {
         $where[] = "MatchesPlayers.batting_order_no IS NOT NULL";
         $where["MatchesPlayers.did_not_bat"] = 0;
@@ -299,6 +303,10 @@ class MatchesPlayersTable extends AppTable {
         if (is_numeric($year) && $year !== "all") {
             $where["Matches.date >= "] = $year . "-01-01";
             $where["Matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if (is_numeric($format) && $format !== "all") {
+            $where["matches.format_id"] = $format;
         }
 
         foreach ($players as $player) {
@@ -345,13 +353,17 @@ class MatchesPlayersTable extends AppTable {
     }
 
 
-    public function getBowlingAverages($players, $year)
+    public function getBowlingAverages($players, $year, $format)
     {
         $where[] = "MatchesPlayers.bowling_order_no IS NOT NULL";
 
         if (is_numeric($year) && $year !== "all") {
             $where["Matches.date >= "] = $year . "-01-01";
             $where["Matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if (is_numeric($format) && $format !== "all") {
+            $where["matches.format_id"] = $format;
         }
 
         foreach ($players as $player) {

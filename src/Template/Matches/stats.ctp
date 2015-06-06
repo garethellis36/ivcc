@@ -2,15 +2,35 @@
 
     <div class="one-fifth column">
 
-        <?php foreach ($years as $y): ?>
-            <ul class="filter-list">
-                <li>
-                    <a href="/stats?year=<?= strtolower($y) ?>" class="filter-item<?php echo ($year == strtolower($y) ? " selected" : ""); ?>">
-                        <?= $y ?>
-                    </a>
-                </li>
-            </ul>
-        <?php endforeach; ?>
+        <div class="padding-bottom">
+
+            <h6>Filter by year:</h6>
+            <?php foreach ($years as $y): ?>
+                <ul class="filter-list">
+                    <li>
+                        <a href="/stats?year=<?= strtolower($y) ?>&format=<?= strtolower($format) ?>" class="filter-item<?php echo ($year == strtolower($y) ? " selected" : ""); ?>">
+                            <?= $y ?>
+                        </a>
+                    </li>
+                </ul>
+            <?php endforeach; ?>
+
+        </div>
+
+        <div class="padding-bottom">
+
+            <h6>Filter by format:</h6>
+            <?php foreach ($formats as $id => $f): ?>
+                <ul class="filter-list">
+                    <li>
+                        <a href="/stats?year=<?= strtolower($year) ?>&format=<?= strtolower($id) ?>" class="filter-item<?php echo ($format == strtolower($id) ? " selected" : ""); ?>">
+                            <?= $f ?>
+                        </a>
+                    </li>
+                </ul>
+            <?php endforeach; ?>
+
+        </div>
 
     </div>
 
