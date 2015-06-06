@@ -306,7 +306,7 @@ class MatchesPlayersTable extends AppTable {
         }
 
         if (is_numeric($format) && $format !== "all") {
-            $where["matches.format_id"] = $format;
+            $where["Matches.format_id"] = $format;
         }
 
         foreach ($players as $player) {
@@ -363,7 +363,7 @@ class MatchesPlayersTable extends AppTable {
         }
 
         if (is_numeric($format) && $format !== "all") {
-            $where["matches.format_id"] = $format;
+            $where["Matches.format_id"] = $format;
         }
 
         foreach ($players as $player) {
