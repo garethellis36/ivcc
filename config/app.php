@@ -150,7 +150,7 @@ return [
     'Error' => [
         'errorLevel' => E_ALL & ~E_DEPRECATED,
         'exceptionRenderer' => 'Cake\Error\ExceptionRenderer',
-        'skipLog' => [],
+        'skipLog' => ['Cake\Routing\Exception\MissingControllerException'],
         'log' => true,
         'trace' => true,
     ],
