@@ -43,7 +43,8 @@
                         <strong>Opposition</strong>
                     </div>
                     <div class="column three-fourths">
-                        <?= $match->opposition ?>
+                        <?= h($match->opposition) ?>
+                        (<?= h($match->venue) ?>)
                     </div>
 
                 </div>
@@ -54,7 +55,7 @@
                         <strong>Format</strong>
                     </div>
                     <div class="column three-fourths">
-                        <?= $match->format->name ?>
+                        <?= h($match->format->name) ?>
                     </div>
 
                 </div>
