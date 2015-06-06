@@ -17,7 +17,8 @@
         <div class="columns">
 
             <div class="column one-half">
-                <?= $this->Player->name($batsman['player']) ?>
+                <?= $this->Player->name($batsman['player'])
+                . $this->Player->scorecardSymbols($batsman['player'], $scorecard) ?>
             </div>
 
             <?php if ($batsman["did_not_bat"] == 1): ?>

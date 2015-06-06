@@ -125,6 +125,19 @@
             </div>
         </div>
 
+        <div class="columns padding-bottom">
+            <div class="column">
+                <?= $this->Form->input("captain_id", [
+                    "options" => $players,
+                    "empty" => "Select..."
+                ]) ?>
+                <?= $this->Form->input("wicketkeeper_id", [
+                    "options" => $players,
+                    "empty" => "Select..."
+                ]) ?>
+            </div>
+        </div>
+
         <div id="scorecardErrors" class="flash flash-error<?= (isset($scorecardErrors) ? "" : " hide") ?>">
             <h4>Please address the following errors in the scorecard:</h4>
             <ul class="no-bullets">

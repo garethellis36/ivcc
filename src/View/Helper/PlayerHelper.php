@@ -10,6 +10,18 @@ class PlayerHelper extends Helper
         return h($data["initials"] . " " . $data["last_name"] . ($include_first_name ? " (" . $data["first_name"] . ")" : ""));
     }
 
+    public function scorecardSymbols($data, $match)
+    {
+        $return = "";
+        if ($data["id"]== $match['captain_id']) {
+            $return .= "*";
+        }
+        if ($data["id"] == $match['wicketkeeper_id']) {
+            $return .= "+";
+        }
+        return $return;
+    }
+
     public function best($player, $key)
     {
         if ($player[$key]["apps"] == 0) {
