@@ -153,7 +153,7 @@ class MatchesController extends AppController
                 "type" => "checkbox",
             ],
             "batting_order_no" => [
-                "class" => "input-mini number disableWithoutPlayer disableIfDnb",
+                "class" => "input-mini number disableWithoutPlayer",
                 "type" => "number",
                 "default" => "rowNumber",
                 "max" => 11

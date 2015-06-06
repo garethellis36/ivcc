@@ -20,21 +20,22 @@
                 <?= $this->Player->name($batsman['player']) ?>
             </div>
 
-            <div class="column one-fourth">
-                <?php if ($batsman["did_not_bat"] == 1): ?>
+            <?php if ($batsman["did_not_bat"] == 1): ?>
+                <div class="column one-half">
                     did not bat
-                <?php else: ?>
+                </div>
+            <?php else: ?>
+                <div class="column one-fourth">
                     <?php if ($batsman["modes_of_dismissal"]["name"] == "Not out"): ?>
                         <em><?= strtolower($batsman["modes_of_dismissal"]["name"]) ?></em>
                     <?php else: ?>
                         <?= strtolower($batsman["modes_of_dismissal"]["name"]) ?>
                     <?php endif; ?>
-                <?php endif; ?>
-            </div>
-
-            <div class="column one-fourth text-right">
-                <?= $batsman["batting_runs"] ?>
-            </div>
+                </div>
+                <div class="column one-fourth text-right">
+                    <?= $batsman["batting_runs"] ?>
+                </div>
+            <?php endif; ?>
 
         </div>
     <?php endforeach; ?>
