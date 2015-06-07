@@ -17,7 +17,7 @@
         <div class="columns">
 
             <div class="column one-half">
-                <?= $this->Player->name($batsman['player'])
+                <?= $this->Player->truncateName($batsman['player'])
                 . $this->Player->scorecardSymbols($batsman['player'], $scorecard) ?>
             </div>
 

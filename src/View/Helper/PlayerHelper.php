@@ -10,6 +10,37 @@ class PlayerHelper extends Helper
         return h($data["initials"] . " " . $data["last_name"] . ($include_first_name ? " (" . $data["first_name"] . ")" : ""));
     }
 
+    /*
+     * Truncate a name so that it fits on the scorecard on a mobile without breaking lines
+     */
+    public function truncateName($data, $splitDoubleBarrelled = true, $maxChars = 20)
+    {
+        $name = $this->name($data);
+        $length = strlen($name);
+
+        if ($length <= $maxChars) {
+            return $this->name($data);
+        }
+
+        if ($splitDoubleBarrelled === false) {
+            return substr_replace($name, "'", $maxChars/2, strlen($name)-$maxChars);
+        }
+
+        //split name into constituent parts if double-barrelled
+        $parts = explode("-", $data["last_name"]);
+
+        //reduce parts of double-barrelled names to just first letter, except last part
+        if (count($parts) > 1) {
+            $last_part = array_pop($parts);
+            foreach ($parts as &$part) {
+                $part = substr($part, 0, 1);
+            }
+            $data["last_name"] = implode("-", $parts) . "-" . $last_part;
+        }
+
+        return $this->truncateName($data, false, $maxChars);
+    }
+
     public function scorecardSymbols($data, $match)
     {
         $return = "";

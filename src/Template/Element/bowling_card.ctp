@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <?php if (!empty($bowling)): ?>
+    <?php if (count($bowling)): ?>
         <div class="columns">
             <div class="column">
                 <strong>IVCC bowling</strong>
@@ -39,7 +39,7 @@
 
             <div class="columns<?= ($last ? " padding-bottom" : "") ?>">
                 <div class="column one-half">
-                    <?= $this->Player->name($bowler["player"]) ?>
+                    <?= $this->Player->truncateName($bowler['player']) ?>
                 </div>
                 <div class="column one-half">
                     <?= $bowler["bowling_overs"] . "-" . $bowler["bowling_maidens"] . "-" . $bowler["bowling_runs"] . "-" . $bowler["bowling_wickets"] ?>
