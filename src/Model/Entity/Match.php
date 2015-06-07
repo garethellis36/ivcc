@@ -12,4 +12,9 @@ class Match extends Entity
         return (empty($result) ? null : $result);
     }
 
+    protected function _getResultMore($result)
+    {
+        return strtolower($result);
+    }
+
 }
