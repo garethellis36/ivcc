@@ -222,7 +222,7 @@
                     <tbody>
                     <?php foreach ($bowlers as $bowler): ?>
                         <tr>
-                            <td><?= h($bowler->name) ?></td>
+                            <td><?= h($this->Player->truncateName($bowler, true, 14)) ?></td>
                             <td><?= number_format($bowler->bowling_overs, 1) ?></td>
                             <td><?= number_format($bowler->bowling_maidens) ?></td>
                             <td><?= number_format($bowler->bowling_runs) ?></td>

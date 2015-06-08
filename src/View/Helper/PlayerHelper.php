@@ -7,7 +7,7 @@ class PlayerHelper extends Helper
 {
     public function name($data, $include_first_name = false)
     {
-        return h($data["initials"] . " " . $data["last_name"] . ($include_first_name ? " (" . $data["first_name"] . ")" : ""));
+        return h($data["initials"] . $data["last_name"] . ($include_first_name ? " (" . $data["first_name"] . ")" : ""));
     }
 
     /*

@@ -14,7 +14,7 @@ class Player extends Entity {
 
     protected function _getName()
     {
-        return $this->_properties['initials'] . " " . $this->_properties["last_name"];
+        return $this->_properties['initials'] . $this->_properties["last_name"];
     }
 
     protected function _setInitials($initials)
