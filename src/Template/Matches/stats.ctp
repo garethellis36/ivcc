@@ -190,7 +190,7 @@
                             <td><?= number_format($batsman->batting_innings) ?></td>
                             <td><?= number_format($batsman->batting_not_out) ?></td>
                             <td><?= number_format($batsman->batting_runs) ?></td>
-                            <td><?= ($batsman->batting_average !== false ? $batsman->batting_average : "-" ) ?></td>
+                            <td><?= ($batsman->batting_average !== false ? number_format($batsman->batting_average,2) : "-" ) ?></td>
                             <td>
                                 <?= $batsman->batting_high_score->batting_runs . ($batsman->batting_high_score->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
                             </td>
@@ -223,12 +223,12 @@
                     <?php foreach ($bowlers as $bowler): ?>
                         <tr>
                             <td><?= h($bowler->name) ?></td>
-                            <td><?= number_format($bowler->bowling_overs) ?></td>
+                            <td><?= number_format($bowler->bowling_overs, 1) ?></td>
                             <td><?= number_format($bowler->bowling_maidens) ?></td>
                             <td><?= number_format($bowler->bowling_runs) ?></td>
                             <td><?= number_format($bowler->bowling_wickets) ?></td>
-                            <td><?= ($bowler->bowling_average !== false ? $bowler->bowling_average : "-") ?></td>
-                            <td><?= ($bowler->bowling_economy !== false ? $bowler->bowling_economy : "-") ?></td>
+                            <td><?= ($bowler->bowling_average !== false ? number_format($bowler->bowling_average,2) : "-") ?></td>
+                            <td><?= ($bowler->bowling_economy !== false ? number_format($bowler->bowling_economy,2) : "-") ?></td>
                             <td class="last">
                                 <?= $bowler->best_bowling->bowling_wickets . "-" . $bowler->best_bowling->bowling_runs ?>
                             </td>
