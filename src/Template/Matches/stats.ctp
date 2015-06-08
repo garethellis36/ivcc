@@ -186,7 +186,7 @@
                     <tbody>
                     <?php foreach ($batsmen as $batsman): ?>
                         <tr>
-                            <td><?= h($batsman->name) ?></td>
+                            <td><?= $this->Player->truncateName($batsman) ?></td>
                             <td><?= number_format($batsman->batting_innings) ?></td>
                             <td><?= number_format($batsman->batting_not_out) ?></td>
                             <td><?= number_format($batsman->batting_runs) ?></td>
@@ -222,7 +222,7 @@
                     <tbody>
                     <?php foreach ($bowlers as $bowler): ?>
                         <tr>
-                            <td><?= h($this->Player->truncateName($bowler, true, 14)) ?></td>
+                            <td><?= $this->Player->truncateName($bowler, true, 14) ?></td>
                             <td><?= number_format($bowler->bowling_overs, 1) ?></td>
                             <td><?= number_format($bowler->bowling_maidens) ?></td>
                             <td><?= number_format($bowler->bowling_runs) ?></td>
