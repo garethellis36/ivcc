@@ -270,7 +270,6 @@ class MatchesPlayersTable extends AppTable {
         return $query->find("all")
             ->where($options["where"])
             ->order(["MatchesPlayers.batting_runs DESC"])
-            ->group(["MatchesPlayers.player_id"])
             ->all();
     }
 
@@ -280,7 +279,6 @@ class MatchesPlayersTable extends AppTable {
         return $query->find("all")
             ->where($options["where"])
             ->order(["MatchesPlayers.bowling_wickets DESC, bowling_runs ASC"])
-            ->group(["MatchesPlayers.player_id"])
             ->all();
     }
 
@@ -291,7 +289,6 @@ class MatchesPlayersTable extends AppTable {
         return $query->find("all")
             ->where($options["where"])
             ->order(["Players.last_name ASC"])
-            ->group(["MatchesPlayers.player_id"])
             ->all();
     }
 

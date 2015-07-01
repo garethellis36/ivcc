@@ -129,7 +129,8 @@
                 <?php if ($stats["fifties"]->count() > 0): ?>
                     <?php foreach ($stats["fifties"] as $fifty): ?>
                         <?= $this->Player->name($fifty->player) ?>
-                        (<?= $fifty->batting_runs . ($fifty->modes_of_dismissal->not_out == 1 ? "*" : "") ?>)<br>
+                        (<?= $fifty->batting_runs . ($fifty->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
+                        vs. <?= h($fifty->match->opposition) ?>, <?= $fifty->match->date->format("jS M Y") ?>)<br>
                     <?php endforeach; ?>
                 <?php else: ?>
                     -
@@ -145,7 +146,8 @@
                 <?php if ($stats["fivefors"]->count() > 0): ?>
                     <?php foreach ($stats["fivefors"] as $fivefor): ?>
                         <?= $this->Player->name($fivefor->player) ?>
-                        (<?= $fivefor->bowling_wickets . " for " . $fivefor->bowling_runs ?>)<br>
+                        (<?= $fivefor->bowling_wickets . " for " . $fivefor->bowling_runs ?>
+                        vs. <?= h($fivefor->match->opposition) ?>, <?= $fivefor->match->date->format("jS M Y") ?>)<br>
                     <?php endforeach; ?>
                 <?php else: ?>
                     -
@@ -160,7 +162,8 @@
             <div class="column four-fifths">
                 <?php if ($stats["ducks"]->count() > 0): ?>
                     <?php foreach ($stats["ducks"] as $duck): ?>
-                    <?= $this->Player->name($duck->player) ?><br>
+                    <?= $this->Player->name($duck->player) ?>
+                        vs. <?= h($duck->match->opposition) ?>, <?= $duck->match->date->format("jS M Y") ?><br>
                     <?php endforeach; ?>
                 <?php else: ?>
                     -
