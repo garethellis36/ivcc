@@ -31,8 +31,8 @@ class MatchRoute extends Route
         $matches = TableRegistry::get("matches");
         $result = $matches->find("all")
             ->where([
-                "DATE_FORMAT(Matches.date,'%Y-%m-%d')" => $date,
-                "Matches.opposition_slug" => $params["oppositionSlug"]
+                "DATE_FORMAT(matches.date,'%Y-%m-%d')" => $date,
+                "matches.opposition_slug" => $params["oppositionSlug"]
             ])
             ->limit(1)
             ->first();
