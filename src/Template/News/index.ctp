@@ -11,6 +11,9 @@
             <p>
                 We are a social cricket club based in Oxford. We play friendly 40- and 20-over cricket matches against like-minded clubs around the county.
             </p>
+            <p>
+                If you want to get in touch with us for any reason, please email <a href="mailto:committee@ivcc.co.uk?subject=IVCC">committee@ivcc.co.uk</a>.
+            </p>
 
         </div>
 
