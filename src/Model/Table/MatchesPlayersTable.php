@@ -178,6 +178,13 @@ class MatchesPlayersTable extends AppTable {
         $stats["leadingWicketTaker"] = $this->find("leading", array_merge($options, ["field" => "bowling_wickets"]));
 
         $stats["highestIndividualScore"] = $this->find("highestIndividualScore", $options);
+
+        for ($i = 1; $i <= 11; $i++) {
+            $scoreByPositionOptions = $options;
+            $scoreByPositionOptions["where"]["MatchesPlayers.batting_order_no"] = $i;
+            $stats["highestIndividualScoreByPosition"][$i] = $this->find("highestIndividualScore", $scoreByPositionOptions);
+        }
+
         $stats["bestBowling"] = $this->find("bestBowling", $options);
 
         $stats["fifties"] = $this->find("fifties", $options);

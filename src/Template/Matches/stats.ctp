@@ -104,6 +104,27 @@
             </div>
         </div>
 
+
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
+                <strong>Highest individual score by position</strong>
+            </div>
+            <div class="column four-fifths">
+                <?php for ($i = 1; $i <= 11; $i++): ?>
+                    #<?= $i ?>:
+                    <?php if ($stats["highestIndividualScoreByPosition"][$i]): ?>
+                        <?= $this->Player->name($stats["highestIndividualScoreByPosition"][$i]->player) ?>:
+                        <?= $stats['highestIndividualScoreByPosition'][$i]->batting_runs ?><?php if ($stats["highestIndividualScoreByPosition"][$i]->modes_of_dismissal->not_out == 1): ?>*<?php endif; ?>
+                        vs <?= h($stats['highestIndividualScoreByPosition'][$i]->match->opposition) ?>,
+                        <?= $stats['highestIndividualScoreByPosition'][$i]->match->date->format("jS M Y") ?>
+                    <?php else: ?>
+                        -
+                    <?php endif; ?>
+                    <br>
+                <?php endfor; ?>
+            </div>
+        </div>
+
         <div class="columns padding-bottom break">
             <div class="column one-fifth smaller-bottom-margin">
                 <strong>Best individual bowling</strong>
