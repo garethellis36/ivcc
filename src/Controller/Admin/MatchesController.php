@@ -99,7 +99,9 @@ class MatchesController extends AppController
         foreach ($match->errors()['matches_players'] as $k => $scorecardError) {
             foreach ($scorecardError as $field => $error) {
                 foreach ($error as $ruleType => $errorMessage) {
-                    $scorecardErrors[] = $match->matches_players[$k]->player->name
+                    $playerNo = $k+1;
+                    $playerName = ($match->matches_players[$k]->player ? $match->matches_players[$k]->player->name : "Player #" . $playerNo);
+                    $scorecardErrors[] = $playerName
                         . " - " . Inflector::humanize($field)
                         . " - " . $errorMessage;
                 }
