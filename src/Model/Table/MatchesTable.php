@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
 use SoftDelete\Model\Table\SoftDeleteTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Inflector;
 
 class MatchesTable extends AppTable {
 
@@ -25,11 +26,19 @@ class MatchesTable extends AppTable {
         $this->belongsTo("Formats");
     }
 
+    private function generateSlug($opposition)
+    {
+        return substr(strtolower(Inflector::slug($opposition)), 0, 255);
+    }
+
     /*
      * Overwriting patchEntity from Cake\ORM\Table in order to do some pre-save data manipulation
      */
     public function patchEntity(EntityInterface $entity, array $data, array $options = [])
     {
+        if (!$entity->id) {
+            $data["opposition_slug"] = $this->generateSlug($data["opposition"]);
+        }
 
         //unset certain fields if no result is set
         if (isset($data["result"]) && empty($data["result"])) {
