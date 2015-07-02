@@ -54,7 +54,7 @@ class MatchesPlayer extends Entity
 
     protected function _setModesOfDismissalId($mid = null)
     {
-        if ($this->_properties["did_not_bat"] && $this->_properties["did_not_bat"] == 1) {
+        if (isset($this->_properties["did_not_bat"]) && $this->_properties["did_not_bat"] == 1) {
             return null;
         }
         return $mid;
