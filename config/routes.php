@@ -20,6 +20,7 @@
 
 use Cake\Core\Plugin;
 use Cake\Routing\Router;
+use App\Routing\MatchRoute;
 
 /**
  * The default class to use for all routes
@@ -50,6 +51,12 @@ Router::scope('/', function ($routes) {
     $routes->connect('/', ['controller' => 'News', 'action' => 'index']);
 
     $routes->connect('/stats', ['controller' => 'Matches', 'action' => 'stats']);
+
+    $routes->connect(
+        '/matches/view/:year/:month/:day/:oppositionSlug',
+        ['controller' => 'Matches', 'action' => 'view'],
+        ['routeClass' => 'App\Routing\MatchRoute']
+    );
 
     /**
      * Connect catchall routes for all controllers.

@@ -74,9 +74,14 @@
                                 <?php if (!empty($match["result_more"])): ?>
                                     by <?= h($match["result_more"]) ?>
                                 <?php endif; ?><br>
-                                <a href="/matches/view/<?= $match["id"] ?>">
-                                    Match report &amp; scorecard
-                                </a>
+                                <?= $this->Html->link("Match report & scorecard", [
+                                    "controller" => "matches",
+                                    "action" => "view",
+                                    $match->date->format("Y"),
+                                    $match->date->format("m"),
+                                    $match->date->format("d"),
+                                    $match->opposition_slug
+                                ]) ?>
                             <?php else: ?>
                                 -
                             <?php endif; ?>
