@@ -256,6 +256,7 @@ class MatchesPlayersTable extends AppTable {
 
     public function findHighestIndividualScore(Query $query, array $options = [])
     {
+        $options["where"][] = ["batting_runs IS NOT NULL"];
         //highest individual score
         return $query->find("all")
             ->where($options["where"])
