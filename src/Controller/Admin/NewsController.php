@@ -23,7 +23,6 @@ class NewsController extends AppController
         if ($this->request->is('post')) {
 
             $newsItem = $this->News->patchEntity($newsItem, $this->request->data);
-            $newsItem->created = date("Y-m-d H:i:s");
             $newsItem->user_id = $this->Auth->user("id");
 
             if ($this->News->save($newsItem)) {

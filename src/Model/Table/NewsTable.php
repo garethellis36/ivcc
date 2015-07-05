@@ -16,6 +16,7 @@ class NewsTable extends Table {
     public function initialize(array $config)
     {
         $this->belongsTo("Users");
+        $this->addBehavior('Timestamp');
     }
 
     public function validationDefault(Validator $validator)
