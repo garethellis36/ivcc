@@ -14,3 +14,5 @@ bower_components/
 
 webroot/img/players/*
 !webroot/img/players/anon.png
+webroot/img/photos/*
+!webroot/img/photos/thumbs/empty

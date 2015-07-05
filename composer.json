@@ -11,7 +11,8 @@
         "cakephp/migrations": "~1.0",
         "cakephp/plugin-installer": "*",
         "symfony/yaml": "2.6.*",
-        "pgbi/cakephp3-soft-delete": "dev-master"
+        "pgbi/cakephp3-soft-delete": "dev-master",
+        "intervention/image": "dev-master"
     },
     "require-dev": {
         "psy/psysh": "@stable",
