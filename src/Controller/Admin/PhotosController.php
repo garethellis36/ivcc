@@ -2,6 +2,9 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Error\Debugger;
+use App\Lib\PhotoUtility;
+use Cake\Log\Log;
 
 /**
  * Users Controller
@@ -11,32 +14,57 @@ use App\Controller\AppController;
 class PhotosController extends AppController
 {
 
-    /**
-     * Add method
-     *
-     * @return void Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
-        $photo = $this->Photos->newEntity();
 
-        if ($this->request->is('post')) {
-
-            $photo = $this->Photos->patchEntity($photo, $this->request->data);
-            $photo->user_id = $this->Auth->user("id");
-
-            if ($this->Photos->save($photo)) {
-                $this->Flash->success('Photo saved.');
-                return $this->redirect("/photos");
-            }
-
-            $this->Flash->error('The photo could not be saved. Please, try again.');
-        }
-        $this->set(compact('photo'));
-        $this->set('_serialize', ['photo']);
-
-        $this->render("form");
     }
+
+    public function upload()
+    {
+        $this->autoRender = false;
+
+        $this->request->allowMethod("ajax");
+
+        if (empty($this->request->data["file"]["name"])) {
+            echo "fail";
+            return;
+        }
+
+        //validate photo type
+
+        //resize photo and copy to web dir
+        try {
+
+            $parts = explode(".", $this->request->data["file"]["name"]);
+            $ext = array_pop($parts);
+
+            $photo = new PhotoUtility($this->request->data["file"]["tmp_name"], $ext);
+            $photo->createThumbnail();
+            Debugger::log($photo->getName());
+        } catch (\Exception $e) {
+            Log::write(LOG_ERR, $e->getMessage());
+            echo "fail";
+            return;
+        }
+        die();
+
+        //save to database
+        $data = [
+          "Photos" => [
+              "name" => $photo->getName(),
+              "type" => $photo->getType()
+          ]
+        ];
+
+        $photo = $this->Photos->newEntity();
+        $photo = $this->Photos->patchEntity($photo, $data);
+        $photo->user_id = $this->Auth->user("id");
+
+        if ($this->Photos->save($photo)) {
+            echo "success";
+        }
+    }
+
 
     /**
      * Delete method

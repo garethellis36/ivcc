@@ -41,7 +41,9 @@ gulp.task('sass', function() {
 gulp.task('admin-css', function() {
    return gulp.src([
       'bower_components/datetimepicker/jquery.datetimepicker.css',
-      'bower_components/alertifyjs/dist/css/alertify.css'
+      'bower_components/alertifyjs/dist/css/alertify.css',
+      'src/scss/dropzone/basic.css',
+      'src/scss/dropzone/dropzone.css'
    ]).pipe(concat("js.css"))
    .pipe(gulp.dest('webroot/css'));
 });
