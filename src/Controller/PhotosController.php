@@ -19,7 +19,7 @@ class PhotosController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow('index');
+        $this->Auth->allow(['index', 'view']);
         $this->loadComponent('Paginator');
     }
 
@@ -31,6 +31,33 @@ class PhotosController extends AppController
 
         $this->set(compact("photos"));
 
+    }
+
+    public function view($photoId)
+    {
+        $photo = $this->Photos->findById($photoId)->first();
+
+        $prev = $this->Photos->find("all")
+            ->where([
+                "Photos.id < " . $photoId
+            ])
+            ->order([
+                "Photos.id DESC"
+            ])
+            ->limit("1")
+            ->first();
+
+        $next = $this->Photos->find("all")
+            ->where([
+                "Photos.id > " . $photoId
+            ])
+            ->order([
+                "Photos.id ASC"
+            ])
+            ->limit("1")
+            ->first();
+
+        $this->set(compact("photo", "prev", "next"));
     }
 
 }

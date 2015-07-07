@@ -40,7 +40,13 @@ class NavComponent extends Component {
             "url" => "/stats",
             "pattern" => ["/^\/stats/"],
             "active" => false
-        ]
+        ],
+        [
+            "label" => "Photos",
+            "url" => "/photos",
+            "pattern" => ["/\/photos/"],
+            "active" => false
+        ],
     ];
 
     public function menuItems()

@@ -13,7 +13,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class PhotoUtility
 {
-    private $photo;
+    private $source;
 
     private $imgWidth;
 
@@ -21,7 +21,7 @@ class PhotoUtility
 
     private $defaultThumbnailWidth = 300;
 
-    private $defaultThumbnailHeight = 300;
+    private $defaultPhotoWidth = 980;
 
     private $savePath;
 
@@ -36,17 +36,17 @@ class PhotoUtility
         if (!is_readable($photo)) {
             throw new Exception("File not readable");
         }
-        $this->photo = $photo;
+        $this->source = $photo;
 
-        $info = getimagesize($this->photo);
+        $info = getimagesize($this->source);
         $this->imgWidth = $info[0];
         $this->imgHeight = $info[1];
 
         $this->savePath = WWW_ROOT . "img" . DS . "photos";
 
-        $this->setName();
-Debugger::log($ext);
         $this->ext = $ext;
+
+        $this->setName();
 
         $this->setType();
     }
@@ -54,7 +54,7 @@ Debugger::log($ext);
     private function setType()
     {
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
-        $this->type = $finfo->file($this->photo);
+        $this->type = $finfo->file($this->source);
     }
 
     public function getType()
@@ -62,14 +62,21 @@ Debugger::log($ext);
         return $this->type;
     }
 
-    public function resize($x, $y)
+    public function resize()
     {
+        $img = Image::make($this->source);
 
+        $img->resize($this->defaultPhotoWidth, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        return $img->save($this->savePath . DS . $this->getName());
     }
 
     public function createThumbnail()
     {
-        $img = Image::make($this->photo);
+        $img = Image::make($this->source);
 
         $img->resize($this->defaultThumbnailWidth, null, function ($constraint) {
             $constraint->aspectRatio();
@@ -88,5 +95,18 @@ Debugger::log($ext);
     {
         return $this->name;
     }
+
+    public function getDate()
+    {
+        $exif = exif_read_data($this->source);
+        if (isset($exif["DateTimeOriginal"]) && !empty($exif["DateTimeOriginal"])) {
+            return $exif["DateTimeOriginal"];
+        }
+        if (isset($exif["FileDateTime"]) && !empty($exit["FileDateTime"])) {
+            return date("Y-m-d H:i:s", $exif["FileDateTime"]);
+        }
+        return date("Y-m-d H:i:s");
+    }
+
 
 }

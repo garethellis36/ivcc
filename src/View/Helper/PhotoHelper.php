@@ -10,7 +10,10 @@ class PhotoHelper extends Helper
     public function showPhoto($photo, $isThumbnail = false)
     {
         if (file_exists($this->getAbsolutePath($photo, $isThumbnail))) {
-            return $this->_View->Html->image($this->getWebPath($photo, $isThumbnail), ["alt" => $photo->title]);
+            return $this->_View->Html->image($this->getWebPath($photo, $isThumbnail), [
+                "alt" => $photo->title,
+                "class" => "bordered" . ($isThumbnail ? " opaque-hover" : " img-responsive")
+            ]);
         }
         return "";
     }

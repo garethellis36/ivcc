@@ -18,7 +18,7 @@ body {
 
   .masthead-nav {
     a:not(:last-child) {
-      margin-right: 1.25em;
+      margin-right: 0.3em;
     }
   }
 
@@ -156,4 +156,40 @@ footer {
 
 .hide {
   display: none;
+}
+
+.align-center {
+  text-align: center;
+
+  img {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
+
+.align-right {
+  text-align: right;
+}
+
+.opaque-hover:hover {
+  opacity: 0.2;
+}
+
+.bordered {
+  border: 1px solid black;
+}
+
+.column.three-fifths {
+  width: 60%;
+}
+
+.img-responsive {
+  max-width: 100%;
+  display:block;
+  height: auto;
+}
+
+.margin-right {
+  margin-right: 20px;
 }
