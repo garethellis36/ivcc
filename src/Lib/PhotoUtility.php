@@ -21,7 +21,11 @@ class PhotoUtility
 
     private $defaultThumbnailWidth = 300;
 
+    private $defaultThumbnailHeight = 200;
+
     private $defaultPhotoWidth = 980;
+
+    private $defaultPhotoHeight = 653;
 
     private $savePath;
 
@@ -52,7 +56,7 @@ class PhotoUtility
     {
         $img = Image::make($this->source);
 
-        $img->resize($this->defaultPhotoWidth, null, function ($constraint) {
+        $img->resize($this->defaultPhotoWidth, $this->defaultPhotoHeight, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
@@ -64,7 +68,7 @@ class PhotoUtility
     {
         $img = Image::make($this->source);
 
-        $img->resize($this->defaultThumbnailWidth, null, function ($constraint) {
+        $img->resize($this->defaultThumbnailWidth, $this->defaultThumbnailHeight, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

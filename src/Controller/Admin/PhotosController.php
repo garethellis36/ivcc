@@ -112,7 +112,7 @@ Debugger::log($photoEntity->errors());
         if ($this->Photos->delete($photo)) {
             $this->Flash->success('Photo deleted.');
 
-            $path = WWW_ROOT . "photos" . DS;
+            $path = WWW_ROOT . "img" . DS . "photos" . DS;
             $this->deleteFile($path . $photo->name);
 
             $path .= "thumbs" . DS;
