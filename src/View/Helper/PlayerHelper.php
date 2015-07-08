@@ -62,7 +62,7 @@ class PlayerHelper extends Helper
         $html = '<div class="one-fourth column">';
 
         $runsHtml = "-";
-        if ($player[$key]["bestBatting"]->did_not_bat == 0) {
+        if ($player[$key]["bestBatting"] && $player[$key]["bestBatting"]->did_not_bat == 0) {
             $runsHtml = $player[$key]["bestBatting"]->batting_runs;
             if ($player[$key]["bestBatting"]->modes_of_dismissal->not_out == 1) {
                 $runsHtml .= "*";
