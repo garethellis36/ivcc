@@ -16,12 +16,8 @@ class Photos extends AbstractMigration
     {
         $tbl = $this->table("photos");
         $tbl->addColumn("name", "string")
-            ->addColumn("type", "string")
             ->addColumn("title", "string")
             ->addColumn("date", "datetime")
-            ->addColumn("created", "datetime", ["null" => true])
-            ->addColumn("modified", "datetime", ["null" => true])
-            ->addColumn("user_id", "integer")
             ->create();
     }
 

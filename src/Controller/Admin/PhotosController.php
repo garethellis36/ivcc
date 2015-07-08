@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Error\Debugger;
 use App\Lib\PhotoUtility;
 use Cake\Log\Log;
+use Cake\Validation\Validator;
 
 /**
  * Users Controller
@@ -26,15 +27,34 @@ class PhotosController extends AppController
         $this->request->allowMethod("ajax");
 
         if (empty($this->request->data["file"]["name"])) {
-            echo "fail";
+            echo json_encode([
+                "success" => false,
+                "errors" => "No file provided"
+            ]);
             return;
         }
 
         //validate photo type
+        $validator = new Validator();
+        $validator->add("file", "validImage", [
+            "rule" => ["uploadedFile", [
+                "types" => ["image/jpeg", "image/png"],
+                "maxSize" => 5000000]
+            ],
+            "message" => "You may only upload JPG and PNG files no larger than 5MB"
+        ]);
+        $errors = $validator->errors($this->request->data);
 
-        //resize photo and copy to web dir
+        if (!empty($errors)) {
+            echo json_encode([
+               "success" => false,
+                "errors" => $errors["file"]
+            ]);
+            return;
+        }
+
         try {
-
+            //resize and create thumbnail
             $parts = explode(".", $this->request->data["file"]["name"]);
             $ext = array_pop($parts);
 
@@ -46,27 +66,33 @@ class PhotosController extends AppController
             $data = [
                 "Photos" => [
                     "name" => $photo->getName(),
-                    "type" => $photo->getType(),
-                    "title" => "",
-                    "user_id" => $this->Auth->user("id")
+                    "title" => ""
                 ]
             ];
 
             $photoEntity = $this->Photos->newEntity();
             $photoEntity = $this->Photos->patchEntity($photoEntity, $data);
-
+Debugger::log($photoEntity->errors());
             if (empty($photoEntity->errors()['date'])) {
                 $photoEntity->date = $photo->getDate();
             }
 
             if ($this->Photos->save($photoEntity)) {
-                echo "success";
+                echo json_encode([
+                    "success" => true,
+                    "errors" => null
+                ]);
                 return;
             }
 
         } catch (\Exception $e) {
             Log::write(LOG_ERR, $e->getMessage());
-            echo "fail";
+            echo json_encode([
+                "success" => false,
+                "errors" => [
+                    "exception" => $e->getMessage()
+                ]
+            ]);
             return;
         }
 
@@ -106,5 +132,24 @@ class PhotosController extends AppController
         return false;
     }
 
+    public function edit($id = null)
+    {
+        $photo = $this->Photos->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+
+            $photo = $this->Photos->patchEntity($photo, $this->request->data);
+            if ($this->Photos->save($photo)) {
+                $this->Flash->success('Photo saved.');
+                return $this->redirect("/photos/view/" . $id);
+            } else {
+                $this->Flash->error('The photo could not be saved. Please, try again.');
+            }
+        }
+        $this->set(compact('photo'));
+        $this->set('_serialize', ['photo']);
+
+    }
 
 }

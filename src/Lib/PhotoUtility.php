@@ -29,8 +29,6 @@ class PhotoUtility
 
     private $ext;
 
-    private $type;
-
     public function __construct($photo, $ext = "jpg")
     {
         if (!is_readable($photo)) {
@@ -47,20 +45,8 @@ class PhotoUtility
         $this->ext = $ext;
 
         $this->setName();
-
-        $this->setType();
     }
 
-    private function setType()
-    {
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
-        $this->type = $finfo->file($this->source);
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
 
     public function resize()
     {

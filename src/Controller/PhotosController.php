@@ -11,7 +11,7 @@ class PhotosController extends AppController
     public $paginate = [
         "limit" => 12,
         "order" => [
-            "Photos.created DESC"
+            "Photos.date DESC"
         ],
         "finder" => "all",
     ];
@@ -37,7 +37,7 @@ class PhotosController extends AppController
     {
         $photo = $this->Photos->findById($photoId)->first();
 
-        $prev = $this->Photos->find("all")
+        $next = $this->Photos->find("all")
             ->where([
                 "Photos.id < " . $photoId
             ])
@@ -47,7 +47,7 @@ class PhotosController extends AppController
             ->limit("1")
             ->first();
 
-        $next = $this->Photos->find("all")
+        $prev = $this->Photos->find("all")
             ->where([
                 "Photos.id > " . $photoId
             ])

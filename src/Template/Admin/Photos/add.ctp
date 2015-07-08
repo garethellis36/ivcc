@@ -8,4 +8,30 @@
 
 <form action="/admin/photos/upload"
       class="dropzone"
-      id="my-awesome-dropzone"></form>
+      id="photo-upload"></form>
+
+<?= $this->Html->scriptBlock("
+
+Dropzone.options.photoUpload = {
+    maxFilesize: 5,
+    acceptedFiles: '.jpg, .JPG, .png, .PNG',
+    init: function() {
+        this.on('success', function(file, response) {
+
+            if (!response) {
+                return alertify.error('Error uploading photo');
+            }
+
+            response = JSON.parse(response);
+            if (!response.success) {
+                console.log(response.errors);
+            }
+
+        });
+        this.on('error', function(file, errorMessage) {
+            alertify.error('Error: ' + errorMessage);
+        });
+    }
+};
+
+", ["block" => "scriptBottom"]) ?>

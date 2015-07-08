@@ -1,3 +1,13 @@
+<?php if ($this->Authorization->isAdmin()): ?>
+
+    <div class="flash">
+        <a href="/admin/photos/add">
+            Add photo(s)
+        </a>
+    </div>
+
+<?php endif; ?>
+
 <div class="columns break padding-bottom">
 
     <?php
@@ -29,12 +39,4 @@
 
 </div>
 
-<?php if ($this->Authorization->isAdmin()): ?>
-
-    <div class="flash">
-        <a href="/admin/photos/add">
-            Add photo(s)
-        </a>
-    </div>
-
-<?php endif; ?>
+<?= $this->Element("paginator") ?>

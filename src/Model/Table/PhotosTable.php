@@ -7,9 +7,12 @@ use Cake\ORM\Table;
 
 class PhotosTable extends Table
 {
-    public function initialize(array $config)
+    public function validationDefault(Validator $validator)
     {
-        $this->addBehavior('Timestamp');
-        $this->belongsTo("Users");
+        $validator
+            ->add('title', 'maxLength', ['rule' => ['maxLength', 255]])
+            ->allowEmpty('title');
+
+        return $validator;
     }
 }
