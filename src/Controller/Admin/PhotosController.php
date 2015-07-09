@@ -72,7 +72,7 @@ class PhotosController extends AppController
 
             $photoEntity = $this->Photos->newEntity();
             $photoEntity = $this->Photos->patchEntity($photoEntity, $data);
-Debugger::log($photoEntity->errors());
+
             if (empty($photoEntity->errors()['date'])) {
                 $photoEntity->date = $photo->getDate();
             }
