@@ -46,7 +46,6 @@ class MatchesController extends AppController {
 
     public function view($match_id)
     {
-
         $query = $this->Matches->get($match_id, [
             "contain" => [
                 "Formats",
@@ -74,6 +73,8 @@ class MatchesController extends AppController {
             "batting",
             "bowling"
         ));
+
+        $this->set("title", h("IVCC vs " . $scorecard['opposition'] . " (" . $scorecard["venue"] . "), " . $scorecard["date"]->format('jS F Y')));
 
     }
 

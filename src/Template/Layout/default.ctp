@@ -4,6 +4,11 @@
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
+        <?php
+        if (isset($title)) {
+            $this->assign('title', $title);
+        }
+        ?>
         Iffley Village Cricket Club: <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
