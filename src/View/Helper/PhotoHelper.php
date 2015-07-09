@@ -12,7 +12,7 @@ class PhotoHelper extends Helper
         if (file_exists($this->getAbsolutePath($photo, $isThumbnail))) {
             return $this->_View->Html->image($this->getWebPath($photo, $isThumbnail), [
                 "alt" => $photo->title,
-                "class" => "bordered" . ($isThumbnail ? " opaque-hover" : " img-responsive")
+                "class" => "bordered img-responsive" . ($isThumbnail ? " opaque-hover" : "")
             ]);
         }
         return "";
