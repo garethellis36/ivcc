@@ -294,6 +294,7 @@ class MatchesPlayersTable extends AppTable {
     {
         //players who have got ducks
         $options["where"]["MatchesPlayers.batting_runs"] = 0;
+        $options["where"]["ModesOfDismissal.not_out"] = 0;
         return $query->find("all")
             ->where($options["where"])
             ->order(["Players.last_name ASC"])
