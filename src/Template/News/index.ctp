@@ -13,6 +13,7 @@
             </p>
             <p>
                 If you want to get in touch with us for any reason, please email <a href="mailto:committee@ivcc.co.uk?subject=IVCC">committee@ivcc.co.uk</a>.
+                We are also on Twitter <a href="http://twitter.com/iffleyvillagecc" target="_blank">@IffleyVillageCC</a>.
             </p>
 
         </div>
