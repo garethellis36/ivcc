@@ -8,6 +8,7 @@
 
 namespace App\Controller\Admin;
 use App\Controller\AppController;
+use App\Lib\PhotoUtility;
 use Cake\ORM\TableRegistry;
 use Cake\Filesystem\File;
 
@@ -89,10 +90,13 @@ class PlayersController extends AppController
             if ($this->Players->save($player)) {
 
                 if (!empty($this->request->data["photo"]["name"])) {
-                    $target = WWW_ROOT . DS . "img" . DS . "players" . DS . $player->photo;
-                    if (!move_uploaded_file($this->request->data["photo"]["tmp_name"], $target)) {
+                    try {
+                        $photo = new PhotoUtility($this->request->data["photo"]["tmp_name"]);
+                        $photo->resizePlayerPhoto($player->photo);
+                    } catch (Exception $e) {
                         $this->Flash->error("FYI: file failed to upload");
                     }
+
                 }
 
                 $this->Flash->success('Player saved.');

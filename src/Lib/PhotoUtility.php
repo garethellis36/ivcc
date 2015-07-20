@@ -15,10 +15,6 @@ class PhotoUtility
 {
     private $source;
 
-    private $imgWidth;
-
-    private $imgHeight;
-
     private $defaultThumbnailWidth = 300;
 
     private $defaultThumbnailHeight = 200;
@@ -27,7 +23,13 @@ class PhotoUtility
 
     private $defaultPhotoHeight = 653;
 
+    private $defaultPlayerPhotoHeight = 190;
+
+    private $defaultPlayerPhotoWidth = 190;
+
     private $savePath;
+
+    private $playerSavePath;
 
     private $name;
 
@@ -40,11 +42,9 @@ class PhotoUtility
         }
         $this->source = $photo;
 
-        $info = getimagesize($this->source);
-        $this->imgWidth = $info[0];
-        $this->imgHeight = $info[1];
-
         $this->savePath = WWW_ROOT . "img" . DS . "photos";
+
+        $this->playerSavePath = WWW_ROOT . "img" . DS . "players";
 
         $this->ext = $ext;
 
@@ -96,6 +96,17 @@ class PhotoUtility
             return date("Y-m-d H:i:s", $exif["FileDateTime"]);
         }
         return date("Y-m-d H:i:s");
+    }
+
+    public function resizePlayerPhoto($filename)
+    {
+        $img = Image::make($this->source);
+        $img->resize($this->defaultPlayerPhotoWidth, $this->defaultPlayerPhotoHeight, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        return $img->save($this->playerSavePath . DS . $filename);
     }
 
 

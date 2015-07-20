@@ -86,15 +86,10 @@ class PlayersTable extends Table {
             ->add("photo", "validImage", [
                 "rule" => ["uploadedFile", [
                         "types" => ["image/jpeg"],
-                        "maxSize" => 50000,
                         "optional" => true
                     ]
                 ],
-                "message" => "File must be a JPG no larger than 50kb"
-            ])
-            ->add("photo", "imageDimension", [
-                "rule" => [$this, "validateImageDimensions"],
-                "message" => "File must be no bigger than 190px x 190px  - resize and try again"
+                "message" => "File must be a JPG"
             ]);
 
         return $validator;
