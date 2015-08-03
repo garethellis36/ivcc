@@ -12,10 +12,10 @@
     </div>
 
     <div class="columns padding-bottom">
-        <div class="column one-half">
+        <div class="column one-fourth">
             <strong>Total</strong>
         </div>
-        <div class="column one-half text-right">
+        <div class="column three-fourths text-right">
             <?= $this->Scorecard->total($scorecard["opposition_total"], $scorecard["opposition_wickets"], $scorecard["opposition_overs"]) ?>
         </div>
     </div>
