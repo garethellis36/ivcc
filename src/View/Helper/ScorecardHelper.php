@@ -7,6 +7,6 @@ class ScorecardHelper extends Helper
 {
     public function total($total, $wickets, $overs)
     {
-        return "<strong>" . $total . " for " . $wickets . " (" . $overs . " overs)" . "</strong>";
+        return "<strong>" . $total . ($wickets == 10 ? " all out" : " for " . $wickets) . " (" . $overs . " overs)" . "</strong>";
     }
 }
