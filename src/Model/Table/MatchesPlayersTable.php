@@ -174,6 +174,8 @@ class MatchesPlayersTable extends AppTable {
     {
         $stats = [];
 
+        $stats["mostApps"] = $this->find("mostApps", $options);
+
         $stats["leadingRunScorer"] = $this->find("leading", array_merge($options, ["field" => "batting_runs"]));
         $stats["leadingWicketTaker"] = $this->find("leading", array_merge($options, ["field" => "bowling_wickets"]));
 
@@ -192,6 +194,28 @@ class MatchesPlayersTable extends AppTable {
         $stats["ducks"] = $this->find("ducks", $options);
 
         return $stats;
+    }
+
+    public function findMostApps(Query $query, array $options = [])
+    {
+        $total = $query->func()->count("MatchesPlayers.id");
+        $data = $query->find("all")
+            ->select(["total" => $total])
+            ->order(['total desc'])
+            ->where($options["where"])
+            ->group(['MatchesPlayers.player_id'])
+            ->all();
+
+        $results = [];
+        $record = 0;
+        foreach ($data as $player) {
+            if ($player->total < $record) {
+                break;
+            }
+            $record = $player->total;
+            $results[] = $player;
+        }
+        return $results;
     }
 
     public function findLeading(Query $query, array $options = [])

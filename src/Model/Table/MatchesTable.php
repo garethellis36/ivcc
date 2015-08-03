@@ -231,10 +231,40 @@ class MatchesTable extends AppTable {
             "where" => $where
         ];
 
+        $stats["results"] = $this->getResults($options);
+
         $stats["highestScore"] = $this->getHighestTeamScore($options);
         $stats["lowestScore"] = $this->getLowestTeamScore($options);
 
         return $stats;
+    }
+
+    public function getResults($options)
+    {
+
+        $matches = $this->find("all")
+            ->where($options["where"])
+            ->all();
+
+        $results = [
+            'P' => $matches->count(),
+            'W' => 0,
+            'L' => 0
+        ];
+
+        foreach ($matches as $match) {
+
+            if ($match->result == "Won") {
+                $results["W"]++;
+                continue;
+            }
+
+            if ($match->result == "Lost") {
+                $results["L"]++;
+                continue;
+            }
+        }
+        return $results;
     }
 
     public function getHighestTeamScore($options)

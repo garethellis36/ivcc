@@ -40,6 +40,26 @@
 
         <div class="columns padding-bottom break">
             <div class="column one-fifth smaller-bottom-margin">
+                <strong>Overall record</strong>
+            </div>
+            <div class="column four-fifths">
+                <?php foreach ($stats["results"] as $result => $num): ?>
+                    <?= $result . $num ?>&nbsp;
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
+                <strong>Most appearances</strong>
+            </div>
+            <div class="column four-fifths">
+                <?= $this->Stats->leading($stats, "mostApps") ?>
+            </div>
+        </div>
+
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Highest team total</strong>
             </div>
             <div class="column four-fifths">
