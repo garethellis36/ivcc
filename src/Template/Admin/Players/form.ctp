@@ -27,7 +27,8 @@
 
             <?php
             echo $this->Form->input('fines_owed', [
-                'class' => 'input-mini'
+                'class' => 'input-mini',
+                'type' => 'textarea'
             ]);
             ?>
 
