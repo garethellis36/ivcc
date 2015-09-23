@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 
 /**
  * Users Controller
@@ -35,6 +36,10 @@ class PlayersController extends AppController
             $player["this_season_stats"] = $scorecards->getIndividualStats($player["id"], date("Y"));
 
         }
+
+        usort($players, function($a, $b) {
+           return $b['career_stats']['apps'] - $a['career_stats']['apps'];
+        });
 
         $this->set(compact(
             "players"
