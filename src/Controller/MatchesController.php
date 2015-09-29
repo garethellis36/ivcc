@@ -90,10 +90,18 @@ class MatchesController extends AppController {
 
         $players = TableRegistry::get("Players");
         $batsmen = $players->getBatsmen($year, $format);
-        $batsmen = $scorecards->getBattingAverages($batsmen, $year, $format);
+        $batsmen = $scorecards->getBattingAverages($batsmen, $year, $format)->toArray();
+
+        usort($batsmen, function($a, $b) {
+           return $b->batting_runs - $a->batting_runs;
+        });
 
         $bowlers = $players->getBowlers($year, $format);
-        $bowlers = $scorecards->getBowlingAverages($bowlers, $year, $format);
+        $bowlers = $scorecards->getBowlingAverages($bowlers, $year, $format)->toArray();
+
+        usort($bowlers, function($a, $b) {
+           return $b->bowling_wickets - $a->bowling_wickets;
+        });
 
         $this->set(compact("year", "stats", "batsmen", "bowlers", "format"));
         $this->_getYearsForView(true);
