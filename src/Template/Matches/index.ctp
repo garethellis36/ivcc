@@ -49,6 +49,17 @@
 
                 </div>
 
+                <?php if ($match->venue_name): ?>
+                    <div class="columns break">
+                        <div class="column one-fourth smaller-bottom-margin">
+                            <strong>Venue</strong>
+                        </div>
+                        <div class="column three-fourths">
+                            <?= h($match->venue_name) ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
                 <div class="columns break">
 
                     <div class="column one-fourth smaller-bottom-margin">

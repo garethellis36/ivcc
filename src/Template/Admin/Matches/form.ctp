@@ -36,6 +36,10 @@
             ],
             'class' => 'input-mini'
             ]);
+            echo $this->Form->input('venue_name', [
+                'class' => 'input-mini',
+                "label" => 'Venue name',
+            ]);
             echo $this->Form->input('format_id', [
             'class' => 'input-mini'
             ]);

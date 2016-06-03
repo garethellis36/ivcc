@@ -2,6 +2,9 @@
 
 <h2>
     <?= $scorecard["date"]->format("D jS M Y") ?> vs. <?= h($scorecard["opposition"]) ?> (<?= $scorecard["venue"] ?>)
+    <?php if ($scorecard["venue_name"]): ?>
+        @ <?= h($scorecard["venue_name"]) ?>
+    <?php endif; ?>
 </h2>
 
 <?php if ($this->Authorization->isAdmin()): ?>
