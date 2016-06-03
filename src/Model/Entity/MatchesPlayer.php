@@ -31,6 +31,7 @@ class MatchesPlayer extends Entity
         'bowling_runs' => true,
         'bowling_wickets' => true,
         'bowling_order_no' => true,
+        'catches' => true,
     ];
 
     protected function _setBattingRuns($runs = null)
@@ -83,6 +84,11 @@ class MatchesPlayer extends Entity
     protected function _setBowlingOrderNo($overs)
     {
         return $this->setEmptyToNull($overs);
+    }
+
+    protected function _setCatches($catches)
+    {
+        return (empty($catches) ? 0 : $catches);
     }
 
     private function setEmptyToNull($var)

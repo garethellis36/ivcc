@@ -7,10 +7,10 @@
  */
 
 namespace App\Controller;
-use App\Controller\AppController;
-use Cake\Network\Exception\BadRequestException;
+use App\Model\Table\MatchesPlayersTable;
 use Cake\Utility\Hash;
 use Cake\ORM\TableRegistry;
+use App\Model\Table\PlayersTable;
 
 class MatchesController extends AppController {
 
@@ -85,10 +85,20 @@ class MatchesController extends AppController {
 
         $stats = $this->Matches->getTeamStats($year, $format);
 
+        /** @var $scorecards MatchesPlayersTable */
         $scorecards = TableRegistry::get("MatchesPlayers");
         $stats = array_merge($scorecards->getTeamStats($year, $format), $stats);
 
+        /** @var $players PlayersTable */
         $players = TableRegistry::get("Players");
+
+        $all = $players->getAllPlayers($year, $format);
+        $all = $scorecards->getAppearancesAndCatches($all, $year, $format)->toArray();
+
+        usort($all, function ($a, $b) {
+           return $b->appearances - $a->appearances;
+        });
+
         $batsmen = $players->getBatsmen($year, $format);
         $batsmen = $scorecards->getBattingAverages($batsmen, $year, $format)->toArray();
 
@@ -103,7 +113,7 @@ class MatchesController extends AppController {
            return $b->bowling_wickets - $a->bowling_wickets;
         });
 
-        $this->set(compact("year", "stats", "batsmen", "bowlers", "format"));
+        $this->set(compact("year", "stats", "all", "batsmen", "bowlers", "format"));
         $this->_getYearsForView(true);
         $this->_getFormatsForView();
     }

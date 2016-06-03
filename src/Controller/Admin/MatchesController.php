@@ -188,6 +188,10 @@ class MatchesController extends AppController
                 "class" => "input-mini number disableWithoutPlayer",
                 "type" => "number"
             ],
+            "catches" => [
+                "class" => "input-mini number disableWithoutPlayer",
+                "type" => "number"
+            ],
         ];
     }
 

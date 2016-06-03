@@ -9,12 +9,9 @@ class StatsHelper extends Helper
 {
     public function leading($stats, $field)
     {
-
         if (!isset($stats[$field]) || empty($stats[$field])) {
             return "-";
         }
-
-        $playerHelper = new PlayerHelper($this->_View);
 
         $html = number_format($stats[$field][0]->total) . ":&nbsp;";
 
@@ -25,7 +22,7 @@ class StatsHelper extends Helper
             } else {
                 $html .= ",&nbsp;";
             }
-            $html .= $playerHelper->name($stat->player);
+            $html .= $this->_View->Player->name($stat->player);
         }
 
         return $html;

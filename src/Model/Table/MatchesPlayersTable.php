@@ -56,6 +56,9 @@ class MatchesPlayersTable extends AppTable {
 
         $validator = $this->validationBowling($validator);
 
+        $validator
+            ->add("catches", 'validNumber', ["message" => "Number only, no decimals", "rule" => ["naturalNumber", true]]);
+
         return $validator;
 
     }
@@ -178,6 +181,7 @@ class MatchesPlayersTable extends AppTable {
 
         $stats["leadingRunScorer"] = $this->find("leading", array_merge($options, ["field" => "batting_runs"]));
         $stats["leadingWicketTaker"] = $this->find("leading", array_merge($options, ["field" => "bowling_wickets"]));
+        $stats["mostCatches"] = $this->find("leading", array_merge($options, ["field" => "catches"]));
 
         $stats["highestIndividualScore"] = $this->find("highestIndividualScore", $options);
 
@@ -323,6 +327,44 @@ class MatchesPlayersTable extends AppTable {
             ->where($options["where"])
             ->order(["Players.last_name ASC"])
             ->all();
+    }
+
+    public function getAppearancesAndCatches($players, $year, $format)
+    {
+        $where = [];
+
+        if (is_numeric($year) && $year !== "all") {
+            $where["Matches.date >= "] = $year . "-01-01";
+            $where["Matches.date < "] = $year + 1 . "-01-01";
+        }
+
+        if (is_numeric($format) && $format !== "all") {
+            $where["Matches.format_id"] = $format;
+        }
+
+        foreach ($players as $player) {
+            /** @var $player Player */
+            $allApps = $this->find("all")
+                ->where(array_merge($where, ["MatchesPlayers.player_id" => $player->id]))
+                ->contain("Matches");
+
+            $player->asCaptain = 0;
+            $player->asWicketkeeper = 0;
+            $player->catches = 0;
+
+            foreach ($allApps as $appearance) {
+                if ($appearance->match->captain_id === $player->id) {
+                    $player->asCaptain++;
+                }
+                if ($appearance->match->wicketkeeper_id === $player->id) {
+                    $player->asWicketkeeper++;
+                }
+                $player->catches += $appearance->catches;
+            }
+
+            $player->appearances = $allApps->count();
+        }
+        return $players;
     }
 
     public function getBattingAverages($players, $year, $format)

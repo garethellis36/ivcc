@@ -107,6 +107,14 @@
         </div>
 
 
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
+                <strong>Most catches</strong>
+            </div>
+            <div class="column four-fifths">
+                <?= $this->Stats->leading($stats, "mostCatches") ?>
+            </div>
+        </div>
 
         <div class="columns padding-bottom break">
             <div class="column one-fifth smaller-bottom-margin">
@@ -212,7 +220,36 @@
             </div>
         </div>
 
-        <?php if (count($batsmen) > 0): ?>
+        <?php if (!empty($all)): ?>
+            <div class="padding-bottom">
+                <h2>Appearances &amp; catching stats</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Apps</th>
+                            <th>Catches</th>
+                            <th>Captain</th>
+                            <th>Wicketkeeper</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($all as $player): ?>
+                            <tr>
+                                <td><?= $this->Player->truncateName($player) ?></td>
+                                <td><?= number_format($player->appearances) ?></td>
+                                <td><?= number_format($player->catches) ?></td>
+                                <td><?= number_format($player->asCaptain) ?></td>
+                                <td><?= number_format($player->asWicketkeeper) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($batsmen)): ?>
             <div class="padding-bottom">
                 <h2>Batting averages</h2>
 
@@ -245,7 +282,7 @@
             </div>
         <?php endif; ?>
 
-        <?php if (count($bowlers) > 0): ?>
+        <?php if (!empty($bowlers)): ?>
             <div class="padding-bottom">
 
                 <h2>Bowling averages</h2>

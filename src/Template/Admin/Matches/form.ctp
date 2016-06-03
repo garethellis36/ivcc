@@ -168,6 +168,7 @@
                     <th>Runs</th>
                     <th>Wickets</th>
                     <th>Bowling order #</th>
+                    <th>Catches</th>
                 </tr>
 
             </thead>
