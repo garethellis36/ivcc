@@ -193,6 +193,7 @@ class MatchesPlayersTable extends AppTable {
 
         $stats["bestBowling"] = $this->find("bestBowling", $options);
 
+        $stats["hundreds"] = $this->find("hundreds", $options);
         $stats["fifties"] = $this->find("fifties", $options);
         $stats["fivefors"] = $this->find("fivefors", $options);
         $stats["ducks"] = $this->find("ducks", $options);
@@ -300,8 +301,18 @@ class MatchesPlayersTable extends AppTable {
             ->first();
     }
 
+    public function findHundreds(Query $query, array $options = [])
+    {
+        $options["where"]["MatchesPlayers.batting_runs >="] = 100;
+        return $query->find("all")
+            ->where($options["where"])
+            ->order(["MatchesPlayers.batting_runs DESC"])
+            ->all();
+    }
+
     public function findFifties(Query $query, array $options = [])
     {
+        $options["where"]["MatchesPlayers.batting_runs <="] = 99;
         $options["where"]["MatchesPlayers.batting_runs >="] = 50;
         return $query->find("all")
             ->where($options["where"])

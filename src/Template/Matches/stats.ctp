@@ -172,6 +172,23 @@
 
         <div class="columns padding-bottom break">
             <div class="column one-fifth smaller-bottom-margin">
+                <strong>Tons</strong>
+            </div>
+            <div class="column four-fifths">
+                <?php if ($stats["hundreds"]->count() > 0): ?>
+                    <?php foreach ($stats["hundreds"] as $fifty): ?>
+                        <?= $this->Player->name($fifty->player) ?>
+                        (<?= $fifty->batting_runs . ($fifty->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
+                        vs. <?= h($fifty->match->opposition) ?>, <?= $fifty->match->date->format("jS M Y") ?>)<br>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    -
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="columns padding-bottom break">
+            <div class="column one-fifth smaller-bottom-margin">
                 <strong>Semi-Centurions</strong>
             </div>
             <div class="column four-fifths">

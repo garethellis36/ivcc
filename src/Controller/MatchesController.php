@@ -8,10 +8,14 @@
 
 namespace App\Controller;
 use App\Model\Table\MatchesPlayersTable;
+use App\Model\Table\MatchesTable;
 use Cake\Utility\Hash;
 use Cake\ORM\TableRegistry;
 use App\Model\Table\PlayersTable;
 
+/**
+ * @property MatchesTable Matches
+ */
 class MatchesController extends AppController {
 
     public $helpers = ["Scorecard", "Player", "Stats"];
