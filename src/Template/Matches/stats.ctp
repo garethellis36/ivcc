@@ -314,6 +314,7 @@
                         <th>W</th>
                         <th>AVG</th>
                         <th>ECON</th>
+                        <th>SR</th>
                         <th>BB</th>
                     </tr>
                     </thead>
@@ -327,6 +328,7 @@
                             <td><?= number_format($bowler->bowling_wickets) ?></td>
                             <td><?= ($bowler->bowling_average !== false ? number_format($bowler->bowling_average,2) : "-") ?></td>
                             <td><?= ($bowler->bowling_economy !== false ? number_format($bowler->bowling_economy,2) : "-") ?></td>
+                            <td><?= ($bowler->bowling_strike_rate ? number_format($bowler->bowling_strike_rate,2) : "-") ?></td>
                             <td class="last">
                                 <?= $bowler->best_bowling->bowling_wickets . "-" . $bowler->best_bowling->bowling_runs ?>
                             </td>

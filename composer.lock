@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "57ac931b040a693b529892ed10d544b3",
-    "content-hash": "c50b92f26d3ac2e9501f932a14ad79a2",
+    "hash": "f770a4f0bff87de496bcd541b0724e0c",
+    "content-hash": "b5ddd7b2d417a7272d2c72b1c55ce433",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -342,6 +342,37 @@
             ],
             "description": "A composer installer for CakePHP 3.0+ plugins.",
             "time": "2015-06-10 10:35:13"
+        },
+        {
+            "name": "garethellis/cricket-stats-helper",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/garethellis36/cricket-stats-helper.git",
+                "reference": "341f1aa85e98e6008f981be454fb0f6102ccc9d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/garethellis36/cricket-stats-helper/zipball/341f1aa85e98e6008f981be454fb0f6102ccc9d6",
+                "reference": "341f1aa85e98e6008f981be454fb0f6102ccc9d6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Garethellis\\CricketStatsHelper\\": "src/",
+                    "Garethellis\\CricketStatsHelper\\Test\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "A simple PHP library for calculating cricket statistics such as batting average, bowling average and bowling economy. Can also convert number of overs bowled in scorecard notation to number of balls bowled, and vice-versa.",
+            "time": "2016-08-10 16:41:06"
         },
         {
             "name": "guzzlehttp/psr7",

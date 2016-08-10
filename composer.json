@@ -12,7 +12,8 @@
         "cakephp/plugin-installer": "*",
         "symfony/yaml": "2.6.*",
         "pgbi/cakephp3-soft-delete": "dev-master",
-        "intervention/image": "dev-master"
+        "intervention/image": "dev-master",
+        "garethellis/cricket-stats-helper": "^1.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",

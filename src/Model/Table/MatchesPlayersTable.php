@@ -14,6 +14,7 @@ use Cake\ORM\Query;
 use App\Lib\CricketUtility;
 use Cake\Validation\Validator;
 use App\Model\Entity\Player;
+use Garethellis\CricketStatsHelper\CricketStatsHelper;
 
 class MatchesPlayersTable extends AppTable {
 
@@ -412,10 +413,11 @@ class MatchesPlayersTable extends AppTable {
         $player->batting_high_score = $this->find("highestIndividualScore", $options);
         $player->batting_runs = $this->find("total", array_merge($options, ["field" => "batting_runs"]));
 
-        $player->batting_average = CricketUtility::calculateBattingAverage(
-            $player->batting_runs,
-            $player->batting_innings,
-            $player->batting_not_out
+        $statsHelper = new CricketStatsHelper();
+        $player->batting_average = $statsHelper->calculateBattingAverage(
+            (int)$player->batting_runs,
+            (int)$player->batting_innings,
+            (int)$player->batting_not_out
         );
 
         return $player;
@@ -469,14 +471,21 @@ class MatchesPlayersTable extends AppTable {
         $player->bowling_runs = $this->find("total", array_merge($options, ["field" => "bowling_runs"]));
         $player->bowling_wickets = $this->find("total", array_merge($options, ["field" => "bowling_wickets"]));
 
-        $player->bowling_economy = CricketUtility::calculateBowlingEconomy(
+        $statsHelper = new CricketStatsHelper();
+
+        $player->bowling_economy = $statsHelper->calculateBowlingEconomy(
             $player->bowling_overs,
-            $player->bowling_runs
+            (int)$player->bowling_runs
         );
 
-        $player->bowling_average = CricketUtility::calculateBowlingAverage(
-            $player->bowling_runs,
-            $player->bowling_wickets
+        $player->bowling_average = $statsHelper->calculateBowlingAverage(
+            (int)$player->bowling_runs,
+            (int)$player->bowling_wickets
+        );
+
+        $player->bowling_strike_rate = $statsHelper->calculateStrikeRate(
+            $player->bowling_overs,
+            (int)$player->bowling_wickets
         );
 
         $player->best_bowling = $this->find("bestBowling", $options);
@@ -490,10 +499,12 @@ class MatchesPlayersTable extends AppTable {
             ->where($options["where"]);
 
         $totalBalls = 0;
+
+        $statsHelper = new CricketStatsHelper();
         foreach ($data as $bowlingFigures) {
-            $totalBalls += CricketUtility::convertOversToBalls($bowlingFigures->bowling_overs);
+            $totalBalls += $statsHelper->convertOversToBalls($bowlingFigures->bowling_overs);
         }
-        return CricketUtility::convertBallsToOvers($totalBalls);
+        return $statsHelper->convertBallsToOvers($totalBalls);
     }
 
     public function findTotal(Query $query, array $options = [])
