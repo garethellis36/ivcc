@@ -8,6 +8,7 @@
 
 namespace App\Model\Table;
 
+use App\Model\Entity\MatchesPlayer;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use App\Model\Table\AppTable;
 use Cake\ORM\Query;
@@ -302,6 +303,11 @@ class MatchesPlayersTable extends AppTable {
             ->first();
     }
 
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return \Cake\Datasource\ResultSetInterface
+     */
     public function findHundreds(Query $query, array $options = [])
     {
         $options["where"]["MatchesPlayers.batting_runs >="] = 100;
@@ -311,6 +317,11 @@ class MatchesPlayersTable extends AppTable {
             ->all();
     }
 
+    /**
+     * @param Query $query
+     * @param array $options
+     * @return \Cake\Datasource\ResultSetInterface
+     */
     public function findFifties(Query $query, array $options = [])
     {
         $options["where"]["MatchesPlayers.batting_runs <="] = 99;
@@ -412,6 +423,17 @@ class MatchesPlayersTable extends AppTable {
         $player->batting_not_out = $this->find("numberNotOut", $options);
         $player->batting_high_score = $this->find("highestIndividualScore", $options);
         $player->batting_runs = $this->find("total", array_merge($options, ["field" => "batting_runs"]));
+
+        $player->fifties = iterator_count($this->find("fifties", $options)
+            ->filter(function (MatchesPlayer $match) use ($player) {
+                return $player->id == $match->player_id;
+            }));
+
+        $player->hundreds = iterator_count($this->find("hundreds", $options)
+            ->filter(function (MatchesPlayer $match) use ($player) {
+                return $player->id == $match->player_id;
+            }));
+
 
         $statsHelper = new CricketStatsHelper();
         $player->batting_average = $statsHelper->calculateBattingAverage(

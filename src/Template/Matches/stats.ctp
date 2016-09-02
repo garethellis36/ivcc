@@ -279,6 +279,8 @@
                             <th>R</th>
                             <th>AVG</th>
                             <th>HS</th>
+                            <th>100</th>
+                            <th>50</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -291,6 +293,12 @@
                             <td><?= ($batsman->batting_average !== false ? number_format($batsman->batting_average,2) : "-" ) ?></td>
                             <td>
                                 <?= $batsman->batting_high_score->batting_runs . ($batsman->batting_high_score->modes_of_dismissal->not_out == 1 ? "*" : "") ?>
+                            </td>
+                            <td>
+                                <?= number_format($batsman->hundreds) ?>
+                            </td>
+                            <td>
+                                <?= number_format($batsman->fifties) ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
