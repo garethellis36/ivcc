@@ -120,6 +120,8 @@ class MatchesController extends AppController {
         $this->set(compact("year", "stats", "all", "batsmen", "bowlers", "format"));
         $this->_getYearsForView(true);
         $this->_getFormatsForView();
+
+        $this->set("title", "Stats");
     }
 
     public function _getYearsForView($include_all_time = false)

@@ -52,6 +52,8 @@ Router::scope('/', function ($routes) {
 
     $routes->connect('/stats', ['controller' => 'Matches', 'action' => 'stats']);
 
+    $routes->connect('/about', ['controller' => 'Pages', 'action' => 'about']);
+
     $routes->connect(
         '/matches/view/:year/:month/:day/:oppositionSlug',
         ['controller' => 'Matches', 'action' => 'view'],

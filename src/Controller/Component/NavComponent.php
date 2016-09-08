@@ -24,6 +24,12 @@ class NavComponent extends Component {
             "active" => false,
         ],
         [
+            "label" => "About",
+            "url" => "/about",
+            "pattern" => ["/\/about/"],
+            "active" => false,
+        ],
+        [
             "label" => "Matches",
             "url" => "/matches",
             "pattern" => ["/\/matches/"],

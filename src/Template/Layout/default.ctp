@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var $this \App\View\AppView
+ */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

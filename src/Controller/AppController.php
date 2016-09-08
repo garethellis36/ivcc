@@ -14,8 +14,8 @@
  */
 namespace App\Controller;
 
+use App\Controller\Component\NavComponent;
 use Cake\Controller\Controller;
-use Cake\ORM\TableRegistry;
 
 /**
  * Application Controller
@@ -23,6 +23,7 @@ use Cake\ORM\TableRegistry;
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
+ * @property NavComponent $Nav
  * @link http://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller
