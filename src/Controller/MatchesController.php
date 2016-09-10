@@ -9,6 +9,7 @@
 namespace App\Controller;
 use App\Model\Table\MatchesPlayersTable;
 use App\Model\Table\MatchesTable;
+use App\Stats\StatsGenerator;
 use Cake\Utility\Hash;
 use Cake\ORM\TableRegistry;
 use App\Model\Table\PlayersTable;
@@ -87,11 +88,12 @@ class MatchesController extends AppController {
         $year = ( isset($this->request->query["year"]) && is_numeric($this->request->query["year"]) ? $this->request->query["year"] : "all" );
         $format = ( isset($this->request->query["format"]) && is_numeric($this->request->query["format"]) ? $this->request->query["format"] : "all" );
 
-        $stats = $this->Matches->getTeamStats($year, $format);
+        $statsGenerator = new StatsGenerator();
+
+        $stats = $statsGenerator->getTeamStats($year, $format);
 
         /** @var $scorecards MatchesPlayersTable */
         $scorecards = TableRegistry::get("MatchesPlayers");
-        $stats = array_merge($scorecards->getTeamStats($year, $format), $stats);
 
         /** @var $players PlayersTable */
         $players = TableRegistry::get("Players");

@@ -148,61 +148,6 @@ class MatchesPlayersTable extends AppTable {
         return true;
     }
 
-    public function getTeamStats($year, $format)
-    {
-        if ($year != "all") {
-            $where["Matches.date >= "] = $year . "-01-01";
-            $where["Matches.date < "] = $year + 1 . "-01-01";
-        }
-
-        if ($format != "all") {
-            $where["Matches.format_id"] = $format;
-        }
-
-        $contain = [
-            "Matches",
-            "Players" => [
-                "fields" => ["Players.initials", "Players.last_name"]
-            ],
-            "ModesOfDismissal"
-        ];
-
-        $options = [
-            "contain" => $contain,
-            "where" => (isset($where) ? $where : [])
-        ];
-
-        return $this->_getTeamStats($options);
-    }
-
-    private function _getTeamStats($options)
-    {
-        $stats = [];
-
-        $stats["mostApps"] = $this->find("mostApps", $options);
-
-        $stats["leadingRunScorer"] = $this->find("leading", array_merge($options, ["field" => "batting_runs"]));
-        $stats["leadingWicketTaker"] = $this->find("leading", array_merge($options, ["field" => "bowling_wickets"]));
-        $stats["mostCatches"] = $this->find("leading", array_merge($options, ["field" => "catches"]));
-
-        $stats["highestIndividualScore"] = $this->find("highestIndividualScore", $options);
-
-        for ($i = 1; $i <= 11; $i++) {
-            $scoreByPositionOptions = $options;
-            $scoreByPositionOptions["where"]["MatchesPlayers.batting_order_no"] = $i;
-            $stats["highestIndividualScoreByPosition"][$i] = $this->find("highestIndividualScore", $scoreByPositionOptions);
-        }
-
-        $stats["bestBowling"] = $this->find("bestBowling", $options);
-
-        $stats["hundreds"] = $this->find("hundreds", $options);
-        $stats["fifties"] = $this->find("fifties", $options);
-        $stats["fivefors"] = $this->find("fivefors", $options);
-        $stats["ducks"] = $this->find("ducks", $options);
-
-        return $stats;
-    }
-
     public function findMostApps(Query $query, array $options = [])
     {
         $total = $query->func()->count("MatchesPlayers.id");

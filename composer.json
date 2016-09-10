@@ -22,7 +22,8 @@
     "cakephp/bake": "~1.0",
     "phpunit/phpunit": "^5.5",
     "hamcrest/hamcrest-php": "^2.0",
-    "graze/hamcrest-test-listener": "^2.0"
+    "graze/hamcrest-test-listener": "^2.0",
+    "fzaninotto/faker": "^1.6"
   },
   "autoload": {
     "psr-4": {

@@ -22,11 +22,6 @@ class MatchesTable extends AppTable
 
     use SoftDeleteTrait;
 
-    /**
-     * @var array
-     */
-    private $allMatches;
-
     public function initialize(array $config)
     {
         $this->hasMany("MatchesPlayers");
@@ -221,72 +216,4 @@ class MatchesTable extends AppTable
 
         return $validator;
     }
-
-    /**
-     * @param $year
-     * @param $formatId
-     * @return \Cake\Datasource\ResultSetInterface
-     */
-    public function getAllMatches($year = "all", $formatId = "all")
-    {
-        $where = [];
-        if ($year != "all") {
-            $where["Matches.date >= "] = $year . "-01-01";
-            $where["Matches.date < "] = $year + 1 . "-01-01";
-        }
-
-        if ($formatId != "all") {
-            $where["Matches.format_id"] = $formatId;
-        }
-
-        return $this->find("all")
-            ->where($where)
-            ->all();
-    }
-
-    public function getTeamStats($year = "all", $formatId = "all")
-    {
-        $all = $this->getAllMatches($year, $formatId);
-        $stats["results"] = $this->getResults($all);
-        $stats["highestScore"] = $this->getHighestTeamScore($all);
-        $stats["lowestScore"] = $this->getLowestTeamScore($all);
-
-        return $stats;
-    }
-
-    public function getResults(ResultSetInterface $all)
-    {
-        $matches = clone $all;
-
-        return [
-            "P" => iterator_count($matches->filter(function (Match $match) {
-                return !empty($match->result);
-            })),
-            "W" => iterator_count($matches->filter(function (Match $match) {
-                return $match->result === "Won";
-            })),
-            "L" => iterator_count($matches->filter(function (Match $match) {
-                return $match->result === "Lost";
-            })),
-        ];
-    }
-
-    public function getHighestTeamScore(ResultSetInterface $all)
-    {
-        $matches = clone $all;
-        return $matches->filter(function (Match $match) {
-            return $match->ivcc_total !== null;
-        })->sortBy('ivcc_total', SORT_DESC)
-            ->first();
-    }
-
-    public function getLowestTeamScore(ResultSetInterface $all)
-    {
-        $matches = clone $all;
-        return $matches->filter(function (Match $match) {
-            return $match->ivcc_total !== null;
-        })->sortBy('ivcc_total', SORT_ASC)
-            ->first();
-    }
-
 }

@@ -122,10 +122,10 @@
             </div>
             <div class="column four-fifths">
                 <?php if ($stats["highestIndividualScore"]): ?>
-                    <?= $this->Player->name($stats["highestIndividualScore"]->player) ?>:
-                    <?= $stats['highestIndividualScore']->batting_runs ?><?php if ($stats["highestIndividualScore"]->modes_of_dismissal->not_out == 1): ?>*<?php endif; ?>
-                    vs <?= h($stats['highestIndividualScore']->match->opposition) ?>,
-                    <?= $stats['highestIndividualScore']->match->date->format("jS M Y") ?>
+                    <?= $this->Player->name($stats["highestIndividualScore"]->highestIndividualScore->player) ?>:
+                    <?= $stats['highestIndividualScore']->highestIndividualScore->batting_runs ?><?php if ($stats["highestIndividualScore"]->highestIndividualScore->modes_of_dismissal->not_out == 1): ?>*<?php endif; ?>
+                    vs <?= h($stats['highestIndividualScore']->opposition) ?>,
+                    <?= $stats['highestIndividualScore']->date->format("jS M Y") ?>
                 <?php else: ?>
                     -
                 <?php endif; ?>
@@ -159,11 +159,11 @@
             </div>
             <div class="column four-fifths">
                 <?php if ($stats["bestBowling"]): ?>
-                    <?= $this->Player->name($stats["bestBowling"]->player) ?>:
-                    <?= $stats['bestBowling']->bowling_wickets ?>
-                    for <?= $stats["bestBowling"]->bowling_runs ?>
-                    vs <?= h($stats['bestBowling']->match->opposition) ?>,
-                    <?= $stats['bestBowling']->match->date->format("jS M Y") ?>
+                    <?= $this->Player->name($stats["bestBowling"]->bestBowling->player) ?>:
+                    <?= $stats['bestBowling']->bestBowling->bowling_wickets ?>
+                    for <?= $stats["bestBowling"]->bestBowling->bowling_runs ?>
+                    vs <?= h($stats['bestBowling']->opposition) ?>,
+                    <?= $stats['bestBowling']->date->format("jS M Y") ?>
                 <?php else: ?>
                     -
                 <?php endif; ?>
