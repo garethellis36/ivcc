@@ -8,16 +8,24 @@
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Match;
 use App\Model\Table\AppTable;
+use Cake\Datasource\ResultSetInterface;
 use Cake\Validation\Validator;
 use SoftDelete\Model\Table\SoftDeleteTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 
-class MatchesTable extends AppTable {
+class MatchesTable extends AppTable
+{
 
     use SoftDeleteTrait;
+
+    /**
+     * @var array
+     */
+    private $allMatches;
 
     public function initialize(array $config)
     {
@@ -72,7 +80,7 @@ class MatchesTable extends AppTable {
         //remove unselected player slots from data array
         $playerIds = [];
         foreach ($data["matches_players"] as $i => $player) {
-            
+
             if (empty($player["player_id"])) {
                 unset($data["matches_players"][$i]);
 
@@ -130,10 +138,10 @@ class MatchesTable extends AppTable {
 
         $validator
             ->add('date', 'valid', [
-                'rule' => [
-                    'datetime', 'ymd'
+                'rule'    => [
+                    'datetime', 'ymd',
                 ],
-                "message" => "Date must be in the format Y-m-d H:i - use the datepicker widget"
+                "message" => "Date must be in the format Y-m-d H:i - use the datepicker widget",
             ])
             ->notEmpty('date');
 
@@ -148,7 +156,7 @@ class MatchesTable extends AppTable {
 
         $validator
             ->add('ivcc_batted_first', 'value', [
-                'rule' => 'boolean'
+                'rule' => 'boolean',
             ]);
 
         $validator = $this->validationTeamScores($validator);
@@ -160,25 +168,25 @@ class MatchesTable extends AppTable {
     {
         //certain fields can be empty if no result set
         $fields = [
-            'ivcc_total' => [],
-            'ivcc_extras' => [
-                'requireWith' => "ivcc_total"
+            'ivcc_total'         => [],
+            'ivcc_extras'        => [
+                'requireWith' => "ivcc_total",
             ],
-            'ivcc_wickets' => [
-                'requireWith' => "ivcc_total"
+            'ivcc_wickets'       => [
+                'requireWith' => "ivcc_total",
             ],
-            'ivcc_overs' => [
-                'rule' => [$this, "validOvers"],
-                'requireWith' => "ivcc_total"
+            'ivcc_overs'         => [
+                'rule'        => [$this, "validOvers"],
+                'requireWith' => "ivcc_total",
             ],
-            'opposition_total' => [],
+            'opposition_total'   => [],
             'opposition_wickets' => [
-                'requireWith' => "opposition_total"
-            ],
-            'opposition_overs' => [
                 'requireWith' => "opposition_total",
-                'rule' => [$this, "validOvers"]
-            ]
+            ],
+            'opposition_overs'   => [
+                'requireWith' => "opposition_total",
+                'rule'        => [$this, "validOvers"],
+            ],
         ];
 
         foreach ($fields as $field => $rules) {
@@ -208,80 +216,76 @@ class MatchesTable extends AppTable {
 
             })
             ->add($field, "valid", [
-                "rule" => $rule
+                "rule" => $rule,
             ]);
 
         return $validator;
     }
 
-    public function getTeamStats($year, $format)
+    /**
+     * @param $year
+     * @param $formatId
+     * @return \Cake\Datasource\ResultSetInterface
+     */
+    public function getAllMatches($year = "all", $formatId = "all")
     {
+        $where = [];
         if ($year != "all") {
             $where["Matches.date >= "] = $year . "-01-01";
             $where["Matches.date < "] = $year + 1 . "-01-01";
         }
 
-        if ($format != "all") {
-            $where["Matches.format_id"] = $format;
+        if ($formatId != "all") {
+            $where["Matches.format_id"] = $formatId;
         }
 
-        $where[] = "Matches.ivcc_total IS NOT NULL";
+        return $this->find("all")
+            ->where($where)
+            ->all();
+    }
 
-        $options = [
-            "where" => $where
-        ];
-
-        $stats["results"] = $this->getResults($options);
-
-        $stats["highestScore"] = $this->getHighestTeamScore($options);
-        $stats["lowestScore"] = $this->getLowestTeamScore($options);
+    public function getTeamStats($year = "all", $formatId = "all")
+    {
+        $all = $this->getAllMatches($year, $formatId);
+        $stats["results"] = $this->getResults($all);
+        $stats["highestScore"] = $this->getHighestTeamScore($all);
+        $stats["lowestScore"] = $this->getLowestTeamScore($all);
 
         return $stats;
     }
 
-    public function getResults($options)
+    public function getResults(ResultSetInterface $all)
     {
+        $matches = clone $all;
 
-        $matches = $this->find("all")
-            ->where($options["where"])
-            ->all();
-
-        $results = [
-            'P' => $matches->count(),
-            'W' => 0,
-            'L' => 0
+        return [
+            "P" => iterator_count($matches->filter(function (Match $match) {
+                return !empty($match->result);
+            })),
+            "W" => iterator_count($matches->filter(function (Match $match) {
+                return $match->result === "Won";
+            })),
+            "L" => iterator_count($matches->filter(function (Match $match) {
+                return $match->result === "Lost";
+            })),
         ];
-
-        foreach ($matches as $match) {
-
-            if ($match->result == "Won") {
-                $results["W"]++;
-                continue;
-            }
-
-            if ($match->result == "Lost") {
-                $results["L"]++;
-                continue;
-            }
-        }
-        return $results;
     }
 
-    public function getHighestTeamScore($options)
+    public function getHighestTeamScore(ResultSetInterface $all)
     {
-        //get best team score
-        return $this->find("all")
-            ->where($options["where"])
-            ->order(["Matches.ivcc_total DESC"])
+        $matches = clone $all;
+        return $matches->filter(function (Match $match) {
+            return $match->ivcc_total !== null;
+        })->sortBy('ivcc_total', SORT_DESC)
             ->first();
     }
 
-    public function getLowestTeamScore($options)
+    public function getLowestTeamScore(ResultSetInterface $all)
     {
-        //get worst team score
-        return $this->find("all")
-            ->order(["Matches.ivcc_total ASC"])
-            ->where($options["where"])
+        $matches = clone $all;
+        return $matches->filter(function (Match $match) {
+            return $match->ivcc_total !== null;
+        })->sortBy('ivcc_total', SORT_ASC)
             ->first();
     }
 

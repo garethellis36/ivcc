@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8ca0a4eb91b67f15d30fc60ca8f04ec4",
-    "content-hash": "a413b2facd7f0fce4d3aae5ac58f46d4",
+    "hash": "b5ac39dc81e26b6ada7c332ac1b44bf3",
+    "content-hash": "d5c49d0dcb9a09c51f72d60b54626c4f",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -1300,6 +1300,98 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
+        },
+        {
+            "name": "graze/hamcrest-test-listener",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/graze/hamcrest-test-listener.git",
+                "reference": "f5749c05f57948595273f285d9e7492ba3a8b934"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/graze/hamcrest-test-listener/zipball/f5749c05f57948595273f285d9e7492ba3a8b934",
+                "reference": "f5749c05f57948595273f285d9e7492ba3a8b934",
+                "shasum": ""
+            },
+            "require": {
+                "hamcrest/hamcrest-php": "^2.0",
+                "php": "^5.5 || ^7.0",
+                "phpunit/phpunit": "^3.3.3 || ^4.0 || ^5.0"
+            },
+            "conflict": {
+                "phpunit/phpunit": "5.1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Hamcrest\\Adapter\\PHPUnit\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Samuel Parkinson",
+                    "email": "sam@graze.com"
+                }
+            ],
+            "description": "A PHPUnit test listener for the hamcrest assertion library.",
+            "time": "2016-03-18 10:55:48"
+        },
+        {
+            "name": "hamcrest/hamcrest-php",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hamcrest/hamcrest-php.git",
+                "reference": "776503d3a8e85d4f9a1148614f95b7a608b046ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/776503d3a8e85d4f9a1148614f95b7a608b046ad",
+                "reference": "776503d3a8e85d4f9a1148614f95b7a608b046ad",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3|^7.0"
+            },
+            "replace": {
+                "cordoval/hamcrest-php": "*",
+                "davedevelopment/hamcrest-php": "*",
+                "kodova/hamcrest-php": "*"
+            },
+            "require-dev": {
+                "phpunit/php-file-iterator": "1.3.3",
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "hamcrest"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "description": "This is the PHP port of Hamcrest Matchers",
+            "keywords": [
+                "test"
+            ],
+            "time": "2016-01-20 08:20:44"
         },
         {
             "name": "jakub-onderka/php-console-color",
