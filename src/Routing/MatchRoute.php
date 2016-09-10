@@ -16,7 +16,7 @@ use Cake\ORM\TableRegistry;
 class MatchRoute extends Route
 {
 
-    public function parse($url)
+    public function parse($url, $method = '')
     {
         $params = parent::parse($url);
         if (empty($params)) {
