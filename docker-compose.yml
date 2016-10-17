@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+    application:
+        build: .
+        volumes:
+            - .:/var/www/html
+        environment:
+            - name=Gareth
+        ports:
+            - 80:80
+
+    database:
+        image: mysql:5.7
+        volumes:
+          - /usr/local/var/mysql:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=password1
+            - MYSQL_USER=ivcc
+            - MYSQL_PASSWORD=ivcc_password
