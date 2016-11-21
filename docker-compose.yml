@@ -1,0 +1,29 @@
+web:
+  image: phpdockerio/nginx:latest
+  container_name: ivcc-web
+  volumes:
+      - .:/var/www/ivcc
+      - ./nginx/ivcc.conf:/etc/nginx/conf.d/default.conf
+  ports:
+   - "80:80"
+  links:
+   - php-fpm
+   - database
+
+php-fpm:
+  build: .
+  dockerfile: php-fpm/Dockerfile
+  container_name: ivcc-php-fpm
+  volumes:
+    - .:/var/www/ivcc
+  links:
+    - database
+
+database:
+  image: mysql:5.7
+  volumes:
+    - ./data:/var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=password1
+    - MYSQL_USER=ivcc
+    - MYSQL_PASSWORD=ivcc_password

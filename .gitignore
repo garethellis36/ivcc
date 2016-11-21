@@ -18,3 +18,5 @@ webroot/img/photos/*
 !webroot/img/photos/thumbs/empty
 
 /_assets/*.sql
+
+data/
