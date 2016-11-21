@@ -48,6 +48,12 @@ class NavComponent extends Component {
             "active" => false
         ],
         [
+            "label" => "Awards",
+            "url" => "/awards",
+            "pattern" => ["/^\/awards/"],
+            "active" => false
+        ],
+        [
             "label" => "Photos",
             "url" => "/photos",
             "pattern" => ["/\/photos/"],
