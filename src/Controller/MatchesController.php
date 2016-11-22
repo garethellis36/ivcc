@@ -128,9 +128,8 @@ class MatchesController extends AppController {
     {
         //get list of years to display in filter
         $query = $this->Matches->find("all")
-            ->group("LEFT(Matches.date, 4)")
-            ->order(["Matches.date DESC"])
-            ->select(["id", "year" => "LEFT(Matches.date, 4)"]);
+            ->order(["year DESC"])
+            ->select(["year" => "DISTINCT YEAR(Matches.date)"]);
 
         $years = [];
         foreach ($query as $year) {
