@@ -5,8 +5,8 @@ body {
 .container {
   width: auto;
   max-width: 1020px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 
@@ -14,11 +14,15 @@ body {
   padding-top: 1rem;
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-  background-color: $midBlue;
+  background-color: $darkBlue;
+
 
   .masthead-nav {
-    a:not(:last-child) {
-      margin-right: 0.3em;
+    display: none;
+    text-align:center;
+    clear: both;
+    a {
+      display: block;
     }
   }
 
@@ -27,11 +31,32 @@ body {
     background-image: url("/img/logosmall.png");
     background-repeat: no-repeat;
     background-position: 12px;
+    float: left;
 
     span {
       margin-left: 50px;
     }
   }
+}
+
+.masthead .navbar-toggle {
+  color: $hamburgerLines;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+  padding: 4px 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.navbar-toggle {
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  padding: 9px 10px !important;
+  margin-top: -2px !important;
+  margin-bottom: 3px !important;
+  background-color: $hamburgerBackground;
+  background-image: none;
+  border: 1px solid $hamburgerBorder;
+  border-radius: 4px;
 }
 
 
@@ -59,7 +84,7 @@ body {
   padding-right: 0;
   margin-top: -2rem;
   margin-bottom: 3rem;
-  background-color: $red;
+  background-color: $yellow;
   color: #fff;
   text-align: center;
 }
@@ -75,10 +100,10 @@ table {
 }
 
 .photobg {
-  background-image: url("/img/ivcc.jpg");
+  background-image: url("/img/ivcc2016.jpg");
   background-repeat: no-repeat;
   background-position: center;
-  background-position-y: -25px;
+  background-position-y: -200px;
 }
 
 .no-bullets {
@@ -146,11 +171,15 @@ table {
   padding-left: 5px;
 }
 
+.less-padding {
+  padding: 2px;
+}
+
 footer {
   margin-top: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: $midBlue;
+  background-color: $darkBlue;
   text-align: right;
 }
 

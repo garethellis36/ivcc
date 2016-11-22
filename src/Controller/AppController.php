@@ -57,7 +57,7 @@ class AppController extends Controller
 
         $authUser = $this->Auth->user();
 
-        $loadJs = false;
+        $loadJs = 'app';
         if ($authUser["is_admin"] == 1) {
             $loadJs = "admin";
         }

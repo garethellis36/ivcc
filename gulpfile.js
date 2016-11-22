@@ -49,13 +49,26 @@ gulp.task('admin-css', function() {
 });
 
 // Concatenate & minifyjs for /admin/ pages
-gulp.task('scripts', function() {
+gulp.task('appjs', function() {
+    return gulp.src([
+        'bower_components/jquery/**/*.min.js',
+        'src/js/**/app.js'
+    ]).pipe(notify("JS started"))
+        .pipe(concat('app.min.js'))
+        .pipe(uglify().on('error', gutil.log))
+        .pipe(gulp.dest('webroot/js'))
+        .pipe(notify("JS completed"));
+});
+
+// Concatenate & minifyjs for /admin/ pages
+gulp.task('adminjs', function() {
     return gulp.src([
         'bower_components/jquery/**/*.min.js',
         'bower_components/datetimepicker/jquery.datetimepicker.js',
         'bower_components/alertifyjs/dist/js/alertify.js',
         'bower_components/jquery-numeric/dist/jquery-numeric.js',
-        'src/js/**/*.js'
+        'src/js/admin.js',
+        'src/js/dropzone.js'
     ]).pipe(notify("JS started"))
         .pipe(concat('admin.min.js'))
         .pipe(uglify().on('error', gutil.log))
@@ -81,7 +94,7 @@ gulp.task('watch', function() {
     gulp.watch('src/img/**/*', ['img']);
 });
 
-gulp.task('js', ['scripts', 'admin-css']);
+gulp.task('js', ['appjs', 'adminjs', 'admin-css']);
 
 // Default Task
 gulp.task('default', ['lint', 'sass', 'js', 'img', 'watch']);

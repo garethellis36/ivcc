@@ -19,10 +19,10 @@
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('app.css') ?>
-    <?php if (isset($loadJs) && $loadJs): ?>
-        <?= $this->Html->css('js.css') ?>
-        <?= $this->Html->script($loadJs . '.min', ['block' => 'firstScripts']) ?>
-    <?php endif; ?>
+
+    <?= $this->Html->css('js.css') ?>
+    <?= $this->Html->script($loadJs . '.min', ['block' => 'firstScripts']) ?>
+
 
     <?= $this->fetch('css') ?>
 
@@ -48,7 +48,12 @@
 <body>
 
     <header class="masthead">
-        <div class="container">
+        <div class="container less-padding">
+
+            <button type="button" class="navbar-toggle">
+                <i class="fa fa-bars fa-lg" aria-hidden="true" title="Toggle navigation"></i>
+            </button>
+
             <a href="/" class="masthead-logo">
                 <span>Iffley Village</span> Cricket Club
             </a>
@@ -73,7 +78,7 @@
 
     <?php endif; ?>
 
-    <div class="container">
+    <div class="container white-bg">
 
         <?= $this->Flash->render() ?>
 
@@ -83,6 +88,25 @@
 
     <?= $this->fetch('firstScripts') ?>
     <?= $this->fetch('scriptBottom') ?>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.navbar-toggle').click(function (e) {
+
+                e.preventDefault();
+
+                var nav = $('.masthead-nav');
+                if (nav.is(':visible')) {
+                    nav.slideUp();
+                } else {
+                    nav.slideDown();
+                }
+
+            });
+
+        });
+    </script>
 
     <footer>
         <div class="container">
