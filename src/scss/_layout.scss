@@ -226,3 +226,18 @@ footer {
 .dropzone {
   border: 1px dashed $red;
 }
+
+table.separated {
+  border-collapse: collapse;
+  td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-width: 1px 0;
+    border-color: #000;
+    border-style: solid;
+  }
+}
+
+.one-third {
+  width: 33%;
+}

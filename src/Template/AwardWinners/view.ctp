@@ -22,20 +22,20 @@
             <?php foreach ($awardWinners as $year => $yearsAwardWinners): ?>
 
                 <h4><?=$year?></h4>
-                <table>
+                <table class="separated full-width">
                     <?php foreach ($yearsAwardWinners as $awardWinner): ?>
                         <tr>
-                            <td>
+                            <td class="one-third">
                                 <?= h($awardWinner->award->name) ?>
                             </td>
-                            <td>
+                            <td class="one-third">
                                 <?= $this->Player->name($awardWinner->player) ?>
                                 <?php if ($this->Authorization->isAdmin()): ?>
                                     [<a href="/admin/award_winners/edit/<?=$awardWinner->id?>">edit</a>]
                                     [<a href="/admin/award_winners/delete/<?=$awardWinner->id?>" class="confirm">delete</a>]
                                 <?php endif; ?>
                             </td>
-                            <td>
+                            <td class="one-third">
                                 <?= nl2br(h($awardWinner->comments)) ?>
                             </td>
                         </tr>
