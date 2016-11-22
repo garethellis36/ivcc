@@ -1,5 +1,4 @@
 .idea
-.gitattributes
 .editorconfig
 node_modules/
 bower_components/
