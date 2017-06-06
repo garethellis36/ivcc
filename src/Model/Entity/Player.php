@@ -17,6 +17,11 @@ class Player extends Entity {
         return $this->_properties['initials'] . $this->_properties["last_name"];
     }
 
+    protected function _getNameForDropdown()
+    {
+        return $this->_properties["last_name"] . ", " . $this->_properties["first_name"];
+    }
+
     protected function _setInitials($initials)
     {
         return trim(strtoupper($initials));

@@ -105,7 +105,7 @@ class PlayersTable extends Table {
     {
         $query = $this->find("list", [
                 "keyField" => "id",
-                "valueField" => "name",
+                "valueField" => "name_for_dropdown",
                 "order" => ["last_name ASC"]
             ]);
         return $query->toArray();
