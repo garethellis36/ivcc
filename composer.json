@@ -14,7 +14,8 @@
     "intervention/image": "^2.3",
     "garethellis/cricket-stats-helper": "^1.0",
     "composer/installers": "^1.1",
-    "cakephp/migrations": "1.6.3"
+    "cakephp/migrations": "1.6.3",
+    "league/commonmark": "^0.15.4"
   },
   "require-dev": {
     "psy/psysh": "@stable",
