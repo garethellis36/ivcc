@@ -24,6 +24,12 @@ class MatchesTable extends AppTable {
         $this->hasMany("MatchesPlayers");
 
         $this->belongsTo("Formats");
+        $this->belongsTo("ManOfTheMatch", [
+            "className" => "Players"
+        ]);
+        $this->belongsTo("MatchManager", [
+            "className" => "Players"
+        ]);
     }
 
     private function generateSlug($opposition)

@@ -247,8 +247,7 @@
                             <th>&nbsp;</th>
                             <th>Apps</th>
                             <th>Catches</th>
-                            <th>Captain</th>
-                            <th>Wicketkeeper</th>
+                            <th>MOTM</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -257,8 +256,7 @@
                                 <td><?= $this->Player->truncateName($player) ?></td>
                                 <td><?= number_format($player->appearances) ?></td>
                                 <td><?= number_format($player->catches) ?></td>
-                                <td><?= number_format($player->asCaptain) ?></td>
-                                <td><?= number_format($player->asWicketkeeper) ?></td>
+                                <td><?= number_format($player->motm) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

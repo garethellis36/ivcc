@@ -30,6 +30,18 @@ use League\CommonMark\CommonMarkConverter;
             <?php if (isset($scorecard["result_more"]) && !empty($scorecard["result_more"])): ?>
                 by <?= h($scorecard["result_more"]) ?>
             <?php endif; ?>
+
+            <?php if ($scorecard["match_manager"]): ?>
+                <br>
+                <strong>Match Manager:</strong>
+                <?= $this->Player->name($scorecard["match_manager"]) ?>
+            <?php endif; ?>
+
+            <?php if ($scorecard["man_of_the_match"]): ?>
+                <br>
+                <strong>MOTM:</strong>
+                <?= $this->Player->name($scorecard["man_of_the_match"]) ?>
+            <?php endif; ?>
         </p>
 
         <?php if ($scorecard["ivcc_batted_first"] == 1): ?>

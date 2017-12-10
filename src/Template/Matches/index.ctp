@@ -3,13 +3,13 @@
     <div class="one-fifth column">
 
         <?php foreach ($years as $y): ?>
-        <ul class="filter-list">
-            <li>
-                <a href="/matches?year=<?= $y ?>" class="filter-item<?php echo ($year == $y ? " selected" : ""); ?>">
-                    <?= $y ?>
-                </a>
-            </li>
-        </ul>
+            <ul class="filter-list">
+                <li>
+                    <a href="/matches?year=<?= $y ?>" class="filter-item<?php echo($year == $y ? " selected" : ""); ?>">
+                        <?= $y ?>
+                    </a>
+                </li>
+            </ul>
         <?php endforeach; ?>
 
     </div>
@@ -71,6 +71,19 @@
 
                 </div>
 
+                <?php if ($match->match_manager): ?>
+                    <div class="columns break">
+
+                        <div class="column one-fourth smaller-bottom-margin">
+                            <strong>Match Manager</strong>
+                        </div>
+                        <div class="column three-fourths">
+                            <?= $this->Player->name($match->match_manager) ?>
+                        </div>
+
+                    </div>
+                <?php endif; ?>
+
                 <?php if ($match->date->format("Y-m-d") <= date("Y-m-d")): ?>
 
                     <div class="columns break">
@@ -87,11 +100,11 @@
                                 <?php endif; ?><br>
                                 <?= $this->Html->link("Match report & scorecard", [
                                     "controller" => "matches",
-                                    "action" => "view",
+                                    "action"     => "view",
                                     $match->date->format("Y"),
                                     $match->date->format("m"),
                                     $match->date->format("d"),
-                                    $match->opposition_slug
+                                    $match->opposition_slug,
                                 ]) ?>
                             <?php else: ?>
                                 -

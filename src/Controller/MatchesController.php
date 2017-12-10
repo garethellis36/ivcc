@@ -29,8 +29,8 @@ class MatchesController extends AppController {
     public function index()
     {
 
-        $year = ( isset($this->request->query["year"]) && is_numeric($this->request->query["year"]) ? $this->request->query["year"] : date("Y") );
-
+        $year = ( $this->request->query("year") && is_numeric($this->request->query("year")) ? $this->request->query("year") : date("Y") );
+var_dump($this->request->query);
         $query = $this->Matches->find("all")
             ->where([
                 "Matches.date >=" => $year . "-01-01",
@@ -39,7 +39,7 @@ class MatchesController extends AppController {
             ->order([
                 "Matches.date ASC"
             ])
-            ->contain("Formats");
+            ->contain(["Formats", "MatchManager"]);
 
         $matches = $query->all();
 
@@ -56,7 +56,9 @@ class MatchesController extends AppController {
                 "MatchesPlayers" => [
                     "Players",
                     "ModesOfDismissal",
-                ]
+                ],
+                "ManOfTheMatch",
+                "MatchManager",
             ],
             "conditions" => [
                 "Matches.result IS NOT NULL"

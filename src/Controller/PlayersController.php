@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use App\Model\Table\PlayersTable;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 
@@ -9,6 +10,7 @@ use Cake\Utility\Hash;
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
+ * @property PlayersTable Players
  */
 class PlayersController extends AppController
 {

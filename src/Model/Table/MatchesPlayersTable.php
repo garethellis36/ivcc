@@ -371,16 +371,12 @@ class MatchesPlayersTable extends AppTable {
                 ->where(array_merge($where, ["MatchesPlayers.player_id" => $player->id]))
                 ->contain("Matches");
 
-            $player->asCaptain = 0;
-            $player->asWicketkeeper = 0;
+            $player->motm = 0;
             $player->catches = 0;
 
             foreach ($allApps as $appearance) {
-                if ($appearance->match->captain_id === $player->id) {
-                    $player->asCaptain++;
-                }
-                if ($appearance->match->wicketkeeper_id === $player->id) {
-                    $player->asWicketkeeper++;
+                if ($appearance->match->man_of_the_match_id === $player->id) {
+                    $player->motm++;
                 }
                 $player->catches += $appearance->catches;
             }

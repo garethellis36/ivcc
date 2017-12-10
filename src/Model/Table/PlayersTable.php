@@ -23,6 +23,7 @@ class PlayersTable extends Table {
         $this->hasMany("PlayersScorecards");
 
         $this->belongsToMany("Roles");
+        $this->hasMany("AwardWinners");
     }
 
     /*
@@ -44,7 +45,10 @@ class PlayersTable extends Table {
     public function findForIndex()
     {
         $query = $this->find("all")
-            ->contain(['Roles'])
+            ->contain(['Roles', 'AwardWinners' => [
+                'Awards',
+                'sort' => ['AwardWinners.year DESC']
+            ]])
             ->order(["Players.last_name ASC", "Players.initials ASC"]);
 
         return $query->toArray();

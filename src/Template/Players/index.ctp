@@ -37,13 +37,14 @@
                             <?php
                             $img = "anon.png";
                             if (isset($player["photo"]) && file_exists(WWW_ROOT . DS . "img" . DS . "players" . DS . $player["photo"])) {
-                              $img = $player["photo"];
+                                $img = $player["photo"];
                             }
                             ?>
                             <img class="avatar" src="/img/players/<?= $img; ?>">
                         </div>
                         <div class="column one-half">
-                            <h2><?= $this->Player->name($player, true) ?><sup class="padding-left">[<a href="#top">top</a>]</sup></h2>
+                            <h2><?= $this->Player->name($player, true) ?><sup class="padding-left">[<a
+                                            href="#top">top</a>]</sup></h2>
                             <?php if ($this->Authorization->isAdmin()): ?>
                                 <p>
                                     <small>
@@ -66,9 +67,13 @@
                                 <h6>Previous clubs:</h6>
                                 <?= nl2br(h($player["previous_clubs"])) ?>
                             <?php endif; ?>
-                            <?php if (!empty($player["fines_owed"])): ?>
-                                <h6>Fines owed:</h6>
-                                <?= h($player["fines_owed"]) ?>
+                            <h6>Awards:</h6>
+                            <?php if (count($player->award_winners) === 0): ?>
+                                None
+                            <?php else: ?>
+                                <?php foreach ($player->award_winners as $wonAward): ?>
+                                    <?= h($wonAward->award->name) . ' (' . $wonAward->year . ')' ?><br>
+                                <?php endforeach; ?>
                             <?php endif; ?>
                         </div>
                     </div>

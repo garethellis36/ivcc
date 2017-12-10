@@ -9,7 +9,7 @@
             <img src="/img/ivcclarge.png" class="centered">
 
             <p>
-                We are a social cricket club based in Oxford. We play friendly 40- and 20-over cricket matches against like-minded clubs around the county.
+                There was once a dream that was IVCC. You could only whisper it. Anything more than a whisper and it would vanish... it was so fragile. And we feared that it will not survive the 2013 winter. But survive it did, and so the gentlemen players got together in a backstreet boozer in OX4 and established Iffley Village Cricket Club in 2014. With the ethos behind the club being to play friendly 40-over and 20-over cricket matches against like-minded clubs around the country, our focus is as much on playing competitive cricket as it is enjoying a beer with the opposition after the game, and with the journey being far more important than the result.
             </p>
             <p>
                 If you want to get in touch with us for any reason, please email <a href="mailto:committee@ivcc.co.uk?subject=IVCC">committee@ivcc.co.uk</a>.
