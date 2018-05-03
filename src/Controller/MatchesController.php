@@ -30,7 +30,7 @@ class MatchesController extends AppController {
     {
 
         $year = ( $this->request->query("year") && is_numeric($this->request->query("year")) ? $this->request->query("year") : date("Y") );
-var_dump($this->request->query);
+
         $query = $this->Matches->find("all")
             ->where([
                 "Matches.date >=" => $year . "-01-01",
