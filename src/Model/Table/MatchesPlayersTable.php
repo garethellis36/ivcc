@@ -348,7 +348,7 @@ class MatchesPlayersTable extends AppTable {
         $options["where"]["ModesOfDismissal.not_out"] = 0;
         return $query->find("all")
             ->where($options["where"])
-            ->order(["Players.last_name ASC"])
+            ->order(["Players.last_name ASC", "Players.first_name ASC"])
             ->all();
     }
 
