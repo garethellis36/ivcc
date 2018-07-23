@@ -285,7 +285,7 @@ class MatchesTable extends AppTable {
     public function getLowestTeamScore($options)
     {
         //get worst team score
-        $options["where"]["Matches.result"] = [
+        $options["where"]["Matches.result IN"] = [
             "Won",
             "Lost",
             "Tied",
