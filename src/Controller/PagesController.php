@@ -23,6 +23,7 @@ class PagesController extends AppController
         $committee = [
             "Chairman" => "Ali Meier",
             "Club Captain" => "Bill Smith",
+            "Vice-Captain" => "Olly Ross",
             "Fixture Secretary" => "Fergus Cable-Alexander",
             "Treasurer" => "Alex Troth",
             "Website & statto" => "Gareth Ellis",
