@@ -285,6 +285,15 @@ class MatchesTable extends AppTable {
     public function getLowestTeamScore($options)
     {
         //get worst team score
+        $options["where"]["Matches.result IN"] = [
+            "Won",
+            "Lost",
+            "Tied",
+            "Drawn",
+        ];
+
+        $options["where"]["ivcc_wickets"] = 10;
+
         return $this->find("all")
             ->order(["Matches.ivcc_total ASC"])
             ->where($options["where"])
